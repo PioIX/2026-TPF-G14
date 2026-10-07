@@ -23,6 +23,7 @@ El **uso del socket** se verá implementado en el seguimiento en tiempo real de 
 Es una forma práctica de solucionar el problema de distintas organizaciones que quieren organizar un torneo, facilita el seguimiento del fixture, la gestión y organización de los torneos de una forma mucho mas ordenada que la tradicional, además permite el seguimiento en tiempo real de los partidos y cuenta con la tabla de posiciones que se va actualizando fecha a fecha.
 
 ---
+### Planificación
 
 | Tarea / Objetivo | Responsables | Fecha Estimada |
 | :--- | :---: | ---: |
