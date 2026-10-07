@@ -21,3 +21,12 @@ El **uso del socket** se verá implementado en el seguimiento en tiempo real de 
 
 ### Problema que aborda
 Es una forma práctica de solucionar el problema de distintas organizaciones que quieren organizar un torneo, facilita el seguimiento del fixture, la gestión y organización de los torneos de una forma mucho mas ordenada que la tradicional, además permite el seguimiento en tiempo real de los partidos y cuenta con la tabla de posiciones que se va actualizando fecha a fecha.
+
+---
+
+| Tarea / Objetivo | Responsables | Fecha Estimada |
+| :--- | :---: | ---: |
+| **Diseño del DER y Creación de la Base de Datos (BDD)** | Maemi y Luz Gandolfo | 14/10/2026 |
+| **Desarrollo del Panel de Administrador** | Luz Gandolfo y Maemi | 01/11/2026 |
+| **Desarrollo del Backend (Pedidos HTTP y WebSockets)** | Facundo Serafini y Tomas Neira | 07/11/2026 |
+| **Desarrollo del Frontend (Interfaz de Usuario y Sockets)** | Facundo Serafini y Tomas Neira | 15/11/2026 |
