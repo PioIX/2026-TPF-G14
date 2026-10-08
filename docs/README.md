@@ -117,3 +117,14 @@ Para mantener el proyecto dentro del tiempo y los recursos disponibles, inicialm
 * Aplicación móvil nativa.
 
 Estas funcionalidades podrían incorporarse en futuras versiones de **PioZone**.
+
+---
+
+### Planificación
+
+| Tarea / Objetivo | Responsables | Fecha Estimada |
+| :--- | :---: | ---: |
+| **Diseño del DER y Creación de la Base de Datos (BDD)** | Maemi y Luz Gandolfo | 14/10/2026 |
+| **Desarrollo del Panel de Administrador** | Luz Gandolfo y Maemi | 01/11/2026 |
+| **Desarrollo del Backend (Pedidos HTTP y WebSockets)** | Facundo Serafini y Tomas Neira | 07/11/2026 |
+| **Desarrollo del Frontend (Interfaz de Usuario y Sockets)** | Facundo Serafini y Tomas Neira | 15/11/2026 |
