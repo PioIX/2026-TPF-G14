@@ -12,7 +12,7 @@ CREATE TABLE Deportes (
     descrpcion VARCHAR(50) NOT NULL,
     es_equipo BOOLEAN NOT NULL,
     id_equipo INT NOT NULL,
-    FOREIGN KEY (id_equipo) REFERENCES Equipos(id)
+    FOREIGN KEY (id_equipo) REFERENCES Equipos(id_equipo)
 );
 
 CREATE TABLE Competencias (
@@ -22,16 +22,16 @@ CREATE TABLE Competencias (
     fecha_inicio DATE NOT NULL,
     fecha_fin DATE NOT NULL,
     id_deporte INT NOT NULL,
-    FOREIGN KEY (id_deporte) REFERENCES Deportes(id)
+    FOREIGN KEY (id_deporte) REFERENCES Deportes(id_deporte)
 );
 
-CREATE TABLE Equipos_Cmpetencias (
+CREATE TABLE Equipos_Competencias (
     id_equipo_competencia INT AUTO_INCREMENT PRIMARY KEY,
     posicion VARCHAR(100) NOT NULL,
     id_competencia INT NOT NULL,
     id_equipo INT NOT NULL,
-    FOREIGN KEY (id_competencia) REFERENCES Competencias(id),
-    FOREIGN KEY (id_equipo) REFERENCES Equipos(id)
+    FOREIGN KEY (id_competencia) REFERENCES Competencias(id_competencia),
+    FOREIGN KEY (id_equipo) REFERENCES Equipos(id_equipo)
 );
 
 CREATE TABLE Partidos (
@@ -42,10 +42,7 @@ CREATE TABLE Partidos (
     resultado INT NOT NULL,
     id_competencia INT NOT NULL,
     id_equipo_local INT NOT NULL,
-    id_equipo_visitante INT NOT NULL,
-    FOREIGN KEY (id_competencia) REFERENCES Competencias(id),
-    FOREIGN KEY (id_equipo_local) REFERENCES Equipos(id),
-    FOREIGN KEY (id_equipo_visitante) REFERENCES Equipos(id)
+    id_equipo_visitante INT NOT NULL
 );
 
 CREATE TABLE Jugadores (
@@ -57,10 +54,10 @@ CREATE TABLE Jugadores (
     posicion INT NOT NULL,
     imagen_url VARCHAR(100) NOT NULL,
     id_equipo INT NOT NULL,
-    FOREIGN KEY (id_equipo) REFERENCES Equipos(id)
+    FOREIGN KEY (id_equipo) REFERENCES Equipos(id_equipo)
 );
 
-CREATE TABLE Usuarios (
+CREATE TABLE Usuarios_tpf (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
