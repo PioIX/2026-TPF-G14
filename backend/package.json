@@ -1,19 +1,24 @@
 {
-  "name": "proyecto final",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "backendp royecto final",
   "main": "index.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "pio": "nodemon --env-file=.pio.env index.js",
     "home": "nodemon --env-file=.home.env index.js"
   },
-  "author": "Facundo Serafini",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
-    "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
-    "express": "^4.19.2",
-    "mysql2": "^3.9.7",
-    "nodemon": "^3.1.0"
+    "cors": "^2.8.6",
+    "cross-env": "^7.0.3",
+    "dotenv": "^18.0.4",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mysql2": "^3.24.4",
+    "nodemon": "^3.1.14",
+    "socket.io": "^4.8.4"
   }
 }
