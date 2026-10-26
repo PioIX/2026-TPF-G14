@@ -88,7 +88,7 @@ app.get("/eventos", async (req, res) => {
 
 app.get("/usuarios", async (req, res) => {
   try {
-    const result = await realizarQuery("SELECT * FROM Usuarios");
+    const result = await realizarQuery("SELECT * FROM Usuarios_tpf");
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -173,7 +173,7 @@ app.get("/eventos/:id", async (req, res) => {
 app.get("/usuarios/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const sql = "SELECT * FROM Usuarios WHERE id_usuario = ?";
+    const sql = "SELECT * FROM Usuarios_tpf WHERE id_usuario = ?";
     const result = await realizarQuery(sql, [id]);
     res.json(result[0] || null);
   } catch (error) {
@@ -262,9 +262,9 @@ app.post("/eventos", async (req, res) => {
 
 app.post("/usuarios", async (req, res) => {
   try {
-    const { nombre, apellido, email, password, foto, rol } = req.body;
-    const sql = "INSERT INTO Usuarios (nombre, apellido, email, password, foto, rol) VALUES (?, ?, ?, ?, ?, ?)";
-    const result = await realizarQuery(sql, [nombre, apellido, email, password, foto, rol]);
+    const { nombre, apellido, email, contraseña, es_admin } = req.body;
+    const sql = "INSERT INTO Usuarios_tpf (nombre, apellido, email, `contraseña`, es_admin) VALUES (?, ?, ?, ?, ?)";
+    const result = await realizarQuery(sql, [nombre, apellido, email, contraseña, es_admin]);
     res.json({ id_usuario: result.insertId, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -360,9 +360,9 @@ app.put("/eventos/:id", async (req, res) => {
 app.put("/usuarios/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, apellido, email, password, foto, rol } = req.body;
-    const sql = "UPDATE Usuarios SET nombre = ?, apellido = ?, email = ?, password = ?, foto = ?, rol = ? WHERE id_usuario = ?";
-    await realizarQuery(sql, [nombre, apellido, email, password, foto, rol, id]);
+    const { nombre, apellido, email, contraseña, es_admin } = req.body;
+    const sql = "UPDATE Usuarios_tpf SET nombre = ?, apellido = ?, email = ?, `contraseña` = ?, es_admin = ? WHERE id_usuario = ?";
+    await realizarQuery(sql, [nombre, apellido, email, contraseña, es_admin, id]);
     res.json({ id_usuario: id, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -453,7 +453,7 @@ app.delete("/eventos/:id", async (req, res) => {
 app.delete("/usuarios/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const sql = "DELETE FROM Usuarios WHERE id_usuario = ?";
+    const sql = "DELETE FROM Usuarios_tpf WHERE id_usuario = ?";
     await realizarQuery(sql, [id]);
     res.json({ mensaje: "Usuario eliminado", id_usuario: id });
   } catch (error) {
@@ -533,7 +533,7 @@ io.on("connection", (socket) => {
       ]);
 
       // Búsqueda de datos del emisor
-      const userSql = `SELECT nombre, apellido, foto FROM Usuarios WHERE id_usuario = ?`;
+      const userSql = `SELECT nombre, apellido FROM Usuarios_tpf WHERE id_usuario = ?`;
       const user = await realizarQuery(userSql, [id_usuario]);
       const usuarioData = user[0] || {};
 
@@ -544,7 +544,6 @@ io.on("connection", (socket) => {
         id_usuario,
         nombre: usuarioData.nombre || "Usuario",
         apellido: usuarioData.apellido || "",
-        foto: usuarioData.foto || null,
         contenido,
         estado: "enviado",
         fecha_envio: new Date(),

@@ -1,0 +1,176 @@
+.contenedor {
+  max-width: 1132px;
+  margin: 0 auto;
+  padding: 40px 24px 0 24px;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+}
+
+.etiqueta {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+}
+
+.titulo {
+  margin-top: 8px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.descripcion {
+  margin-top: 12px;
+  font-size: 17px;
+  color: #4a5568;
+}
+
+.filtros {
+  margin-top: 28px;
+  padding: 28px 32px;
+  border: 1px solid #c3d0ea;
+  border-left: 6px solid #1a4fa8;
+  border-radius: 0;
+  background-color: #eaf1fd;
+}
+
+.filtrosTitulo {
+  margin-bottom: 16px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.campos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 240px;
+}
+
+.labelCampo {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+}
+
+.campo input,
+.select {
+  padding: 11px 14px;
+  border: 1px solid #c3d0ea;
+  border-radius: 0;
+  background-color: white;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  color: #1a2233;
+}
+
+.campo input:focus,
+.select:focus {
+  outline: none;
+  border-color: #1a4fa8;
+}
+
+.limpiar {
+  margin-top: 20px;
+}
+
+.limpiar button {
+  padding: 10px 22px;
+  border: 2px solid #1a4fa8;
+  border-radius: 0;
+  background-color: white;
+  color: #1a4fa8;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.limpiar button:hover {
+  background-color: #1a4fa8;
+  color: white;
+}
+
+.resultados {
+  margin-top: 24px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+}
+
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.vacio {
+  padding: 32px;
+  border: 1px dashed #c3d0ea;
+  text-align: center;
+  color: #4a5568;
+}
+
+.guia {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid #c3d0ea;
+}
+
+.guiaTitulo {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.guiaTexto {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #4a5568;
+}
+
+@media (max-width: 900px) {
+  .grilla {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grilla {
+    grid-template-columns: 1fr;
+  }
+
+  .titulo {
+    font-size: 42px;
+  }
+
+  .campo {
+    width: 100%;
+  }
+}

@@ -12,7 +12,6 @@ export default function RegisterPage() {
   const [apellido, setApellido] = useState("")
   const [mail, setMail] = useState("")
   const [password, setPassword] = useState("")
-  const [foto, setFoto] = useState(null)
 
   const onChangeNombre = (event) => {
     setNombre(event.target.value)
@@ -30,12 +29,12 @@ export default function RegisterPage() {
     setPassword(event.target.value)
   }
 
-  const onChangeFoto = (event) => {
-    const archivo = event.target.files[0]
-    setFoto(archivo)
-  }
-
   const handleRegister = () => {
+    if (password === "" || isNaN(Number(password))) {
+      alert("La contraseña debe ser numérica")
+      return
+    }
+
     fetch("http://localhost:4000/usuarios", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -43,15 +42,14 @@ export default function RegisterPage() {
         nombre: nombre,
         apellido: apellido,
         email: mail,
-        password: password,
-        foto: null,
-        rol: "usuario",
+        contraseña: Number(password),
+        es_admin: false,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.id_usuario) {
-          router.push(`/home?id=${data.id_usuario}&nombre=${data.nombre}`)
+          router.push(`/home?id=${data.id_usuario}&nombre=${data.nombre}&es_admin=0`)
         } else {
           alert("Error: " + data.error)
         }
@@ -76,11 +74,8 @@ export default function RegisterPage() {
         <label className={styles.etiqueta}>Email</label>
         <Input onChange={onChangeMail} placeholder={"email"} value={mail} type={"email"} />
 
-        <label className={styles.etiqueta}>Contraseña</label>
+        <label className={styles.etiqueta}>Contraseña (solo números)</label>
         <Input onChange={onChangePassword} placeholder={"contraseña"} value={password} type={"password"} />
-
-        <label className={styles.etiqueta}>Foto de Perfil</label>
-        <input onChange={onChangeFoto} type={"file"} accept="image/*" />
 
         <Button onClick={handleRegister}>Registrarse</Button>
       </div>

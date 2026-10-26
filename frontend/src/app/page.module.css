@@ -8,27 +8,31 @@
   padding: 24px;
   text-align: center;
   background: linear-gradient(180deg, #ffffff 0%, #eaf1fd 100%);
-  font-family: "DM Sans", "Segoe UI", Arial, sans-serif;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
 }
 
 .contenedor::before {
   content: "PIOZONE";
-  font-size: 13px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 5px;
   color: #1a4fa8;
 }
 
 .titulo {
-  font-size: 56px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 72px;
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   color: #1a2233;
-  max-width: 760px;
+  max-width: 800px;
 }
 
 .descripcion {
-  font-size: 20px;
+  font-size: 19px;
   color: #4a5568;
   max-width: 560px;
 }
@@ -42,21 +46,23 @@
 }
 
 .botones button {
-  padding: 14px 32px;
-  border-radius: 10px;
+  padding: 14px 36px;
+  border-radius: 0;
   border: 2px solid #1a4fa8;
   background-color: #1a4fa8;
   color: white;
-  font-size: 16px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 18px;
   font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .botones button:hover {
-  transform: translateY(-2px);
   background-color: #153f87;
-  box-shadow: 0 8px 20px rgba(26, 79, 168, 0.3);
+  border-color: #153f87;
 }
 
 .botones button:last-child {
@@ -65,12 +71,13 @@
 }
 
 .botones button:last-child:hover {
-  background-color: #eaf1fd;
+  background-color: #1a4fa8;
+  color: white;
 }
 
 @media (max-width: 600px) {
   .titulo {
-    font-size: 36px;
+    font-size: 46px;
   }
 
   .descripcion {

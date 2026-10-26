@@ -7,7 +7,7 @@
   min-height: 100vh;
   padding: 24px;
   background: linear-gradient(180deg, #ffffff 0%, #eaf1fd 100%);
-  font-family: "DM Sans", "Segoe UI", Arial, sans-serif;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
 }
 
 .formulario {
@@ -17,25 +17,30 @@
   width: 100%;
   max-width: 420px;
   padding: 36px;
-  border-radius: 16px;
+  border-radius: 0;
   background-color: white;
-  border: 1px solid #d6e2f7;
-  box-shadow: 0 12px 32px rgba(26, 79, 168, 0.12);
+  border: 1px solid #c3d0ea;
+  border-top: 4px solid #1a4fa8;
+  box-shadow: 0 8px 24px rgba(26, 79, 168, 0.1);
 }
 
 .titulo {
   text-align: center;
-  font-size: 30px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 36px;
   font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   color: #1a2233;
   margin-bottom: 12px;
 }
 
 .etiqueta {
   margin-top: 8px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
   color: #1a4fa8;
 }
 
@@ -43,43 +48,38 @@
   width: 100%;
   padding: 12px 14px;
   border: 1px solid #c3d0ea;
-  border-radius: 10px;
+  border-radius: 0;
   background-color: #f8faff;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
   font-size: 15px;
   color: #1a2233;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 
 .formulario input:focus {
   outline: none;
   border-color: #1a4fa8;
   background-color: white;
-  box-shadow: 0 0 0 4px rgba(26, 79, 168, 0.15);
-}
-
-.formulario input[type="file"] {
-  padding: 10px;
-  border-style: dashed;
-  cursor: pointer;
 }
 
 .formulario button {
   margin-top: 18px;
   padding: 13px;
   border: none;
-  border-radius: 10px;
+  border-radius: 0;
   background-color: #1a4fa8;
   color: white;
-  font-size: 16px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 18px;
   font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 .formulario button:hover {
-  transform: translateY(-2px);
   background-color: #153f87;
-  box-shadow: 0 8px 20px rgba(26, 79, 168, 0.3);
 }
 
 .cambiarModo {
@@ -91,6 +91,7 @@
   border: none;
   background: none;
   color: #1a4fa8;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;

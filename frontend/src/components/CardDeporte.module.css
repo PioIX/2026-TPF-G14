@@ -1,0 +1,66 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px;
+  border: 1px solid #c3d0ea;
+  border-left: 4px solid #1a4fa8;
+  border-radius: 0;
+  background-color: white;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(26, 79, 168, 0.15);
+}
+
+.etiqueta {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #1a4fa8;
+}
+
+.titulo {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #1a2233;
+}
+
+.descripcion {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #4a5568;
+}
+
+.equipos {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+}
+
+.abrir {
+  margin-top: 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+  cursor: pointer;
+}
+
+.abrir:hover {
+  text-decoration: underline;
+}

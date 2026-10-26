@@ -1,0 +1,110 @@
+.contenedor {
+  max-width: 1132px;
+  margin: 0 auto;
+  padding: 48px 24px 0 24px;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+}
+
+.etiqueta {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+}
+
+.titulo {
+  margin-top: 8px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.descripcion {
+  margin-top: 12px;
+  max-width: 640px;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #4a5568;
+}
+
+.explorar {
+  margin-top: 32px;
+  padding: 32px 36px;
+  border: 1px solid #c3d0ea;
+  border-left: 6px solid #1a4fa8;
+  border-radius: 0;
+  background-color: #eaf1fd;
+}
+
+.subtitulo {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.texto {
+  margin-top: 6px;
+  font-size: 16px;
+  color: #4a5568;
+}
+
+.accesosTitulo {
+  margin-top: 40px;
+  margin-bottom: 16px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.accesos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.guia {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid #c3d0ea;
+}
+
+.guiaTitulo {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.guiaTexto {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #4a5568;
+}
+
+@media (max-width: 900px) {
+  .accesos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .accesos {
+    grid-template-columns: 1fr;
+  }
+
+  .titulo {
+    font-size: 42px;
+  }
+}
