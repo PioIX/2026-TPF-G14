@@ -1,0 +1,36 @@
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  min-height: 100vh;
+  background-color: #f3f4f6;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 380px;
+  padding: 32px;
+  border-radius: 16px;
+  background-color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.titulo {
+  text-align: center;
+  font-size: 28px;
+}
+
+.etiqueta {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.cambiarModo {
+  display: flex;
+  justify-content: center;
+}

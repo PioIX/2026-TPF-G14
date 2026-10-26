@@ -1,109 +1,61 @@
-"use client";
+"use client"
 
-import Input from "@/components/Input";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Button from "@/components/Button";
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import Input from "@/components/Input"
+import Button from "@/components/Button"
+import styles from "./page.module.css"
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [mail, setMail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [EsRegistro, setEsRegistro] = useState(false);
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [foto, setFoto] = useState(null);
-
-  const onChangefoto = (event) => {
-    const archivo = event.target.files[0];
-    setFoto(archivo);
-  };
+  const router = useRouter()
+  const [mail, setMail] = useState("")
+  const [password, setPassword] = useState("")
 
   const onChangeMail = (event) => {
-    setMail(event.target.value);
-  };
+    setMail(event.target.value)
+  }
 
   const onChangePassword = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const onChangeNombre = (event) => {
-    setNombre(event.target.value);
-  };
-
-  const onChangeApellido = (event) => {
-    setApellido(event.target.value);
-  };
-
-  const cambiarModo = () => {
-    setEsRegistro(!EsRegistro);
-  };
+    setPassword(event.target.value)
+  }
 
   const handleLogin = () => {
-    alert('Login')
-  };
+    fetch("http://localhost:4000/usuarios")
+      .then((response) => response.json())
+      .then((data) => {
+        const usuario = data.find(
+          (u) => u.email === mail && u.password === password
+        )
 
-  const handleRegister = () => {
-    alert('Registro')
-  };
+        if (usuario) {
+          router.push(`/home?id=${usuario.id_usuario}&nombre=${usuario.nombre}`)
+        } else {
+          alert("Email o contraseña incorrectos")
+        }
+      })
+  }
+
+  const irARegister = () => {
+    router.push("/register")
+  }
 
   return (
-    <div >
-      {EsRegistro ? (
-        <div >
-          <label >Nombre</label>
-          <Input
-            onChange={onChangeNombre}
-            placeholder={"Nombre"}
-            value={nombre}
-          />
+    <div className={styles.contenedor}>
+      <div className={styles.formulario}>
+        <h1 className={styles.titulo}>Iniciar Sesión</h1>
 
-          <label >Apellido</label>
-          <Input
-            onChange={onChangeApellido}
-            placeholder={"Apellido"}
-            value={apellido}
-          />
+        <label className={styles.etiqueta}>Email</label>
+        <Input onChange={onChangeMail} placeholder={"email"} value={mail} type={"email"} />
 
-          <label >Email</label>
-          <Input onChange={onChangeMail} placeholder={"email"} value={mail} />
+        <label className={styles.etiqueta}>Contraseña</label>
+        <Input onChange={onChangePassword} placeholder={"contraseña"} value={password} type={"password"} />
 
-          <label >Contraseña</label>
-          <Input
-            onChange={onChangePassword}
-            placeholder={"contraseña"}
-            value={password}
-            type={"password"}
-          />
+        <Button onClick={handleLogin}>Ingresar</Button>
+      </div>
 
-          <label >Foto de Perfil</label>
-          <input onChange={onChangefoto} type={"file"} accept="image/*" />
-
-          <Button onClick={handleRegister}> Registrarse </Button>
-        </div>
-      ) : (
-        <div>
-          <label>Email</label>
-          <Input onChange={onChangeMail} placeholder={"email"} value={mail} />
-
-          <label>Contraseña</label>
-          <Input
-            onChange={onChangePassword}
-            placeholder={"contraseña"}
-            value={password}
-            type={"password"}
-          />
-
-          <Button onClick={handleLogin}>Ingresar</Button>
-        </div>
-      )}
-
-      <div>
-        <Button onClick={cambiarModo}>
-          {EsRegistro ? "Ya tenes cuenta? ingresa" : "Registrate"}
-        </Button>
+      <div className={styles.cambiarModo}>
+        <Button onClick={irARegister}>No tenes cuenta? registrate</Button>
       </div>
     </div>
-  );
+  )
 }
