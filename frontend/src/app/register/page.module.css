@@ -3,9 +3,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
   min-height: 100vh;
-  background-color: #f3f4f6;
+  padding: 24px;
+  background: linear-gradient(180deg, #ffffff 0%, #eaf1fd 100%);
+  font-family: "DM Sans", "Segoe UI", Arial, sans-serif;
 }
 
 .formulario {
@@ -13,24 +15,87 @@
   flex-direction: column;
   gap: 8px;
   width: 100%;
-  max-width: 380px;
-  padding: 32px;
+  max-width: 420px;
+  padding: 36px;
   border-radius: 16px;
   background-color: white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d6e2f7;
+  box-shadow: 0 12px 32px rgba(26, 79, 168, 0.12);
 }
 
 .titulo {
   text-align: center;
-  font-size: 28px;
+  font-size: 30px;
+  font-weight: 800;
+  color: #1a2233;
+  margin-bottom: 12px;
 }
 
 .etiqueta {
-  font-size: 14px;
-  font-weight: bold;
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #1a4fa8;
+}
+
+.formulario input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #c3d0ea;
+  border-radius: 10px;
+  background-color: #f8faff;
+  font-size: 15px;
+  color: #1a2233;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.formulario input:focus {
+  outline: none;
+  border-color: #1a4fa8;
+  background-color: white;
+  box-shadow: 0 0 0 4px rgba(26, 79, 168, 0.15);
+}
+
+.formulario input[type="file"] {
+  padding: 10px;
+  border-style: dashed;
+  cursor: pointer;
+}
+
+.formulario button {
+  margin-top: 18px;
+  padding: 13px;
+  border: none;
+  border-radius: 10px;
+  background-color: #1a4fa8;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.formulario button:hover {
+  transform: translateY(-2px);
+  background-color: #153f87;
+  box-shadow: 0 8px 20px rgba(26, 79, 168, 0.3);
 }
 
 .cambiarModo {
   display: flex;
   justify-content: center;
+}
+
+.cambiarModo button {
+  border: none;
+  background: none;
+  color: #1a4fa8;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cambiarModo button:hover {
+  text-decoration: underline;
 }
