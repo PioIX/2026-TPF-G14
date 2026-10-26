@@ -1,9 +1,10 @@
 {
-  "name": "fronend",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev:a": "cross-env NEXT_DIST_DIR=.next-a PORT=3000 next dev",
+    "dev:b": "cross-env NEXT_DIST_DIR=.next-b PORT=3001 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "babel-plugin-react-compiler": "1.0.0",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.4.0"
   }
