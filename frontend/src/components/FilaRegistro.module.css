@@ -1,0 +1,124 @@
+.fila,
+.filaEditando {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #c3d0ea;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+}
+
+.fila:last-child,
+.filaEditando:last-child {
+  border-bottom: none;
+}
+
+.filaEditando {
+  margin: 0 -12px;
+  padding: 14px 12px;
+  border-left: 4px solid #1a4fa8;
+  background-color: #eaf1fd;
+}
+
+.datos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.titulo {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.detalle {
+  overflow: hidden;
+  font-size: 13px;
+  color: #4a5568;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pregunta {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #b42318;
+}
+
+.primario,
+.secundario,
+.peligro {
+  padding: 8px 16px;
+  border-radius: 0;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.primario {
+  border: 2px solid #1a4fa8;
+  background-color: white;
+  color: #1a4fa8;
+}
+
+.primario:hover {
+  background-color: #1a4fa8;
+  color: white;
+}
+
+.secundario {
+  border: 2px solid #c3d0ea;
+  background-color: white;
+  color: #1a2233;
+}
+
+.secundario:hover {
+  border-color: #1a2233;
+}
+
+.peligro {
+  border: 2px solid #b42318;
+  background-color: #b42318;
+  color: white;
+}
+
+.peligro:hover {
+  background-color: #8f1c13;
+}
+
+.izquierda {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.miniatura {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  padding: 3px;
+  object-fit: contain;
+  border: 1px solid #c3d0ea;
+  background-color: white;
+}

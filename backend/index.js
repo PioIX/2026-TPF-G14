@@ -1,8 +1,13 @@
+//STANDARD
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
 const { Server } = require("socket.io");
 const { realizarQuery } = require("./modulos/mysql");
+//IMG
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -14,6 +19,55 @@ app.use(
   })
 );
 app.use(express.json());
+
+// ---------- Subida de imágenes ----------
+
+const carpetaUploads = path.join(__dirname, "uploads");
+if (!fs.existsSync(carpetaUploads)) {
+  fs.mkdirSync(carpetaUploads);
+}
+
+// Sirve las imágenes en http://localhost:4000/uploads/<archivo>
+app.use("/uploads", express.static(carpetaUploads));
+
+const almacenamiento = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, carpetaUploads),
+  filename: (req, file, cb) => {
+    const extension = path.extname(file.originalname).toLowerCase();
+    cb(null, `${Date.now()}-${Math.round(Math.random() * 1e6)}${extension}`);
+  },
+});
+
+const upload = multer({
+  storage: almacenamiento,
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2 MB
+  fileFilter: (req, file, cb) => {
+    const permitidos = ["image/jpeg", "image/png", "image/webp", "image/svg+xml"];
+    if (permitidos.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error("Solo se permiten imágenes JPG, PNG, WEBP o SVG"));
+    }
+  },
+});
+
+// Devuelve:
+//  - ruta: la que se guarda en la base (corta, entra en logo_url VARCHAR(50))
+//  - url:  la dirección completa para mostrarla en el navegador
+app.post("/upload", (req, res) => {
+  upload.single("imagen")(req, res, (error) => {
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
+    if (!req.file) {
+      return res.status(400).json({ error: "No se recibió ninguna imagen" });
+    }
+    const ruta = `/uploads/${req.file.filename}`;
+    res.json({ ruta, url: `http://localhost:${PORT}${ruta}` });
+  });
+});
+
+//END
 
 const sessionMiddleware = session({
   secret: "supersarasa",
@@ -77,9 +131,18 @@ app.get("/competencias", async (req, res) => {
   }
 });
 
-app.get("/eventos", async (req, res) => {
+app.get("/partidos", async (req, res) => {
   try {
-    const result = await realizarQuery("SELECT * FROM Eventos");
+    const result = await realizarQuery("SELECT * FROM Partidos");
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/equipos_competencias", async (req, res) => {
+  try {
+    const result = await realizarQuery("SELECT * FROM Equipos_Competencias");
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -95,25 +158,7 @@ app.get("/usuarios", async (req, res) => {
   }
 });
 
-app.get("/chats", async (req, res) => {
-  try {
-    const result = await realizarQuery("SELECT * FROM Chats");
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.get("/mensajes", async (req, res) => {
-  try {
-    const result = await realizarQuery("SELECT * FROM Mensajes");
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-//GET ID GET ID GET ID GET ID GET ID GET ID GET ID GET ID GET ID GET ID 
+//GET ID GET ID GET ID GET ID GET ID GET ID GET ID GET ID GET ID GET ID
 
 app.get("/deportes/:id", async (req, res) => {
   try {
@@ -140,7 +185,7 @@ app.get("/equipos/:id", async (req, res) => {
 app.get("/jugadores/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const sql = "SELECT * FROM Jugadores WHERE id_jugador = ?";
+    const sql = "SELECT * FROM Jugadores WHERE id_jugadores = ?";
     const result = await realizarQuery(sql, [id]);
     res.json(result[0] || null);
   } catch (error) {
@@ -159,10 +204,21 @@ app.get("/competencias/:id", async (req, res) => {
   }
 });
 
-app.get("/eventos/:id", async (req, res) => {
+app.get("/partidos/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const sql = "SELECT * FROM Eventos WHERE id_evento = ?";
+    const sql = "SELECT * FROM Partidos WHERE id_partido = ?";
+    const result = await realizarQuery(sql, [id]);
+    res.json(result[0] || null);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/equipos_competencias/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const sql = "SELECT * FROM Equipos_Competencias WHERE id_equipo_competencia = ?";
     const result = await realizarQuery(sql, [id]);
     res.json(result[0] || null);
   } catch (error) {
@@ -181,35 +237,13 @@ app.get("/usuarios/:id", async (req, res) => {
   }
 });
 
-app.get("/chats/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "SELECT * FROM Chats WHERE id_chat = ?";
-    const result = await realizarQuery(sql, [id]);
-    res.json(result[0] || null);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.get("/mensajes/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "SELECT * FROM Mensajes WHERE id_mensaje = ?";
-    const result = await realizarQuery(sql, [id]);
-    res.json(result[0] || null);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 //POST POST POST POST POST POST POST POST POST POST POST POST
 
 app.post("/deportes", async (req, res) => {
   try {
-    const { nombre, descripcion, foto } = req.body;
-    const sql = "INSERT INTO Deportes (nombre, descripcion, foto) VALUES (?, ?, ?)";
-    const result = await realizarQuery(sql, [nombre, descripcion, foto]);
+    const { nombre, descrpcion, es_equipo, id_equipo } = req.body;
+    const sql = "INSERT INTO Deportes (nombre, descrpcion, es_equipo, id_equipo) VALUES (?, ?, ?, ?)";
+    const result = await realizarQuery(sql, [nombre, descrpcion, es_equipo, id_equipo]);
     res.json({ id_deporte: result.insertId, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -218,9 +252,9 @@ app.post("/deportes", async (req, res) => {
 
 app.post("/equipos", async (req, res) => {
   try {
-    const { nombre, escudo, id_deporte, id_competencia } = req.body;
-    const sql = "INSERT INTO Equipos (nombre, escudo, id_deporte, id_competencia) VALUES (?, ?, ?, ?)";
-    const result = await realizarQuery(sql, [nombre, escudo, id_deporte, id_competencia]);
+    const { nombre, logo_url, descripcion, cant_jugadores } = req.body;
+    const sql = "INSERT INTO Equipos (nombre, logo_url, descripcion, cant_jugadores) VALUES (?, ?, ?, ?)";
+    const result = await realizarQuery(sql, [nombre, logo_url, descripcion, cant_jugadores ?? null]);
     res.json({ id_equipo: result.insertId, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -229,10 +263,10 @@ app.post("/equipos", async (req, res) => {
 
 app.post("/jugadores", async (req, res) => {
   try {
-    const { nombre, apellido, posicion, foto, id_equipo } = req.body;
-    const sql = "INSERT INTO Jugadores (nombre, apellido, posicion, foto, id_equipo) VALUES (?, ?, ?, ?, ?)";
-    const result = await realizarQuery(sql, [nombre, apellido, posicion, foto, id_equipo]);
-    res.json({ id_jugador: result.insertId, ...req.body });
+    const { nombre, apellido, fecha_nacimiento, nacionalidad, posicion, imagen_url, id_equipo } = req.body;
+    const sql = "INSERT INTO Jugadores (nombre, apellido, fecha_nacimiento, nacionalidad, posicion, imagen_url, id_equipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    const result = await realizarQuery(sql, [nombre, apellido, fecha_nacimiento, nacionalidad, posicion, imagen_url, id_equipo]);
+    res.json({ id_jugadores: result.insertId, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -240,21 +274,32 @@ app.post("/jugadores", async (req, res) => {
 
 app.post("/competencias", async (req, res) => {
   try {
-    const { nombre, tipo, id_deporte } = req.body;
-    const sql = "INSERT INTO Competencias (nombre, tipo, id_deporte) VALUES (?, ?, ?)";
-    const result = await realizarQuery(sql, [nombre, tipo, id_deporte]);
+    const { nombre, descrpcion, fecha_inicio, fecha_fin, id_deporte } = req.body;
+    const sql = "INSERT INTO Competencias (nombre, descrpcion, fecha_inicio, fecha_fin, id_deporte) VALUES (?, ?, ?, ?, ?)";
+    const result = await realizarQuery(sql, [nombre, descrpcion, fecha_inicio, fecha_fin, id_deporte]);
     res.json({ id_competencia: result.insertId, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.post("/eventos", async (req, res) => {
+app.post("/partidos", async (req, res) => {
   try {
-    const { fecha, ubicacion, id_equipo_local, id_equipo_visitante, id_competencia } = req.body;
-    const sql = "INSERT INTO Eventos (fecha, ubicacion, id_equipo_local, id_equipo_visitante, id_competencia) VALUES (?, ?, ?, ?, ?)";
-    const result = await realizarQuery(sql, [fecha, ubicacion, id_equipo_local, id_equipo_visitante, id_competencia]);
-    res.json({ id_evento: result.insertId, ...req.body });
+    const { fecha, hora, lugar, resultado, id_competencia, id_equipo_local, id_equipo_visitante } = req.body;
+    const sql = "INSERT INTO Partidos (fecha, hora, lugar, resultado, id_competencia, id_equipo_local, id_equipo_visitante) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    const result = await realizarQuery(sql, [fecha, hora, lugar, resultado, id_competencia, id_equipo_local, id_equipo_visitante]);
+    res.json({ id_partido: result.insertId, ...req.body });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/equipos_competencias", async (req, res) => {
+  try {
+    const { posicion, id_competencia, id_equipo } = req.body;
+    const sql = "INSERT INTO Equipos_Competencias (posicion, id_competencia, id_equipo) VALUES (?, ?, ?)";
+    const result = await realizarQuery(sql, [posicion, id_competencia, id_equipo]);
+    res.json({ id_equipo_competencia: result.insertId, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -271,28 +316,6 @@ app.post("/usuarios", async (req, res) => {
   }
 });
 
-app.post("/chats", async (req, res) => {
-  try {
-    const { nombre, tipo } = req.body;
-    const sql = "INSERT INTO Chats (nombre, tipo) VALUES (?, ?)";
-    const result = await realizarQuery(sql, [nombre, tipo]);
-    res.json({ id_chat: result.insertId, ...req.body });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.post("/mensajes", async (req, res) => {
-  try {
-    const { contenido, estado, id_chat, id_usuario } = req.body;
-    const sql = "INSERT INTO Mensajes (contenido, fecha_envio, estado, id_chat, id_usuario) VALUES (?, NOW(), ?, ?, ?)";
-    const result = await realizarQuery(sql, [contenido, estado || "enviado", id_chat, id_usuario]);
-    res.json({ id_mensaje: result.insertId, ...req.body });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 // PUT PUT PUT PUT PUT PUT PUT PUT PUT PUT PUT
 
 // PUT para la actualización de registros en cada tabla
@@ -300,9 +323,9 @@ app.post("/mensajes", async (req, res) => {
 app.put("/deportes/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, descripcion, foto } = req.body;
-    const sql = "UPDATE Deportes SET nombre = ?, descripcion = ?, foto = ? WHERE id_deporte = ?";
-    await realizarQuery(sql, [nombre, descripcion, foto, id]);
+    const { nombre, descrpcion, es_equipo, id_equipo } = req.body;
+    const sql = "UPDATE Deportes SET nombre = ?, descrpcion = ?, es_equipo = ?, id_equipo = ? WHERE id_deporte = ?";
+    await realizarQuery(sql, [nombre, descrpcion, es_equipo, id_equipo, id]);
     res.json({ id_deporte: id, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -312,9 +335,9 @@ app.put("/deportes/:id", async (req, res) => {
 app.put("/equipos/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, escudo, id_deporte, id_competencia } = req.body;
-    const sql = "UPDATE Equipos SET nombre = ?, escudo = ?, id_deporte = ?, id_competencia = ? WHERE id_equipo = ?";
-    await realizarQuery(sql, [nombre, escudo, id_deporte, id_competencia, id]);
+    const { nombre, logo_url, descripcion, cant_jugadores } = req.body;
+    const sql = "UPDATE Equipos SET nombre = ?, logo_url = ?, descripcion = ?, cant_jugadores = ? WHERE id_equipo = ?";
+    await realizarQuery(sql, [nombre, logo_url, descripcion, cant_jugadores ?? null, id]);
     res.json({ id_equipo: id, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -324,10 +347,10 @@ app.put("/equipos/:id", async (req, res) => {
 app.put("/jugadores/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, apellido, posicion, foto, id_equipo } = req.body;
-    const sql = "UPDATE Jugadores SET nombre = ?, apellido = ?, posicion = ?, foto = ?, id_equipo = ? WHERE id_jugador = ?";
-    await realizarQuery(sql, [nombre, apellido, posicion, foto, id_equipo, id]);
-    res.json({ id_jugador: id, ...req.body });
+    const { nombre, apellido, fecha_nacimiento, nacionalidad, posicion, imagen_url, id_equipo } = req.body;
+    const sql = "UPDATE Jugadores SET nombre = ?, apellido = ?, fecha_nacimiento = ?, nacionalidad = ?, posicion = ?, imagen_url = ?, id_equipo = ? WHERE id_jugadores = ?";
+    await realizarQuery(sql, [nombre, apellido, fecha_nacimiento, nacionalidad, posicion, imagen_url, id_equipo, id]);
+    res.json({ id_jugadores: id, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -336,22 +359,34 @@ app.put("/jugadores/:id", async (req, res) => {
 app.put("/competencias/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, tipo, id_deporte } = req.body;
-    const sql = "UPDATE Competencias SET nombre = ?, tipo = ?, id_deporte = ? WHERE id_competencia = ?";
-    await realizarQuery(sql, [nombre, tipo, id_deporte, id]);
+    const { nombre, descrpcion, fecha_inicio, fecha_fin, id_deporte } = req.body;
+    const sql = "UPDATE Competencias SET nombre = ?, descrpcion = ?, fecha_inicio = ?, fecha_fin = ?, id_deporte = ? WHERE id_competencia = ?";
+    await realizarQuery(sql, [nombre, descrpcion, fecha_inicio, fecha_fin, id_deporte, id]);
     res.json({ id_competencia: id, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.put("/eventos/:id", async (req, res) => {
+app.put("/partidos/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { fecha, ubicacion, id_equipo_local, id_equipo_visitante, id_competencia } = req.body;
-    const sql = "UPDATE Eventos SET fecha = ?, ubicacion = ?, id_equipo_local = ?, id_equipo_visitante = ?, id_competencia = ? WHERE id_evento = ?";
-    await realizarQuery(sql, [fecha, ubicacion, id_equipo_local, id_equipo_visitante, id_competencia, id]);
-    res.json({ id_evento: id, ...req.body });
+    const { fecha, hora, lugar, resultado, id_competencia, id_equipo_local, id_equipo_visitante } = req.body;
+    const sql = "UPDATE Partidos SET fecha = ?, hora = ?, lugar = ?, resultado = ?, id_competencia = ?, id_equipo_local = ?, id_equipo_visitante = ? WHERE id_partido = ?";
+    await realizarQuery(sql, [fecha, hora, lugar, resultado, id_competencia, id_equipo_local, id_equipo_visitante, id]);
+    res.json({ id_partido: id, ...req.body });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.put("/equipos_competencias/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { posicion, id_competencia, id_equipo } = req.body;
+    const sql = "UPDATE Equipos_Competencias SET posicion = ?, id_competencia = ?, id_equipo = ? WHERE id_equipo_competencia = ?";
+    await realizarQuery(sql, [posicion, id_competencia, id_equipo, id]);
+    res.json({ id_equipo_competencia: id, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -364,30 +399,6 @@ app.put("/usuarios/:id", async (req, res) => {
     const sql = "UPDATE Usuarios_tpf SET nombre = ?, apellido = ?, email = ?, `contraseña` = ?, es_admin = ? WHERE id_usuario = ?";
     await realizarQuery(sql, [nombre, apellido, email, contraseña, es_admin, id]);
     res.json({ id_usuario: id, ...req.body });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.put("/chats/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { nombre, tipo } = req.body;
-    const sql = "UPDATE Chats SET nombre = ?, tipo = ? WHERE id_chat = ?";
-    await realizarQuery(sql, [nombre, tipo, id]);
-    res.json({ id_chat: id, ...req.body });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.put("/mensajes/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { contenido, estado, id_chat, id_usuario } = req.body;
-    const sql = "UPDATE Mensajes SET contenido = ?, estado = ?, id_chat = ?, id_usuario = ? WHERE id_mensaje = ?";
-    await realizarQuery(sql, [contenido, estado, id_chat, id_usuario, id]);
-    res.json({ id_mensaje: id, ...req.body });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -420,9 +431,9 @@ app.delete("/equipos/:id", async (req, res) => {
 app.delete("/jugadores/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const sql = "DELETE FROM Jugadores WHERE id_jugador = ?";
+    const sql = "DELETE FROM Jugadores WHERE id_jugadores = ?";
     await realizarQuery(sql, [id]);
-    res.json({ mensaje: "Jugador eliminado", id_jugador: id });
+    res.json({ mensaje: "Jugador eliminado", id_jugadores: id });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -439,12 +450,23 @@ app.delete("/competencias/:id", async (req, res) => {
   }
 });
 
-app.delete("/eventos/:id", async (req, res) => {
+app.delete("/partidos/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const sql = "DELETE FROM Eventos WHERE id_evento = ?";
+    const sql = "DELETE FROM Partidos WHERE id_partido = ?";
     await realizarQuery(sql, [id]);
-    res.json({ mensaje: "Evento eliminado", id_evento: id });
+    res.json({ mensaje: "Partido eliminado", id_partido: id });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.delete("/equipos_competencias/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const sql = "DELETE FROM Equipos_Competencias WHERE id_equipo_competencia = ?";
+    await realizarQuery(sql, [id]);
+    res.json({ mensaje: "Inscripción eliminada", id_equipo_competencia: id });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -461,34 +483,12 @@ app.delete("/usuarios/:id", async (req, res) => {
   }
 });
 
-app.delete("/chats/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "DELETE FROM Chats WHERE id_chat = ?";
-    await realizarQuery(sql, [id]);
-    res.json({ mensaje: "Chat eliminado", id_chat: id });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.delete("/mensajes/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "DELETE FROM Mensajes WHERE id_mensaje = ?";
-    await realizarQuery(sql, [id]);
-    res.json({ mensaje: "Mensaje eliminado", id_mensaje: id });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 
 // Eventos de WebSockets
 io.on("connection", (socket) => {
   console.log(`[PioZone Socket] Cliente conectado: ${socket.id}`);
 
-  // 1. Unirse a salas (Soporta id directo o estructura con tipo_sala para eventos/chats)
+  // 1. Unirse a salas (Soporta id directo o estructura con tipo_sala, ej: { tipo_sala: "partido", id_sala: 3 })
   socket.on("join_room", (data) => {
     const sala =
       typeof data === "object"
@@ -510,9 +510,9 @@ io.on("connection", (socket) => {
     console.log(`[PioZone Socket] Socket ${socket.id} salió de: ${sala}`);
   });
 
-  // 3. Envío y persistencia de mensajes
+  // 3. Mensajes en vivo (no se guardan: la base no tiene tabla de mensajes)
   socket.on("send_message", async (data) => {
-    const { id_chat, id_usuario, contenido, id_evento } = data;
+    const { id_chat, id_usuario, contenido, id_partido } = data;
 
     if (!contenido || !id_usuario) {
       return socket.emit("error_mensaje", {
@@ -521,55 +521,41 @@ io.on("connection", (socket) => {
     }
 
     try {
-      // Inserción en la BD con realizarQuery
-      const sqlInsert = ` 
-        INSERT INTO Mensajes (contenido, fecha_envio, estado, id_chat, id_usuario) 
-        VALUES (?, NOW(), 'enviado', ?, ?)
-      `;
-      const resultInsert = await realizarQuery(sqlInsert, [
-        contenido,
-        id_chat || null,
-        id_usuario,
-      ]);
-
       // Búsqueda de datos del emisor
-      const userSql = `SELECT nombre, apellido FROM Usuarios_tpf WHERE id_usuario = ?`;
+      const userSql = "SELECT nombre, apellido FROM Usuarios_tpf WHERE id_usuario = ?";
       const user = await realizarQuery(userSql, [id_usuario]);
       const usuarioData = user[0] || {};
 
       const payload = {
-        id_mensaje: resultInsert.insertId,
         id_chat: id_chat || null,
-        id_evento: id_evento || null,
+        id_partido: id_partido || null,
         id_usuario,
         nombre: usuarioData.nombre || "Usuario",
         apellido: usuarioData.apellido || "",
         contenido,
-        estado: "enviado",
         fecha_envio: new Date(),
       };
 
-      // Emitir a sala de evento o sala de chat según el caso
-      const targetRoom = id_evento ? `evento_${id_evento}` : `chat_${id_chat}`;
+      // Emitir a la sala del partido o a la sala de chat según el caso
+      const targetRoom = id_partido ? `partido_${id_partido}` : `chat_${id_chat}`;
       io.to(targetRoom).emit("receive_message", payload);
-
     } catch (error) {
       console.error("[PioZone Socket] Error al procesar mensaje:", error);
       socket.emit("error_mensaje", {
-        mensaje: "Error al guardar o emitir el mensaje.",
+        mensaje: "Error al emitir el mensaje.",
       });
     }
   });
 
-  // 4. Actualización en vivo de eventos/partidos deportivos
-  socket.on("actualizar_evento", (data) => {
-    const { id_evento, marcador_local, marcador_visitante, estado_evento } = data;
+  // 4. Actualización en vivo de partidos
+  socket.on("actualizar_partido", (data) => {
+    const { id_partido, marcador_local, marcador_visitante, estado_partido } = data;
 
-    io.to(`evento_${id_evento}`).emit("evento_actualizado", {
-      id_evento,
+    io.to(`partido_${id_partido}`).emit("partido_actualizado", {
+      id_partido,
       marcador_local,
       marcador_visitante,
-      estado_evento,
+      estado_partido,
       timestamp: new Date(),
     });
   });

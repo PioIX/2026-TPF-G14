@@ -13,9 +13,9 @@ export default function EquiposPage() {
 
   const id = searchParams.get("id")
   const nombre = searchParams.get("nombre")
-  const rol = searchParams.get("rol")
+  const es_admin = searchParams.get("es_admin")
 
-  const params = `id=${id}&nombre=${nombre}&rol=${rol}`
+  const params = `id=${id}&nombre=${nombre}&es_admin=${es_admin}`
 
   const [equipos, setEquipos] = useState([])
   const [deportes, setDeportes] = useState([])

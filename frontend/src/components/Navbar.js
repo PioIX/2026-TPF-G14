@@ -14,9 +14,9 @@ export default function Navbar() {
 
   const id = searchParams.get("id")
   const nombre = searchParams.get("nombre")
-  const rol = searchParams.get("rol")
+  const es_admin = searchParams.get("es_admin")
 
-  const params = `id=${id}&nombre=${nombre}&rol=${rol}`
+  const params = `id=${id}&nombre=${nombre}&es_admin=${es_admin}`
 
   const links = [
     { id: 1, texto: "Inicio", ruta: "/home" },
@@ -54,7 +54,7 @@ export default function Navbar() {
           </Link>
         ))}
 
-        {rol === "admin" && (
+        {es_admin === "1" && (
           <Link href={`/home/admin?${params}`} className={styles.link}>
             Administración
           </Link>
