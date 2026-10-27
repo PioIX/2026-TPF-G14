@@ -1,0 +1,48 @@
+.card,
+.cardActiva {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px;
+  border: 1px solid #c3d0ea;
+  border-left: 4px solid #1a4fa8;
+  border-radius: 0;
+  background-color: white;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(26, 79, 168, 0.15);
+}
+
+.cardActiva {
+  border-color: #1a4fa8;
+  border-left-width: 6px;
+  background-color: #eaf1fd;
+}
+
+.etiqueta {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #1a4fa8;
+}
+
+.titulo {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #1a2233;
+}
+
+.cantidad {
+  font-size: 14px;
+  color: #4a5568;
+}

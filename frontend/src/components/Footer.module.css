@@ -1,0 +1,19 @@
+.footer {
+  margin-top: 64px;
+  border-top: 4px solid #1a4fa8;
+  background-color: #1a2233;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+}
+
+.contenido {
+  max-width: 1132px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.texto {
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #c3d0ea;
+}

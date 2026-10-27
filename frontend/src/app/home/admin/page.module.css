@@ -1,0 +1,385 @@
+.contenedor {
+  max-width: 1132px;
+  margin: 0 auto;
+  padding: 40px 24px 0 24px;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+}
+
+.etiqueta {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+}
+
+.titulo {
+  margin-top: 8px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.descripcion {
+  margin-top: 12px;
+  max-width: 680px;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #4a5568;
+}
+
+.seccionTitulo {
+  margin-top: 36px;
+  margin-bottom: 16px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.categorias {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 24px;
+  align-items: start;
+  margin-top: 32px;
+}
+
+/* ---------- Formulario ---------- */
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 32px;
+  border: 1px solid #c3d0ea;
+  border-left: 6px solid #1a4fa8;
+  background-color: #eaf1fd;
+}
+
+.modoAgregar,
+.modoEditar {
+  align-self: flex-start;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.modoAgregar {
+  background-color: #1a2233;
+  color: white;
+}
+
+.modoEditar {
+  background-color: #1a4fa8;
+  color: white;
+}
+
+.formTitulo {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.formTexto {
+  margin-top: -10px;
+  font-size: 14px;
+  color: #4a5568;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.labelCampo {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+}
+
+.requerido {
+  color: #b42318;
+}
+
+.ayuda {
+  align-self: flex-end;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #4a5568;
+}
+
+.campo input,
+.select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #c3d0ea;
+  border-radius: 0;
+  background-color: white;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  color: #1a2233;
+}
+
+.campo input:focus,
+.select:focus {
+  outline: none;
+  border-color: #1a4fa8;
+}
+
+.mensajeOk,
+.mensajeError {
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mensajeOk {
+  border-left: 4px solid #1a7f4b;
+  background-color: #e6f4ec;
+  color: #14593a;
+}
+
+.mensajeError {
+  border-left: 4px solid #b42318;
+  background-color: #fdecea;
+  color: #8f1c13;
+}
+
+.botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.botonPrincipal button,
+.botonSecundario button {
+  padding: 12px 24px;
+  border-radius: 0;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.botonPrincipal button {
+  border: 2px solid #1a4fa8;
+  background-color: #1a4fa8;
+  color: white;
+}
+
+.botonPrincipal button:hover {
+  background-color: #153f87;
+}
+
+.botonSecundario button {
+  border: 2px solid #1a4fa8;
+  background-color: white;
+  color: #1a4fa8;
+}
+
+.botonSecundario button:hover {
+  background-color: #1a4fa8;
+  color: white;
+}
+
+/* ---------- Registros ---------- */
+
+.registros {
+  padding: 28px 32px;
+  border: 1px solid #c3d0ea;
+  border-left: 4px solid #1a2233;
+  background-color: white;
+}
+
+.registrosCabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.contador {
+  min-width: 36px;
+  padding: 4px 10px;
+  background-color: #1a2233;
+  text-align: center;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+}
+
+.vacio,
+.restringido {
+  padding: 32px;
+  border: 1px dashed #c3d0ea;
+  text-align: center;
+  color: #4a5568;
+}
+
+.restringido {
+  margin-top: 28px;
+}
+
+/* ---------- Guía ---------- */
+
+.guia {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid #c3d0ea;
+}
+
+.guiaTitulo {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.guiaTexto {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #4a5568;
+}
+
+@media (max-width: 900px) {
+  .categorias {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .categorias {
+    grid-template-columns: 1fr;
+  }
+
+  .titulo {
+    font-size: 42px;
+  }
+
+  .formulario,
+  .registros {
+    padding: 22px 20px;
+  }
+}
+
+/* ---------- Campo de imagen ---------- */
+
+.imagenCampo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.imagenFila {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 88px;
+  height: 88px;
+  padding: 6px;
+  border: 1px solid #c3d0ea;
+  border-bottom: 3px solid #1a4fa8;
+  background-color: white;
+}
+
+.preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.previewVacia {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #4a5568;
+}
+
+.imagenAcciones {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.botonArchivo,
+.botonArchivoDeshabilitado {
+  align-self: flex-start;
+  padding: 9px 18px;
+  border: 2px solid #1a4fa8;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.botonArchivo {
+  background-color: white;
+  color: #1a4fa8;
+  cursor: pointer;
+}
+
+.botonArchivo:hover {
+  background-color: #1a4fa8;
+  color: white;
+}
+
+.botonArchivoDeshabilitado {
+  background-color: #1a4fa8;
+  color: white;
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.ayudaImagen {
+  font-size: 12px;
+  color: #4a5568;
+}

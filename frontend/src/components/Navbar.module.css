@@ -1,0 +1,106 @@
+.header {
+  background-color: white;
+  border-bottom: 1px solid #c3d0ea;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+}
+
+.superior {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  max-width: 1132px;
+  margin: 0 auto;
+  padding: 16px 24px 8px 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.nombreLogo {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+}
+
+.buscador {
+  display: flex;
+  gap: 0;
+}
+
+.buscador input {
+  width: 300px;
+  padding: 12px 14px;
+  border: 1px solid #c3d0ea;
+  border-right: none;
+  border-radius: 0;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  color: #1a2233;
+}
+
+.buscador input:focus {
+  outline: none;
+  border-color: #1a4fa8;
+}
+
+.buscador button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 0;
+  background-color: #1a4fa8;
+  color: white;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.buscador button:hover {
+  background-color: #153f87;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  max-width: 1132px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.link {
+  padding: 12px 0;
+  border-bottom: 3px solid transparent;
+  color: #1a2233;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: #1a4fa8;
+  border-bottom-color: #1a4fa8;
+}
+
+@media (max-width: 700px) {
+  .buscador {
+    width: 100%;
+  }
+
+  .buscador input {
+    flex: 1;
+    width: 100%;
+  }
+}
