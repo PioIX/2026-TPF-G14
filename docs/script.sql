@@ -3,16 +3,16 @@ CREATE TABLE Equipos (
     nombre VARCHAR(100) NOT NULL,
     logo_url VARCHAR(50) NOT NULL,
     descripcion VARCHAR(255) NOT NULL,
-    cant_jugadores INT
+	cant_jugadores INT,
+	id_deporte INT NOT NULL,
+    FOREIGN KEY (id_deporte) REFERENCES Deportes(id_deporte)
 );
 
 CREATE TABLE Deportes (
     id_deporte INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descrpcion VARCHAR(50) NOT NULL,
-    es_equipo BOOLEAN NOT NULL,
-    id_equipo INT NOT NULL,
-    FOREIGN KEY (id_equipo) REFERENCES Equipos(id_equipo)
+    es_equipo BOOLEAN NOT NULL
 );
 
 CREATE TABLE Competencias (
