@@ -4,23 +4,23 @@ INSERT INTO Deportes (nombre, descrpcion, es_equipo)
 ('Tenis', 'Deporte de raqueta', FALSE),
 ('Voleibol', 'Deporte de red', TRUE);
 
-INSERT INTO Equipos (nombre, logo_url, descripcion, cant_jugadores, id_deporte)
-VALUES ('Boca Juniors', 'boca.png', 'Club de futbol argentino', 11, 1),
-('River Plate', 'river.png', 'Club de futbol argentino', 11, 1),
-('Los Angeles Lakers', 'lakers.png', 'Equipo de basquetbol estadounidense', 5, 2),
-('Boston Celtics', 'celtics.png', 'Equipo de basquetbol estadounidense', 5, 2);
-
 INSERT INTO Competencias (nombre, descrpcion, fecha_inicio, fecha_fin, id_deporte)
 VALUES ('Liga Profesional', 'Liga argentina de futbol', '2026-02-01', '2026-12-15', 1),
 ('Copa Argentina', 'Copa nacional de futbol', '2026-03-01', '2026-11-30', 1),
 ('NBA', 'Liga estadounidense de basquet', '2026-10-20', '2027-06-30', 2),
 ('Liga Nacional de Basquet', 'Liga argentina de basquet', '2026-10-01', '2027-05-30', 2);
 
+INSERT INTO Equipos (nombre, logo_url, descripcion, cant_jugadores, id_deporte, id_competencia)
+VALUES ('Boca Juniors', 'boca.png', 'Club de futbol argentino', 11, 1, 1),
+('River Plate', 'river.png', 'Club de futbol argentino', 11, 1, 1),
+('Los Angeles Lakers', 'lakers.png', 'Equipo de basquetbol estadounidense', 5, 2, 3),
+('Boston Celtics', 'celtics.png', 'Equipo de basquetbol estadounidense', 5, 2, 3);
+
 INSERT INTO Equipos_Competencias (posicion, id_competencia, id_equipo)
 VALUES ('1', 1, 1),
-('2', 2, 2),
+('2', 1, 2),
 ('1', 3, 3),
-('2', 4, 4);
+('2', 3, 4);
 
 INSERT INTO Partidos (fecha, hora, lugar, resultado, id_competencia, id_equipo_local, id_equipo_visitante)
 VALUES ('2026-11-01', '17:00:00', 'La Bombonera', 2, 1, 1, 2),

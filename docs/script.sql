@@ -1,15 +1,3 @@
-CREATE TABLE Equipos (
-    id_equipo INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    logo_url VARCHAR(50) NOT NULL,
-    descripcion VARCHAR(255) NOT NULL,
-    cant_jugadores INT,
-	id_competencia INT NOT NULL,
-	id_deporte INT NOT NULL,
-    FOREIGN KEY (id_competencia) REFERENCES Competencias(id_competencia),
-    FOREIGN KEY (id_deporte) REFERENCES Deportes(id_deporte)
-);
-
 CREATE TABLE Deportes (
     id_deporte INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -24,6 +12,18 @@ CREATE TABLE Competencias (
     fecha_inicio DATE NOT NULL,
     fecha_fin DATE NOT NULL,
     id_deporte INT NOT NULL,
+    FOREIGN KEY (id_deporte) REFERENCES Deportes(id_deporte)
+);
+
+CREATE TABLE Equipos (
+    id_equipo INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    logo_url VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(255) NOT NULL,
+    cant_jugadores INT,
+	id_competencia INT NOT NULL,
+	id_deporte INT NOT NULL,
+    FOREIGN KEY (id_competencia) REFERENCES Competencias(id_competencia),
     FOREIGN KEY (id_deporte) REFERENCES Deportes(id_deporte)
 );
 
