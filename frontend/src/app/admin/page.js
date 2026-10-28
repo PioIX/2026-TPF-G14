@@ -25,11 +25,13 @@ const CONFIG = {
       { key: "id_deporte", label: "ID deporte" },
       { key: "id_competencia", label: "ID torneo" },
     ],
+
+
   },
   jugadores: {
     label: "Jugadores",
     endpoint: "/jugadores",
-    id: "id_jugador",
+    id: "id_jugadores",
     empty: { nombre: "", apellido: "", posicion: "", foto: "", id_equipo: "" },
     fields: [
       { name: "nombre", label: "Nombre", required: true },
@@ -39,7 +41,7 @@ const CONFIG = {
       { name: "id_equipo", label: "Equipo", type: "select", source: "equipos", value: "id_equipo", text: "nombre", required: true },
     ],
     columns: [
-      { key: "id_jugador", label: "ID" },
+      { key: "id_jugadores", label: "ID" },
       { key: "nombre", label: "Nombre" },
       { key: "apellido", label: "Apellido" },
       { key: "posicion", label: "Posición" },
@@ -53,13 +55,13 @@ const CONFIG = {
     empty: { nombre: "", tipo: "", id_deporte: "" },
     fields: [
       { name: "nombre", label: "Nombre del torneo", required: true },
-      { name: "tipo", label: "Tipo", required: true, placeholder: "Ej.: Liga, Copa, Amistoso" },
+      { name: "descripcion", label: "Descripcion", required: true },
       { name: "id_deporte", label: "Deporte", type: "select", source: "deportes", value: "id_deporte", text: "nombre", required: true },
     ],
     columns: [
       { key: "id_competencia", label: "ID" },
       { key: "nombre", label: "Torneo" },
-      { key: "tipo", label: "Tipo" },
+      { key: "descripcion", label: "Descripcion" },
       { key: "id_deporte", label: "ID deporte" },
     ],
   },
