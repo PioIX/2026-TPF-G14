@@ -13,6 +13,7 @@ const CONFIG = {
     empty: { nombre: "", escudo: "", id_deporte: "", id_competencia: "" },
     fields: [
       { name: "nombre", label: "Nombre del equipo", required: true },
+      { name: "cant_jugadores", label: "Cantidad de jugadores", required: true },
       { name: "escudo", label: "URL del escudo", placeholder: "https://..." },
       { name: "id_deporte", label: "Deporte", type: "select", source: "deportes", value: "id_deporte", text: "nombre", required: true },
       { name: "id_competencia", label: "Torneo", type: "select", source: "competencias", value: "id_competencia", text: "nombre", required: true },
@@ -20,6 +21,7 @@ const CONFIG = {
     columns: [
       { key: "id_equipo", label: "ID" },
       { key: "nombre", label: "Equipo" },
+      { key: "cant_jugadores", label: "Cantidad de Jugadores" },
       { key: "id_deporte", label: "ID deporte" },
       { key: "id_competencia", label: "ID torneo" },
     ],
