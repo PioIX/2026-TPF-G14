@@ -1,3 +1,10 @@
-{"timestamp":"00:00:04.073","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:07.471","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:01:59.741","source":"Server","level":"LOG","message":"✓ Compiled in 101ms"}
+{"timestamp":"00:00:02.540","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:19.530","source":"Server","level":"LOG","message":"  Turbopack has seen frequent file updates and is waiting for the filesystem to settle (0.5s elapsed so far; last modified: \"\\\\\\\\?\\\\C:\\\\Users\\\\alumnomaster1\\\\Documents\\\\repo\\\\2026-TPF-G14\\\\frontend\\\\node_modules\\\\next\\\\dist\\\\esm\\\\server\\\\web\\\\spec-extension\\\\adapters\")."}
+{"timestamp":"00:00:22.439","source":"Server","level":"LOG","message":"  Turbopack has seen frequent file updates and is waiting for the filesystem to settle (0.5s elapsed so far; last modified: \"\\\\\\\\?\\\\C:\\\\Users\\\\alumnomaster1\\\\Documents\\\\repo\\\\2026-TPF-G14\\\\frontend\\\\node_modules\\\\next\\\\dist\\\\build\\\\babel\\\\loader\")."}
+{"timestamp":"00:00:23.132","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:29.456","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:34.991","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:01:24.144","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:01:37.053","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:01:39.001","source":"Browser","level":"ERROR","message":"Each child in a list should have a unique \"key\" prop.\n\nCheck the render method of `AdminPage`. See https://react.dev/link/warning-keys for more information. "}
+{"timestamp":"00:01:39.003","source":"Server","level":"ERROR","message":"[browser] \"Each child in a list should have a unique \\\"key\\\" prop.\\n\\nCheck the render method of `AdminPage`. See https://react.dev/link/warning-keys for more information.\" \"\""}
