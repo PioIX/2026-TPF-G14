@@ -1,0 +1,9 @@
+{"timestamp":"00:00:01.548","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:20.587","source":"Server","level":"LOG","message":"○ Compiling / ..."}
+{"timestamp":"00:00:22.683","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:01:48.661","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: KvxiyxKDcYUwjULTAACS"}
+{"timestamp":"00:03:09.168","source":"Browser","level":"ERROR","message":"Each child in a list should have a unique \"key\" prop.\n\nCheck the render method of `JugadoresPage`. See https://react.dev/link/warning-keys for more information. "}
+{"timestamp":"00:03:09.169","source":"Server","level":"ERROR","message":"[browser] \"Each child in a list should have a unique \\\"key\\\" prop.\\n\\nCheck the render method of `JugadoresPage`. See https://react.dev/link/warning-keys for more information.\" \"\""}
+{"timestamp":"00:03:15.688","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: vD9c6u94jdjHJrJEAACW"}
+{"timestamp":"00:03:19.575","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: 3XQeG9PmkwvsZoa9AACX"}
+{"timestamp":"00:03:22.641","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: ExtPHizF_elDGK2iAACY"}

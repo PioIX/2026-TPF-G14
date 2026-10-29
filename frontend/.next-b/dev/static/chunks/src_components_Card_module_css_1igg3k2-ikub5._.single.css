@@ -1,0 +1,60 @@
+/* [project]/src/components/Card.module.css [app-client] (css) */
+.Card-module__r9_ZKW__card {
+  background-color: #fff;
+  border: 1px solid #c3d0ea;
+  border-left: 4px solid #1a4fa8;
+  border-radius: 0;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  font-family: Barlow, Segoe UI, Arial, sans-serif;
+  transition: transform .15s, box-shadow .15s;
+  display: flex;
+}
+
+.Card-module__r9_ZKW__card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px #1a4fa826;
+}
+
+.Card-module__r9_ZKW__etiqueta {
+  letter-spacing: 2px;
+  color: #1a4fa8;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.Card-module__r9_ZKW__titulo {
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #1a2233;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.Card-module__r9_ZKW__cantidad {
+  color: #4a5568;
+  font-size: 14px;
+}
+
+.Card-module__r9_ZKW__abrir {
+  text-align: left;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-top: 8px;
+  padding: 0;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.Card-module__r9_ZKW__abrir:hover {
+  text-decoration: underline;
+}
+
+/*# sourceMappingURL=src_components_Card_module_css_1igg3k2-ikub5._.single.css.map*/

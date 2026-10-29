@@ -1,0 +1,172 @@
+/* [project]/src/components/Card.module.css [app-client] (css) */
+.Card-module__r9_ZKW__card {
+  background-color: #fff;
+  border: 1px solid #c3d0ea;
+  border-left: 4px solid #1a4fa8;
+  border-radius: 0;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  font-family: Barlow, Segoe UI, Arial, sans-serif;
+  transition: transform .15s, box-shadow .15s;
+  display: flex;
+}
+
+.Card-module__r9_ZKW__card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px #1a4fa826;
+}
+
+.Card-module__r9_ZKW__etiqueta {
+  letter-spacing: 2px;
+  color: #1a4fa8;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.Card-module__r9_ZKW__titulo {
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #1a2233;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.Card-module__r9_ZKW__cantidad {
+  color: #4a5568;
+  font-size: 14px;
+}
+
+.Card-module__r9_ZKW__abrir {
+  text-align: left;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-top: 8px;
+  padding: 0;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.Card-module__r9_ZKW__abrir:hover {
+  text-decoration: underline;
+}
+
+/* [project]/src/app/home/page.module.css [app-client] (css) */
+.page-module__0HUJcG__contenedor {
+  max-width: 1132px;
+  margin: 0 auto;
+  padding: 48px 24px 0;
+  font-family: Barlow, Segoe UI, Arial, sans-serif;
+}
+
+.page-module__0HUJcG__etiqueta {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.page-module__0HUJcG__titulo {
+  text-transform: uppercase;
+  color: #1a2233;
+  margin-top: 8px;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.page-module__0HUJcG__descripcion {
+  color: #4a5568;
+  max-width: 640px;
+  margin-top: 12px;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.page-module__0HUJcG__explorar {
+  background-color: #eaf1fd;
+  border: 1px solid #c3d0ea;
+  border-left: 6px solid #1a4fa8;
+  border-radius: 0;
+  margin-top: 32px;
+  padding: 32px 36px;
+}
+
+.page-module__0HUJcG__subtitulo {
+  text-transform: uppercase;
+  color: #1a2233;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.page-module__0HUJcG__texto {
+  color: #4a5568;
+  margin-top: 6px;
+  font-size: 16px;
+}
+
+.page-module__0HUJcG__accesosTitulo {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a2233;
+  margin-top: 40px;
+  margin-bottom: 16px;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.page-module__0HUJcG__accesos {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  display: grid;
+}
+
+.page-module__0HUJcG__guia {
+  border-top: 1px solid #c3d0ea;
+  margin-top: 40px;
+  padding-top: 24px;
+}
+
+.page-module__0HUJcG__guiaTitulo {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a2233;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.page-module__0HUJcG__guiaTexto {
+  color: #4a5568;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .page-module__0HUJcG__accesos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .page-module__0HUJcG__accesos {
+    grid-template-columns: 1fr;
+  }
+
+  .page-module__0HUJcG__titulo {
+    font-size: 42px;
+  }
+}
+
+/*# sourceMappingURL=src_0-bnwoqy0_fua._.css.map*/

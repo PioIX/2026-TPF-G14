@@ -1,0 +1,22 @@
+/* [project]/src/components/Footer.module.css [app-client] (css) */
+.Footer-module__S6Hkya__footer {
+  background-color: #1a2233;
+  border-top: 4px solid #1a4fa8;
+  margin-top: 64px;
+  font-family: Barlow, Segoe UI, Arial, sans-serif;
+}
+
+.Footer-module__S6Hkya__contenido {
+  max-width: 1132px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.Footer-module__S6Hkya__texto {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #c3d0ea;
+  font-size: 14px;
+}
+
+/*# sourceMappingURL=src_components_Footer_module_css_1igg3k2-ikub5._.single.css.map*/
