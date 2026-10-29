@@ -30,22 +30,6 @@
   font-weight: 700;
 }
 
-.CardJugador-module__ttq0zG__avatar {
-  letter-spacing: 1px;
-  color: #1a4fa8;
-  background-color: #eaf1fd;
-  border: 2px solid #1a4fa8;
-  border-radius: 50%;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  font-family: Barlow Condensed, Barlow, sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  display: flex;
-}
-
 .CardJugador-module__ttq0zG__titulo {
   text-transform: uppercase;
   letter-spacing: .5px;

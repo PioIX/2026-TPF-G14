@@ -20,6 +20,8 @@ export default function EquiposPage() {
   const [equipos, setEquipos] = useState([])
   const [deportes, setDeportes] = useState([])
   const [competencias, setCompetencias] = useState([])
+  const [inscripciones, setInscripciones] = useState([])
+  const [jugadores, setJugadores] = useState([])
   const [busqueda, setBusqueda] = useState("")
   const [filtroDeporte, setFiltroDeporte] = useState("todos")
   const [orden, setOrden] = useState("az")
@@ -27,15 +29,29 @@ export default function EquiposPage() {
   useEffect(() => {
     fetch("http://localhost:4000/equipos")
       .then((response) => response.json())
-      .then((data) => setEquipos(data))
+      .then((data) => setEquipos(Array.isArray(data) ? data : []))
+      .catch(() => setEquipos([]))
 
     fetch("http://localhost:4000/deportes")
       .then((response) => response.json())
-      .then((data) => setDeportes(data))
+      .then((data) => setDeportes(Array.isArray(data) ? data : []))
+      .catch(() => setDeportes([]))
 
     fetch("http://localhost:4000/competencias")
       .then((response) => response.json())
-      .then((data) => setCompetencias(data))
+      .then((data) => setCompetencias(Array.isArray(data) ? data : []))
+      .catch(() => setCompetencias([]))
+
+    // La relación equipo ↔ competencia está en la tabla Equipos_Competencias
+    fetch("http://localhost:4000/equipos_competencias")
+      .then((response) => response.json())
+      .then((data) => setInscripciones(Array.isArray(data) ? data : []))
+      .catch(() => setInscripciones([]))
+
+    fetch("http://localhost:4000/jugadores")
+      .then((response) => response.json())
+      .then((data) => setJugadores(Array.isArray(data) ? data : []))
+      .catch(() => setJugadores([]))
   }, [])
 
   const onChangeBusqueda = (event) => {
@@ -61,9 +77,18 @@ export default function EquiposPage() {
     return deporte ? deporte.nombre : "Sin deporte"
   }
 
-  const nombreCompetencia = (idCompetencia) => {
-    const competencia = competencias.find((c) => c.id_competencia === idCompetencia)
-    return competencia ? competencia.nombre : "Sin competencia"
+  // Nombres de todas las competencias en las que está inscripto el equipo
+  const nombreCompetencia = (idEquipo) => {
+    const nombres = inscripciones
+      .filter((inscripcion) => inscripcion.id_equipo === idEquipo)
+      .map((inscripcion) => competencias.find((c) => c.id_competencia === inscripcion.id_competencia))
+      .filter((competencia) => competencia !== undefined)
+      .map((competencia) => competencia.nombre)
+    return nombres.length > 0 ? nombres.join(", ") : "Sin competencia"
+  }
+
+  const contarJugadores = (idEquipo) => {
+    return jugadores.filter((jugador) => jugador.id_equipo === idEquipo).length
   }
 
   const verDetalle = (idEquipo) => {
@@ -76,7 +101,7 @@ export default function EquiposPage() {
     const coincideTexto =
       equipo.nombre.toLowerCase().includes(texto) ||
       nombreDeporte(equipo.id_deporte).toLowerCase().includes(texto) ||
-      nombreCompetencia(equipo.id_competencia).toLowerCase().includes(texto)
+      nombreCompetencia(equipo.id_equipo).toLowerCase().includes(texto)
 
     const coincideDeporte =
       filtroDeporte === "todos" || String(equipo.id_deporte) === filtroDeporte
@@ -162,8 +187,10 @@ export default function EquiposPage() {
             <CardEquipo
               key={equipo.id_equipo}
               nombre={equipo.nombre}
+              logo={equipo.logo_url}
               deporte={nombreDeporte(equipo.id_deporte)}
-              competencia={nombreCompetencia(equipo.id_competencia)}
+              competencia={nombreCompetencia(equipo.id_equipo)}
+              cantidadJugadores={contarJugadores(equipo.id_equipo)}
               onClick={() => verDetalle(equipo.id_equipo)}
             />
           ))}

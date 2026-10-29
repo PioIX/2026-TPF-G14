@@ -29,18 +29,21 @@
   color: #1a4fa8;
 }
 
-.escudo {
+.logo {
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
+  padding: 14px 0;
+  background-color: #f4f7fd;
+}
+
+.jugadores {
+  align-self: flex-start;
+  padding: 3px 10px;
   background-color: #1a2233;
-  border-bottom: 3px solid #1a4fa8;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: 1px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
   color: white;
 }
 

@@ -1,3 +1,4 @@
-{"timestamp":"00:00:11.130","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:42.041","source":"Server","level":"LOG","message":"○ Compiling / ..."}
-{"timestamp":"00:00:46.726","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:01.860","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:35.315","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:39.197","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: CDbFg9I8wzAxfwIKAAAJ"}
+{"timestamp":"00:00:41.484","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: 9hExq-yndRPh0PNPAAAK"}

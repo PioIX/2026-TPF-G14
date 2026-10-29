@@ -30,19 +30,22 @@
   font-weight: 700;
 }
 
-.CardEquipo-module__pQKyWa__escudo {
-  letter-spacing: 1px;
+.CardEquipo-module__pQKyWa__logo {
+  background-color: #f4f7fd;
+  justify-content: center;
+  padding: 14px 0;
+  display: flex;
+}
+
+.CardEquipo-module__pQKyWa__jugadores {
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
   color: #fff;
   background-color: #1a2233;
-  border-bottom: 3px solid #1a4fa8;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  font-family: Barlow Condensed, Barlow, sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  display: flex;
+  align-self: flex-start;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .CardEquipo-module__pQKyWa__titulo {

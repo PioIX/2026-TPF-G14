@@ -1,0 +1,186 @@
+.fila {
+  display: grid;
+  grid-template-columns: 64px 1fr 120px 1fr 150px;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 14px 20px;
+  border: 1px solid #c3d0ea;
+  border-left: 4px solid #1a4fa8;
+  border-radius: 0;
+  background-color: white;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  text-align: left;
+  color: #1a2233;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fila:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(26, 79, 168, 0.15);
+}
+
+.calendario {
+  display: flex;
+  flex-direction: column;
+  width: 56px;
+  border: 1px solid #1a2233;
+  text-align: center;
+}
+
+.dia {
+  padding: 4px 0 2px 0;
+  background-color: #1a2233;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+  color: white;
+}
+
+.mes,
+.hora {
+  padding: 2px 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+}
+
+.hora {
+  border-top: 1px solid #c3d0ea;
+  letter-spacing: 0.5px;
+  color: #4a5568;
+}
+
+.equipoLocal,
+.equipoVisitante {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.equipoLocal {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.nombre {
+  overflow: hidden;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.marcador {
+  display: flex;
+  justify-content: center;
+  padding: 6px 0;
+  background-color: #1a2233;
+}
+
+.goles,
+.vs {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  color: white;
+}
+
+.vs {
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: #c3d0ea;
+}
+
+.derecha {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  min-width: 0;
+}
+
+.lugar {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #4a5568;
+}
+
+.estado,
+.estadoProximo,
+.estadoHoy {
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.estado {
+  border: 1px solid #c3d0ea;
+  color: #4a5568;
+}
+
+.estadoProximo {
+  border: 1px solid #1a4fa8;
+  background-color: #1a4fa8;
+  color: white;
+}
+
+.estadoHoy {
+  border: 1px solid #d64545;
+  background-color: #d64545;
+  color: white;
+}
+
+@media (max-width: 800px) {
+  .fila {
+    grid-template-columns: 56px 1fr 90px 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .derecha {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nombre {
+    font-size: 16px;
+  }
+
+  .goles {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 520px) {
+  .equipoLocal,
+  .equipoVisitante {
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+
+  .equipoLocal {
+    flex-direction: column-reverse;
+  }
+
+  .nombre {
+    max-width: 100%;
+    font-size: 14px;
+  }
+}

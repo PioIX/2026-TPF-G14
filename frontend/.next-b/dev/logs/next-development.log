@@ -1,2 +1,6 @@
-{"timestamp":"00:00:02.170","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:32.885","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:01.847","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:22.168","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:23.524","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: r1cs147n2rMVUUvxAAAI"}
+{"timestamp":"00:04:23.030","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:04:23.076","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: VWM2xWaYQeSoqtbsAAAL"}
+{"timestamp":"00:04:31.763","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: 0SokVIB6TOZDc0S_AAAM"}
