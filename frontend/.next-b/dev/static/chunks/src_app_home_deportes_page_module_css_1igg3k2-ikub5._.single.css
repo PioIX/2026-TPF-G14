@@ -1,0 +1,177 @@
+/* [project]/src/app/home/deportes/page.module.css [app-client] (css) */
+.page-module__e4k4yW__contenedor {
+  max-width: 1132px;
+  margin: 0 auto;
+  padding: 40px 24px 0;
+  font-family: Barlow, Segoe UI, Arial, sans-serif;
+}
+
+.page-module__e4k4yW__etiqueta {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.page-module__e4k4yW__titulo {
+  text-transform: uppercase;
+  color: #1a2233;
+  margin-top: 8px;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.page-module__e4k4yW__descripcion {
+  color: #4a5568;
+  margin-top: 12px;
+  font-size: 17px;
+}
+
+.page-module__e4k4yW__filtros {
+  background-color: #eaf1fd;
+  border: 1px solid #c3d0ea;
+  border-left: 6px solid #1a4fa8;
+  border-radius: 0;
+  margin-top: 28px;
+  padding: 28px 32px;
+}
+
+.page-module__e4k4yW__filtrosTitulo {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a2233;
+  margin-bottom: 16px;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.page-module__e4k4yW__campos {
+  flex-wrap: wrap;
+  gap: 20px;
+  display: flex;
+}
+
+.page-module__e4k4yW__campo {
+  flex-direction: column;
+  gap: 6px;
+  min-width: 240px;
+  display: flex;
+}
+
+.page-module__e4k4yW__labelCampo {
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.page-module__e4k4yW__campo input, .page-module__e4k4yW__select {
+  color: #1a2233;
+  background-color: #fff;
+  border: 1px solid #c3d0ea;
+  border-radius: 0;
+  padding: 11px 14px;
+  font-family: Barlow, Segoe UI, Arial, sans-serif;
+  font-size: 15px;
+}
+
+.page-module__e4k4yW__campo input:focus, .page-module__e4k4yW__select:focus {
+  border-color: #1a4fa8;
+  outline: none;
+}
+
+.page-module__e4k4yW__limpiar {
+  margin-top: 20px;
+}
+
+.page-module__e4k4yW__limpiar button {
+  color: #1a4fa8;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: #fff;
+  border: 2px solid #1a4fa8;
+  border-radius: 0;
+  padding: 10px 22px;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  transition: background-color .15s, color .15s;
+}
+
+.page-module__e4k4yW__limpiar button:hover {
+  color: #fff;
+  background-color: #1a4fa8;
+}
+
+.page-module__e4k4yW__resultados {
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.page-module__e4k4yW__grilla {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  display: grid;
+}
+
+.page-module__e4k4yW__vacio {
+  text-align: center;
+  color: #4a5568;
+  border: 1px dashed #c3d0ea;
+  padding: 32px;
+}
+
+.page-module__e4k4yW__guia {
+  border-top: 1px solid #c3d0ea;
+  margin-top: 48px;
+  padding-top: 24px;
+}
+
+.page-module__e4k4yW__guiaTitulo {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a2233;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.page-module__e4k4yW__guiaTexto {
+  color: #4a5568;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .page-module__e4k4yW__grilla {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .page-module__e4k4yW__grilla {
+    grid-template-columns: 1fr;
+  }
+
+  .page-module__e4k4yW__titulo {
+    font-size: 42px;
+  }
+
+  .page-module__e4k4yW__campo {
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=src_app_home_deportes_page_module_css_1igg3k2-ikub5._.single.css.map*/

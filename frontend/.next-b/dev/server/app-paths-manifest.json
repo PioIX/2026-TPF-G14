@@ -1,7 +1,6 @@
 {
-  "/home/competencias/[id]/page": "app/home/competencias/[id]/page.js",
-  "/home/competencias/page": "app/home/competencias/page.js",
-  "/home/jugadores/page": "app/home/jugadores/page.js",
+  "/home/deportes/page": "app/home/deportes/page.js",
+  "/home/equipos/page": "app/home/equipos/page.js",
   "/home/page": "app/home/page.js",
   "/login/page": "app/login/page.js",
   "/page": "app/page.js"

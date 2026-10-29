@@ -1,0 +1,84 @@
+/* [project]/src/components/CardEquipo.module.css [app-client] (css) */
+.CardEquipo-module__pQKyWa__card {
+  background-color: #fff;
+  border: 1px solid #c3d0ea;
+  border-left: 4px solid #1a4fa8;
+  border-radius: 0;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px;
+  font-family: Barlow, Segoe UI, Arial, sans-serif;
+  transition: transform .15s, box-shadow .15s;
+  display: flex;
+}
+
+.CardEquipo-module__pQKyWa__card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px #1a4fa826;
+}
+
+.CardEquipo-module__pQKyWa__cabecera {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.CardEquipo-module__pQKyWa__etiqueta {
+  letter-spacing: 2px;
+  color: #1a4fa8;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.CardEquipo-module__pQKyWa__escudo {
+  letter-spacing: 1px;
+  color: #fff;
+  background-color: #1a2233;
+  border-bottom: 3px solid #1a4fa8;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  display: flex;
+}
+
+.CardEquipo-module__pQKyWa__titulo {
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #1a2233;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.CardEquipo-module__pQKyWa__relacion {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #4a5568;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.CardEquipo-module__pQKyWa__abrir {
+  text-align: left;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-top: 8px;
+  padding: 0;
+  font-family: Barlow Condensed, Barlow, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.CardEquipo-module__pQKyWa__abrir:hover {
+  text-decoration: underline;
+}
+
+/*# sourceMappingURL=src_components_CardEquipo_module_css_1igg3k2-ikub5._.single.css.map*/

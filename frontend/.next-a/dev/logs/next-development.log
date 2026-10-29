@@ -1,12 +1,3 @@
-{"timestamp":"00:00:02.497","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:08.438","source":"Server","level":"LOG","message":"○ Compiling / ..."}
-{"timestamp":"00:00:09.650","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:00:57.965","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: OKXUz6JIUzuTh81FAACT"}
-{"timestamp":"00:01:06.526","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: EHJVN-EfmDqoWBBlAACU"}
-{"timestamp":"00:01:15.109","source":"Browser","level":"LOG","message":"[Unable to view]"}
-{"timestamp":"00:01:15.292","source":"Browser","level":"LOG","message":"[Unable to view]"}
-{"timestamp":"00:01:15.486","source":"Browser","level":"LOG","message":"[Unable to view]"}
-{"timestamp":"00:01:16.939","source":"Browser","level":"LOG","message":"0"}
-{"timestamp":"00:01:17.107","source":"Browser","level":"LOG","message":"1"}
-{"timestamp":"00:01:17.559","source":"Browser","level":"LOG","message":"2"}
-{"timestamp":"00:01:19.315","source":"Browser","level":"LOG","message":"3003"}
+{"timestamp":"00:00:11.130","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:42.041","source":"Server","level":"LOG","message":"○ Compiling / ..."}
+{"timestamp":"00:00:46.726","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
