@@ -1,0 +1,71 @@
+.escudo {
+  display: inline-flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #1a2233;
+  border-bottom: 3px solid #1a4fa8;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: white;
+}
+
+/* Borde suave para que las iniciales se vean también sobre fondos oscuros */
+.escudo:not(.conImagen):not(.redondo) {
+  box-shadow: inset 0 0 0 1px #3d4b68;
+}
+
+.conImagen {
+  background-color: white;
+  border: 1px solid #c3d0ea;
+  border-bottom: 3px solid #1a4fa8;
+}
+
+.conImagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.redondo {
+  border-radius: 50%;
+  border: 2px solid #1a4fa8;
+  background-color: #eaf1fd;
+  color: #1a4fa8;
+}
+
+.redondo.conImagen {
+  border: 2px solid #1a4fa8;
+}
+
+.redondo.conImagen img {
+  object-fit: cover;
+}
+
+.chico {
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+}
+
+.mediano {
+  width: 64px;
+  height: 64px;
+  font-size: 22px;
+}
+
+.grande {
+  width: 120px;
+  height: 120px;
+  font-size: 40px;
+}
+
+@media (max-width: 600px) {
+  .grande {
+    width: 72px;
+    height: 72px;
+    font-size: 26px;
+  }
+}

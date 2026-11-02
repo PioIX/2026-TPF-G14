@@ -1109,11 +1109,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 ;
 function Button(t0) {
     const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(5);
-    if ($[0] !== "ffe7699a3b7486bac5318be0d04c03e67934f5e2c151c918bfc252eec5f5c054") {
+    if ($[0] !== "62add1a645d0664e60c6a9100ae5002bbe9760d30b74e23f7235bcb9a7679490") {
         for(let $i = 0; $i < 5; $i += 1){
             $[$i] = Symbol.for("react.memo_cache_sentinel");
         }
-        $[0] = "ffe7699a3b7486bac5318be0d04c03e67934f5e2c151c918bfc252eec5f5c054";
+        $[0] = "62add1a645d0664e60c6a9100ae5002bbe9760d30b74e23f7235bcb9a7679490";
     }
     const { type, children, onClick } = t0;
     let t1;
@@ -1157,11 +1157,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 ;
 function Input(t0) {
     const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(6);
-    if ($[0] !== "4a2917bf591bb3b025d5fe60b0e7134924f7868d8b17e1d48f58353b73f9f5fa") {
+    if ($[0] !== "5cfacae6d75aca389d9159841e832620658e281507a8aa4f45eda6723ee2f7f2") {
         for(let $i = 0; $i < 6; $i += 1){
             $[$i] = Symbol.for("react.memo_cache_sentinel");
         }
-        $[0] = "4a2917bf591bb3b025d5fe60b0e7134924f7868d8b17e1d48f58353b73f9f5fa";
+        $[0] = "5cfacae6d75aca389d9159841e832620658e281507a8aa4f45eda6723ee2f7f2";
     }
     const { placeholder, onChange, value, type } = t0;
     let t1;
@@ -1220,12 +1220,12 @@ var _s = __turbopack_context__.k.signature();
 ;
 function Navbar() {
     _s();
-    const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(32);
-    if ($[0] !== "67366fe1347e3a44a80a197394a98d27781ad4149ee29871174659a4fd8612a9") {
-        for(let $i = 0; $i < 32; $i += 1){
+    const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(31);
+    if ($[0] !== "65f8e1c0d9bb04e7e704ac301ae047e10c72b7d25233efd9c1d3c6d494d40cad") {
+        for(let $i = 0; $i < 31; $i += 1){
             $[$i] = Symbol.for("react.memo_cache_sentinel");
         }
-        $[0] = "67366fe1347e3a44a80a197394a98d27781ad4149ee29871174659a4fd8612a9";
+        $[0] = "65f8e1c0d9bb04e7e704ac301ae047e10c72b7d25233efd9c1d3c6d494d40cad";
     }
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const searchParams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"])();
@@ -1307,8 +1307,12 @@ function Navbar() {
     let t5;
     if ($[9] !== busqueda || $[10] !== params || $[11] !== router) {
         t5 = ({
-            "Navbar[handleBuscar]": ()=>{
-                router.push(`/home/buscar?q=${busqueda}&${params}`);
+            "Navbar[handleBuscar]": (event_0)=>{
+                event_0.preventDefault();
+                if (busqueda.trim() === "") {
+                    return;
+                }
+                router.push(`/home/buscar?q=${encodeURIComponent(busqueda.trim())}&${params}`);
             }
         })["Navbar[handleBuscar]"];
         $[9] = busqueda;
@@ -1328,12 +1332,12 @@ function Navbar() {
                 children: "PioZone"
             }, void 0, false, {
                 fileName: "[project]/src/components/Navbar.js",
-                lineNumber: 106,
+                lineNumber: 110,
                 columnNumber: 39
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/Navbar.js",
-            lineNumber: 106,
+            lineNumber: 110,
             columnNumber: 10
         }, this);
         $[13] = t6;
@@ -1349,7 +1353,7 @@ function Navbar() {
             type: "text"
         }, void 0, false, {
             fileName: "[project]/src/components/Navbar.js",
-            lineNumber: 113,
+            lineNumber: 117,
             columnNumber: 10
         }, this);
         $[14] = busqueda;
@@ -1358,51 +1362,51 @@ function Navbar() {
         t7 = $[15];
     }
     let t8;
-    if ($[16] !== handleBuscar) {
+    if ($[16] === Symbol.for("react.memo_cache_sentinel")) {
         t8 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-            onClick: handleBuscar,
+            type: "submit",
             children: "Buscar"
         }, void 0, false, {
             fileName: "[project]/src/components/Navbar.js",
-            lineNumber: 121,
+            lineNumber: 125,
             columnNumber: 10
         }, this);
-        $[16] = handleBuscar;
-        $[17] = t8;
+        $[16] = t8;
     } else {
-        t8 = $[17];
+        t8 = $[16];
     }
     let t9;
-    if ($[18] !== t7 || $[19] !== t8) {
+    if ($[17] !== handleBuscar || $[18] !== t7) {
         t9 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Navbar$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].superior,
             children: [
                 t6,
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
                     className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Navbar$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].buscador,
+                    onSubmit: handleBuscar,
                     children: [
                         t7,
                         t8
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/Navbar.js",
-                    lineNumber: 129,
+                    lineNumber: 132,
                     columnNumber: 47
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/Navbar.js",
-            lineNumber: 129,
+            lineNumber: 132,
             columnNumber: 10
         }, this);
+        $[17] = handleBuscar;
         $[18] = t7;
-        $[19] = t8;
-        $[20] = t9;
+        $[19] = t9;
     } else {
-        t9 = $[20];
+        t9 = $[19];
     }
     let t10;
-    if ($[21] !== params) {
+    if ($[20] !== params) {
         t10 = links.map({
             "Navbar[links.map()]": (link)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                     href: `${link.ruta}?${params}`,
@@ -1410,34 +1414,34 @@ function Navbar() {
                     children: link.texto
                 }, link.id, false, {
                     fileName: "[project]/src/components/Navbar.js",
-                    lineNumber: 139,
+                    lineNumber: 142,
                     columnNumber: 38
                 }, this)
         }["Navbar[links.map()]"]);
-        $[21] = params;
-        $[22] = t10;
+        $[20] = params;
+        $[21] = t10;
     } else {
-        t10 = $[22];
+        t10 = $[21];
     }
     let t11;
-    if ($[23] !== es_admin || $[24] !== params) {
+    if ($[22] !== es_admin || $[23] !== params) {
         t11 = es_admin === "1" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
             href: `/home/admin?${params}`,
             className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Navbar$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].link,
             children: "Administración"
         }, void 0, false, {
             fileName: "[project]/src/components/Navbar.js",
-            lineNumber: 148,
+            lineNumber: 151,
             columnNumber: 31
         }, this);
-        $[23] = es_admin;
-        $[24] = params;
-        $[25] = t11;
+        $[22] = es_admin;
+        $[23] = params;
+        $[24] = t11;
     } else {
-        t11 = $[25];
+        t11 = $[24];
     }
     let t12;
-    if ($[26] !== t10 || $[27] !== t11) {
+    if ($[25] !== t10 || $[26] !== t11) {
         t12 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
             className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Navbar$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].nav,
             children: [
@@ -1446,17 +1450,17 @@ function Navbar() {
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/Navbar.js",
-            lineNumber: 157,
+            lineNumber: 160,
             columnNumber: 11
         }, this);
-        $[26] = t10;
-        $[27] = t11;
-        $[28] = t12;
+        $[25] = t10;
+        $[26] = t11;
+        $[27] = t12;
     } else {
-        t12 = $[28];
+        t12 = $[27];
     }
     let t13;
-    if ($[29] !== t12 || $[30] !== t9) {
+    if ($[28] !== t12 || $[29] !== t9) {
         t13 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
             className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Navbar$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].header,
             children: [
@@ -1465,14 +1469,14 @@ function Navbar() {
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/Navbar.js",
-            lineNumber: 166,
+            lineNumber: 169,
             columnNumber: 11
         }, this);
-        $[29] = t12;
-        $[30] = t9;
-        $[31] = t13;
+        $[28] = t12;
+        $[29] = t9;
+        $[30] = t13;
     } else {
-        t13 = $[31];
+        t13 = $[30];
     }
     return t13;
 }

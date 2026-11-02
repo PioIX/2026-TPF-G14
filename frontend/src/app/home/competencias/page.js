@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import Input from "@/components/Input"
 import Button from "@/components/Button"
 import CardCompetencia from "@/components/CardCompetencia"
+import { convertirFecha, hoySinHora } from "@/utils/fechas"
 import styles from "./page.module.css"
 
 export default function CompetenciasPage() {
@@ -18,13 +19,12 @@ export default function CompetenciasPage() {
   const params = `id=${id}&nombre=${nombre}&es_admin=${es_admin}`
 
   const [competencias, setCompetencias] = useState([])
-  const [eventos, setEventos] = useState([])
+  const [partidos, setPartidos] = useState([])
   const [deportes, setDeportes] = useState([])
-  const [equipos, setEquipos] = useState([])
   const [busqueda, setBusqueda] = useState("")
   const [filtroDeporte, setFiltroDeporte] = useState("todos")
-  const [filtroTipo, setFiltroTipo] = useState("todos")
-  const [orden, setOrden] = useState("az")
+  const [filtroEstado, setFiltroEstado] = useState("todos")
+  const [orden, setOrden] = useState("fecha")
 
   useEffect(() => {
     fetch("http://localhost:4000/competencias")
@@ -32,20 +32,15 @@ export default function CompetenciasPage() {
       .then((data) => setCompetencias(Array.isArray(data) ? data : []))
       .catch(() => setCompetencias([]))
 
-    fetch("http://localhost:4000/eventos")
+    fetch("http://localhost:4000/partidos")
       .then((response) => response.json())
-      .then((data) => setEventos(Array.isArray(data) ? data : []))
-      .catch(() => setEventos([]))
+      .then((data) => setPartidos(Array.isArray(data) ? data : []))
+      .catch(() => setPartidos([]))
 
     fetch("http://localhost:4000/deportes")
       .then((response) => response.json())
       .then((data) => setDeportes(Array.isArray(data) ? data : []))
       .catch(() => setDeportes([]))
-
-    fetch("http://localhost:4000/equipos")
-      .then((response) => response.json())
-      .then((data) => setEquipos(Array.isArray(data) ? data : []))
-      .catch(() => setEquipos([]))
   }, [])
 
   const onChangeBusqueda = (event) => {
@@ -56,8 +51,8 @@ export default function CompetenciasPage() {
     setFiltroDeporte(event.target.value)
   }
 
-  const onChangeTipo = (event) => {
-    setFiltroTipo(event.target.value)
+  const onChangeEstado = (event) => {
+    setFiltroEstado(event.target.value)
   }
 
   const onChangeOrden = (event) => {
@@ -67,8 +62,8 @@ export default function CompetenciasPage() {
   const limpiarFiltros = () => {
     setBusqueda("")
     setFiltroDeporte("todos")
-    setFiltroTipo("todos")
-    setOrden("az")
+    setFiltroEstado("todos")
+    setOrden("fecha")
   }
 
   const nombreDeporte = (idDeporte) => {
@@ -76,82 +71,41 @@ export default function CompetenciasPage() {
     return deporte ? deporte.nombre : "Sin deporte"
   }
 
-  const nombreEquipo = (idEquipo) => {
-    const equipo = equipos.find((e) => e.id_equipo === idEquipo)
-    return equipo ? equipo.nombre : null
+  const contarPartidos = (idCompetencia) => {
+    return partidos.filter((partido) => partido.id_competencia === idCompetencia).length
   }
 
-  // Convierte la fecha que llega de MySQL a un Date (o null si no hay)
-  const convertirFecha = (valor) => {
-    if (!valor) {
-      return null
+  const hoy = hoySinHora()
+
+  // proxima: todavía no empezó · encurso: entre inicio y fin · finalizada: ya terminó
+  const calcularEstado = (inicio, fin) => {
+    if (!inicio) {
+      return { clave: "sinfecha", texto: "Sin fecha", proximo: false }
     }
-    const texto = String(valor).length === 10 ? `${valor}T00:00:00` : valor
-    const fecha = new Date(texto)
-    return isNaN(fecha.getTime()) ? null : fecha
+    if (inicio > hoy) {
+      return { clave: "proxima", texto: "Próxima", proximo: true }
+    }
+    if (!fin || fin >= hoy) {
+      return { clave: "encurso", texto: "En curso", proximo: true }
+    }
+    return { clave: "finalizada", texto: "Finalizada", proximo: false }
   }
 
-  // Si la competencia no tiene fecha propia, se usa la de su primer evento
-  const fechaCompetencia = (competencia) => {
-    if (competencia.fecha_inicio) {
-      return convertirFecha(competencia.fecha_inicio)
-    }
-    const fechas = eventos
-      .filter((evento) => evento.id_competencia === competencia.id_competencia)
-      .map((evento) => convertirFecha(evento.fecha))
-      .filter((fecha) => fecha !== null)
-      .sort((a, b) => a - b)
-    return fechas.length > 0 ? fechas[0] : null
-  }
-
-  const nombreEvento = (evento, competencia) => {
-    const local = nombreEquipo(evento.id_equipo_local)
-    const visitante = nombreEquipo(evento.id_equipo_visitante)
-    if (local && visitante) {
-      return `${local} vs ${visitante}`
-    }
-    return competencia ? competencia.nombre : `Evento ${evento.id_evento}`
-  }
-
-  const hoy = new Date()
-  hoy.setHours(0, 0, 0, 0)
-
-  const calcularEstado = (tipo, fecha) => {
-    if (!fecha) {
-      return { texto: "Sin fecha", proximo: false }
-    }
-    if (fecha >= hoy) {
-      return { texto: tipo === "Competencia" ? "Próxima competencia" : "Próximo evento", proximo: true }
-    }
-    return { texto: tipo === "Competencia" ? "Finalizada" : "Finalizado", proximo: false }
-  }
-
-  // Une competencias y eventos en un solo listado
-  const itemsCompetencias = competencias.map((competencia) => ({
-    clave: `c-${competencia.id_competencia}`,
-    tipo: "Competencia",
-    nombre: competencia.nombre,
-    idDeporte: competencia.id_deporte,
-    fecha: fechaCompetencia(competencia),
-    ruta: `/home/competencias/${competencia.id_competencia}`,
-  }))
-
-  const itemsEventos = eventos.map((evento) => {
-    const competencia = competencias.find((c) => c.id_competencia === evento.id_competencia)
+  const items = competencias.map((competencia) => {
+    const inicio = convertirFecha(competencia.fecha_inicio)
+    const fin = convertirFecha(competencia.fecha_fin)
     return {
-      clave: `e-${evento.id_evento}`,
-      tipo: "Evento",
-      nombre: nombreEvento(evento, competencia),
-      idDeporte: competencia ? competencia.id_deporte : null,
-      fecha: convertirFecha(evento.fecha),
-      ruta: `/home/eventos/${evento.id_evento}`,
+      id: competencia.id_competencia,
+      nombre: competencia.nombre,
+      idDeporte: competencia.id_deporte,
+      fecha: inicio,
+      estado: calcularEstado(inicio, fin),
+      cantidadPartidos: contarPartidos(competencia.id_competencia),
     }
   })
 
-  const items = [...itemsCompetencias, ...itemsEventos]
-
-  const verDetalle = (ruta) => {
-    router.push(`${ruta}?${params}`)
+  const verDetalle = (idCompetencia) => {
+    router.push(`/home/competencias/${idCompetencia}?${params}`)
   }
 
   const texto = busqueda.toLowerCase()
@@ -164,11 +118,14 @@ export default function CompetenciasPage() {
     const coincideDeporte =
       filtroDeporte === "todos" || String(item.idDeporte) === filtroDeporte
 
-    const coincideTipo =
-      filtroTipo === "todos" || item.tipo.toLowerCase() === filtroTipo
+    const coincideEstado =
+      filtroEstado === "todos" || item.estado.clave === filtroEstado
 
-    return coincideTexto && coincideDeporte && coincideTipo
+    return coincideTexto && coincideDeporte && coincideEstado
   })
+
+  // Orden de los estados cuando se ordena por fecha
+  const prioridadEstado = { encurso: 0, proxima: 1, finalizada: 2, sinfecha: 3 }
 
   const itemsOrdenados = [...itemsFiltrados].sort((a, b) => {
     if (orden === "az") {
@@ -177,26 +134,24 @@ export default function CompetenciasPage() {
     if (orden === "za") {
       return b.nombre.localeCompare(a.nombre)
     }
-    // Por fecha: primero las próximas (la más cercana arriba), después las
-    // finalizadas (la más reciente arriba) y al final las que no tienen fecha
-    if (!a.fecha && !b.fecha) return 0
-    if (!a.fecha) return 1
-    if (!b.fecha) return -1
-    const aProxima = a.fecha >= hoy
-    const bProxima = b.fecha >= hoy
-    if (aProxima && !bProxima) return -1
-    if (!aProxima && bProxima) return 1
-    return aProxima ? a.fecha - b.fecha : b.fecha - a.fecha
+    // Por fecha: primero las que están en curso, después las próximas (la más
+    // cercana arriba), después las finalizadas (la más reciente arriba)
+    const diferencia = prioridadEstado[a.estado.clave] - prioridadEstado[b.estado.clave]
+    if (diferencia !== 0) return diferencia
+    if (!a.fecha || !b.fecha) return 0
+    return a.estado.clave === "finalizada" ? b.fecha - a.fecha : a.fecha - b.fecha
   })
 
-  const hayFiltros = busqueda !== "" || filtroDeporte !== "todos" || filtroTipo !== "todos"
+  const textosEstado = { proxima: "Próximas", encurso: "En curso", finalizada: "Finalizadas" }
+
+  const hayFiltros = busqueda !== "" || filtroDeporte !== "todos" || filtroEstado !== "todos"
 
   return (
     <div className={styles.contenedor}>
       <span className={styles.etiqueta}>EXPLORAR / PIOZONE</span>
-      <h1 className={styles.titulo}>Competencias y eventos</h1>
+      <h1 className={styles.titulo}>Competencias</h1>
       <p className={styles.descripcion}>
-        Consultá competencias y eventos, ordenados y etiquetados por deporte y fecha.
+        Elegí una competencia para ver todos sus partidos y seguir los resultados en vivo.
       </p>
 
       <div className={styles.filtros}>
@@ -205,7 +160,7 @@ export default function CompetenciasPage() {
         <div className={styles.campos}>
           <div className={styles.campo}>
             <label className={styles.labelCampo}>Buscar en esta sección</label>
-            <Input onChange={onChangeBusqueda} placeholder={"Nombre o referencia"} value={busqueda} type={"text"} />
+            <Input onChange={onChangeBusqueda} placeholder={"Nombre o deporte"} value={busqueda} type={"text"} />
           </div>
 
           <div className={styles.campo}>
@@ -221,20 +176,21 @@ export default function CompetenciasPage() {
           </div>
 
           <div className={styles.campo}>
-            <label className={styles.labelCampo}>Tipo</label>
-            <select className={styles.select} value={filtroTipo} onChange={onChangeTipo}>
+            <label className={styles.labelCampo}>Estado</label>
+            <select className={styles.select} value={filtroEstado} onChange={onChangeEstado}>
               <option value="todos">Todos</option>
-              <option value="competencia">Competencias</option>
-              <option value="evento">Eventos</option>
+              <option value="encurso">En curso</option>
+              <option value="proxima">Próximas</option>
+              <option value="finalizada">Finalizadas</option>
             </select>
           </div>
 
           <div className={styles.campo}>
             <label className={styles.labelCampo}>Ordenar por</label>
             <select className={styles.select} value={orden} onChange={onChangeOrden}>
+              <option value="fecha">Fecha</option>
               <option value="az">Nombre A–Z</option>
               <option value="za">Nombre Z–A</option>
-              <option value="fecha">Fecha</option>
             </select>
           </div>
         </div>
@@ -255,39 +211,37 @@ export default function CompetenciasPage() {
             {filtroDeporte !== "todos" && (
               <span className={styles.chip}>{nombreDeporte(Number(filtroDeporte))}</span>
             )}
-            {filtroTipo !== "todos" && (
-              <span className={styles.chip}>{filtroTipo === "competencia" ? "Competencias" : "Eventos"}</span>
+            {filtroEstado !== "todos" && (
+              <span className={styles.chip}>{textosEstado[filtroEstado]}</span>
             )}
           </div>
         )}
       </div>
 
       {itemsOrdenados.length === 0 ? (
-        <div className={styles.vacio}>No se encontraron competencias ni eventos con ese criterio.</div>
+        <div className={styles.vacio}>No se encontraron competencias con ese criterio.</div>
       ) : (
         <div className={styles.grilla}>
-          {itemsOrdenados.map((item) => {
-            const estado = calcularEstado(item.tipo, item.fecha)
-            return (
-              <CardCompetencia
-                key={item.clave}
-                tipo={item.tipo}
-                nombre={item.nombre}
-                deporte={nombreDeporte(item.idDeporte)}
-                fecha={item.fecha}
-                estado={estado.texto}
-                proximo={estado.proximo}
-                onClick={() => verDetalle(item.ruta)}
-              />
-            )
-          })}
+          {itemsOrdenados.map((item) => (
+            <CardCompetencia
+              key={item.id}
+              tipo={"Competencia"}
+              nombre={item.nombre}
+              deporte={nombreDeporte(item.idDeporte)}
+              fecha={item.fecha}
+              estado={item.estado.texto}
+              proximo={item.estado.proximo}
+              cantidadPartidos={item.cantidadPartidos}
+              onClick={() => verDetalle(item.id)}
+            />
+          ))}
         </div>
       )}
 
       <div className={styles.guia}>
         <h3 className={styles.guiaTitulo}>Guía rápida</h3>
         <p className={styles.guiaTexto}>
-          Usá la navegación o las fichas para abrir secciones y detalles. Filtrá por deporte o tipo, ordená por fecha para ver lo próximo primero y seguí las relaciones entre competencias, eventos y equipos.
+          Filtrá por deporte o estado y ordená por fecha para ver primero lo que se está jugando. Al abrir una competencia vas a ver todos sus partidos; entrá a uno para seguir el marcador en vivo.
         </p>
       </div>
     </div>
