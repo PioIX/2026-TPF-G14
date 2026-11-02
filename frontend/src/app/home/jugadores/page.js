@@ -28,15 +28,18 @@ export default function JugadoresPage() {
   useEffect(() => {
     fetch("http://localhost:4000/jugadores")
       .then((response) => response.json())
-      .then((data) => setJugadores(data))
+      .then((data) => setJugadores(Array.isArray(data) ? data : []))
+      .catch(() => setJugadores([]))
 
     fetch("http://localhost:4000/equipos")
       .then((response) => response.json())
-      .then((data) => setEquipos(data))
+      .then((data) => setEquipos(Array.isArray(data) ? data : []))
+      .catch(() => setEquipos([]))
 
     fetch("http://localhost:4000/deportes")
       .then((response) => response.json())
-      .then((data) => setDeportes(data))
+      .then((data) => setDeportes(Array.isArray(data) ? data : []))
+      .catch(() => setDeportes([]))
   }, [])
 
   const onChangeBusqueda = (event) => {
@@ -212,18 +215,19 @@ export default function JugadoresPage() {
       </div>
 
       {jugadoresOrdenados.length === 0 ? (
-        <div className={styles.vacio}>No se encontraron jugadores con ese criterio.</div>
+        <div className={styles.vacio}>No existen jugadores con ese aura</div>
       ) : (
         <div className={styles.grilla}>
           {jugadoresOrdenados.map((jugador) => (
             <CardJugador
-              key={jugador.id_jugador}
+              key={jugador.id_jugadores}
               nombre={jugador.nombre}
               apellido={jugador.apellido}
+              imagen={jugador.imagen_url}
               posicion={jugador.posicion}
               deporte={nombreDeporte(idDeporteJugador(jugador))}
               equipo={nombreEquipo(jugador.id_equipo)}
-              onClick={() => verDetalle(jugador.id_jugador)}
+              onClick={() => verDetalle(jugador.id_jugadores)}
             />
           ))}
         </div>

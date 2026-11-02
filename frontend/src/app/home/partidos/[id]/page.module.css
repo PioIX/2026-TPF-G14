@@ -37,26 +37,77 @@
   color: #1a4fa8;
 }
 
+.conectado {
+  color: #d64545;
+}
+
+.desconectado {
+  color: #4a5568;
+}
+
 .titulo {
   margin-top: 8px;
   font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 64px;
+  font-size: 56px;
   font-weight: 800;
   line-height: 1;
   text-transform: uppercase;
   color: #1a2233;
 }
 
+/* ---------- Marcador ---------- */
+
 .marcador {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  margin-top: 28px;
+  padding: 36px 32px;
+  border-top: 6px solid #1a4fa8;
+  background-color: #1a2233;
+}
+
+.marcadorEquipo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.marcadorNombre {
+  max-width: 100%;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+  color: white;
+}
+
+.marcadorEquipo:hover .marcadorNombre {
+  text-decoration: underline;
+}
+
+.marcadorRol {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #c3d0ea;
+}
+
+.marcadorCentro {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  margin-top: 28px;
-  padding: 40px;
-  border: 1px solid #c3d0ea;
-  border-top: 6px solid #1a4fa8;
-  background-color: #1a2233;
 }
 
 .marcadorEtiqueta {
@@ -68,11 +119,26 @@
 }
 
 .marcadorValor {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.goles {
+  min-width: 90px;
   font-family: "Barlow Condensed", "Barlow", sans-serif;
   font-size: 120px;
   font-weight: 800;
   line-height: 1;
+  text-align: center;
   color: white;
+}
+
+.separador {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 64px;
+  font-weight: 800;
+  color: #1a4fa8;
 }
 
 .marcadorHora {
@@ -80,6 +146,8 @@
   letter-spacing: 1px;
   color: #c3d0ea;
 }
+
+/* ---------- Datos ---------- */
 
 .datos {
   display: grid;
@@ -114,16 +182,25 @@
   color: #1a2233;
 }
 
+/* ---------- Panel del administrador ---------- */
+
 .admin {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-width: 420px;
+  gap: 14px;
   margin-top: 32px;
   padding: 24px 28px;
   border: 1px solid #c3d0ea;
   border-top: 4px solid #1a4fa8;
   background-color: white;
+}
+
+.adminCabecera {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
 
 .adminTitulo {
@@ -135,48 +212,318 @@
   color: #1a2233;
 }
 
-.admin input {
-  padding: 12px 14px;
-  border: 1px solid #c3d0ea;
+.sinPublicar {
+  padding: 3px 10px;
+  background-color: #fff4d6;
+  border: 1px solid #e0b43c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #7a5a00;
+}
+
+.adminTexto {
+  font-size: 14px;
+  color: #4a5568;
+}
+
+.contadores {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 8px 0;
+}
+
+.contador {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.contadorEquipo {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+}
+
+.contadorControles {
+  display: flex;
+  align-items: stretch;
+}
+
+.botonContador {
+  width: 52px;
+  border: 2px solid #1a4fa8;
+  border-radius: 0;
+  background-color: white;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: #1a4fa8;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.botonContador:hover {
+  background-color: #1a4fa8;
+  color: white;
+}
+
+.contadorInput {
+  width: 90px;
+  padding: 8px 4px;
+  border: 2px solid #1a4fa8;
+  border-left: none;
+  border-right: none;
   border-radius: 0;
   background-color: #f8faff;
-  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
-  font-size: 15px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  text-align: center;
   color: #1a2233;
 }
 
-.admin input:focus {
+.contadorInput:focus {
   outline: none;
-  border-color: #1a4fa8;
   background-color: white;
 }
 
-.admin button {
-  padding: 13px;
-  border: none;
+.contadorSeparador {
+  padding-bottom: 10px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  color: #1a2233;
+}
+
+.mensajeOk,
+.mensajeError {
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mensajeOk {
+  border-left: 4px solid #2f8f4e;
+  background-color: #e8f6ed;
+  color: #1d5e33;
+}
+
+.mensajeError {
+  border-left: 4px solid #d64545;
+  background-color: #fdecec;
+  color: #8a2222;
+}
+
+.adminBotones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.botonPublicar,
+.botonDescartar {
+  padding: 13px 26px;
   border-radius: 0;
-  background-color: #1a4fa8;
-  color: white;
   font-family: "Barlow Condensed", "Barlow", sans-serif;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
   cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.botonPublicar {
+  border: 2px solid #1a4fa8;
+  background-color: #1a4fa8;
+  color: white;
+}
+
+.botonPublicar:hover {
+  background-color: #153f87;
+}
+
+.botonDescartar {
+  border: 2px solid #c3d0ea;
+  background-color: white;
+  color: #4a5568;
+}
+
+.botonDescartar:hover {
+  border-color: #4a5568;
+}
+
+/* ---------- Planteles ---------- */
+
+.seccionTitulo {
+  margin-top: 40px;
+  margin-bottom: 16px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.planteles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.plantel {
+  border: 1px solid #c3d0ea;
+  background-color: white;
+}
+
+.plantelCabecera {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #c3d0ea;
+  background-color: #eaf1fd;
+}
+
+.plantelRol {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1a4fa8;
+}
+
+.plantelNombre {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.plantelCantidad {
+  margin-left: auto;
+  padding: 3px 10px;
+  background-color: #1a2233;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+}
+
+.jugadores {
+  display: flex;
+  flex-direction: column;
+}
+
+.jugador {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 10px 20px;
+  border: none;
+  border-bottom: 1px solid #eaf1fd;
+  background-color: white;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  text-align: left;
+  cursor: pointer;
   transition: background-color 0.15s ease;
 }
 
-.admin button:hover {
-  background-color: #153f87;
+.jugador:last-child {
+  border-bottom: none;
+}
+
+.jugador:hover {
+  background-color: #f4f7fd;
+}
+
+.numero {
+  width: 32px;
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  text-align: right;
+  color: #1a4fa8;
+}
+
+.jugadorDatos {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.jugadorNombre {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #1a2233;
+}
+
+.jugadorDetalle {
+  font-size: 13px;
+  color: #4a5568;
+}
+
+.vacio {
+  padding: 24px;
+  text-align: center;
+  color: #4a5568;
+}
+
+@media (max-width: 800px) {
+  .planteles {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 700px) {
   .titulo {
-    font-size: 40px;
+    font-size: 38px;
+  }
+
+  .marcador {
+    gap: 10px;
+    padding: 24px 12px;
+  }
+
+  .marcadorNombre {
+    font-size: 14px;
+    overflow-wrap: break-word;
+  }
+
+  .contadores {
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .contadorSeparador {
+    display: none;
+  }
+
+  .goles {
+    min-width: 44px;
+    font-size: 64px;
+  }
+
+  .separador {
+    font-size: 36px;
   }
 
   .marcadorValor {
-    font-size: 80px;
+    gap: 8px;
   }
 
   .datos {

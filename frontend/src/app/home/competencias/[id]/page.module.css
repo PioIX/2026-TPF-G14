@@ -47,17 +47,13 @@
   color: #1a2233;
 }
 
-.datos {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-top: 28px;
-  padding: 24px 28px;
-  border: 1px solid #c3d0ea;
-  border-left: 6px solid #1a4fa8;
-  background-color: #eaf1fd;
+.descripcion {
+  margin-top: 12px;
+  font-size: 17px;
+  color: #4a5568;
 }
-.marcador {
+
+.datos {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
@@ -90,6 +86,19 @@
   color: #1a2233;
 }
 
+.seccionCabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 40px;
+  margin-bottom: 16px;
+}
+
+.seccionCabecera .seccionTitulo {
+  margin: 0;
+}
+
 .seccionTitulo {
   margin-top: 40px;
   margin-bottom: 16px;
@@ -101,6 +110,27 @@
   color: #1a2233;
 }
 
+.select {
+  padding: 9px 14px;
+  border: 1px solid #c3d0ea;
+  border-radius: 0;
+  background-color: white;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  color: #1a2233;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #1a4fa8;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .grilla {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -108,10 +138,30 @@
 }
 
 .equipo {
-  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
   border: 1px solid #c3d0ea;
   border-left: 4px solid #1a4fa8;
+  border-radius: 0;
   background-color: white;
+  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.equipo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(26, 79, 168, 0.15);
+}
+
+.equipoDatos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
 .equipoNombre {
@@ -122,32 +172,11 @@
   color: #1a2233;
 }
 
-.lista {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.evento {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 18px 22px;
-  border: 1px solid #c3d0ea;
-  border-left: 4px solid #1a4fa8;
-  background-color: white;
-}
-
-.eventoPartido {
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 22px;
-  font-weight: 800;
+.equipoPosicion {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  color: #1a2233;
-}
-
-.eventoInfo {
-  font-size: 14px;
   color: #4a5568;
 }
 
@@ -175,38 +204,5 @@
 
   .grilla {
     grid-template-columns: 1fr;
-  }
-}
-
-.enVivo {
-  margin-top: 10px;
-}
-
-.enVivo button {
-  padding: 10px 22px;
-  border: none;
-  border-radius: 0;
-  background-color: #1a4fa8;
-  color: white;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-}
-
-.enVivo button:hover {
-  background-color: #153f87;
-}
-
-@media (max-width: 900px) {
-  .datos {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .grilla {
-    grid-template-columns: repeat(2, 1fr);
   }
 }

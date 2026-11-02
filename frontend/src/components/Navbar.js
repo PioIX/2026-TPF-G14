@@ -30,8 +30,13 @@ export default function Navbar() {
     setBusqueda(event.target.value)
   }
 
-  const handleBuscar = () => {
-    router.push(`/home/buscar?q=${busqueda}&${params}`)
+  // Con un <form> también se puede buscar apretando Enter
+  const handleBuscar = (event) => {
+    event.preventDefault()
+    if (busqueda.trim() === "") {
+      return
+    }
+    router.push(`/home/buscar?q=${encodeURIComponent(busqueda.trim())}&${params}`)
   }
 
   return (
@@ -41,10 +46,10 @@ export default function Navbar() {
           <span className={styles.nombreLogo}>PioZone</span>
         </div>
 
-        <div className={styles.buscador}>
+        <form className={styles.buscador} onSubmit={handleBuscar}>
           <Input onChange={onChangeBusqueda} placeholder={"Buscar deportes, equipos..."} value={busqueda} type={"text"} />
-          <Button onClick={handleBuscar}>Buscar</Button>
-        </div>
+          <Button type={"submit"}>Buscar</Button>
+        </form>
       </div>
 
       <nav className={styles.nav}>

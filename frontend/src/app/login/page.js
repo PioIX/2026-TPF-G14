@@ -50,11 +50,11 @@ export default function LoginPage() {
         <label className={styles.etiqueta}>Contraseña</label>
         <Input onChange={onChangePassword} placeholder={"contraseña"} value={password} type={"password"} />
 
-        <Button onClick={handleLogin}>Ingresar</Button>
+        <Button onClick={handleLogin}>Activar el prime</Button>
       </div>
 
       <div className={styles.cambiarModo}>
-        <Button onClick={irARegister}>No tenes cuenta? registrate</Button>
+        <Button onClick={irARegister}>Como que todavía no tenes cuenta? Registrate ya maquina</Button>
       </div>
     </div>
   )
