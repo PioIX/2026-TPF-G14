@@ -1,8 +1,0 @@
-{"timestamp":"00:00:02.425","source":"Server","level":"WARN","message":"⚠ Slow filesystem detected. The benchmark took 666ms. If \\\\?\\C:\\Users\\alumnodigitales1\\Documents\\2026-TPF-G14\\frontend\\.next-b\\dev is a network drive, consider moving it to a local folder.\nSee more: https://nextjs.org/docs/app/guides/local-development"}
-{"timestamp":"00:00:05.364","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:31.098","source":"Server","level":"LOG","message":"  Turbopack has seen frequent file updates and is waiting for the filesystem to settle (0.5s elapsed so far; last modified: \"\\\\\\\\?\\\\C:\\\\Users\\\\alumnodigitales1\\\\Documents\\\\2026-TPF-G14\\\\frontend\\\\node_modules\\\\@tybys\\\\wasm-util\\\\lib\\\\cjs\\\\wasi\\\\types.js\")."}
-{"timestamp":"00:01:00.836","source":"Server","level":"LOG","message":"  Turbopack has seen frequent file updates and is waiting for the filesystem to settle (0.5s elapsed so far; last modified: \"\\\\\\\\?\\\\C:\\\\Users\\\\alumnodigitales1\\\\Documents\\\\2026-TPF-G14\\\\frontend\\\\node_modules\\\\next\\\\dist\\\\client\\\\components\\\\router-reducer\\\\reducers\")."}
-{"timestamp":"00:01:03.022","source":"Server","level":"LOG","message":"○ Compiling / ..."}
-{"timestamp":"00:01:06.208","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:09:08.073","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: k9Do-OW__GTXS6FdAAAA"}
-{"timestamp":"00:09:16.535","source":"Browser","level":"LOG","message":"✅ WebSocket conectado: dk13_Rz3gNSPJwajAAAB"}
