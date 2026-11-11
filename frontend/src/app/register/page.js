@@ -63,7 +63,7 @@ export default function RegisterPage() {
   return (
     <div className={styles.contenedor}>
       <div className={styles.formulario}>
-        <h1 className={styles.titulo}>Crear Cuenta</h1>
+        <h1 className={styles.titulo}> Convertirse en un Campeón </h1>
 
         <label className={styles.etiqueta}>Nombre</label>
         <Input onChange={onChangeNombre} placeholder={"Nombre"} value={nombre} />
@@ -77,11 +77,11 @@ export default function RegisterPage() {
         <label className={styles.etiqueta}>Contraseña (solo números)</label>
         <Input onChange={onChangePassword} placeholder={"contraseña"} value={password} type={"password"} />
 
-        <Button onClick={handleRegister}>Registrarse</Button>
+        <Button onClick={handleRegister}>Consagrarse</Button>
       </div>
 
       <div className={styles.cambiarModo}>
-        <Button onClick={irALogin}>Ya tenes cuenta? ingresa</Button>
+        <Button onClick={irALogin}>Ya sos parte? Ingresá</Button>
       </div>
     </div>
   )

@@ -215,7 +215,7 @@ export default function JugadoresPage() {
       </div>
 
       {jugadoresOrdenados.length === 0 ? (
-        <div className={styles.vacio}>No se encontraron jugadores con ese criterio.</div>
+        <div className={styles.vacio}>No existen jugadores con ese aura</div>
       ) : (
         <div className={styles.grilla}>
           {jugadoresOrdenados.map((jugador) => (

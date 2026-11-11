@@ -17,12 +17,12 @@ export default function Home() {
 
   return (
     <div className={styles.contenedor}>
-      <h1 className={styles.titulo}>Bienvenido a PioZone</h1>
-      <p className={styles.descripcion}>Toda la información deportiva en un solo lugar</p>
+      <h1 className={styles.titulo}>Bienvenido a PioZone, CAMPEÓN!</h1>
+      <p className={styles.descripcion}>Acá vas a ver todo lo que necesitas sobre todos los deportes</p>
 
       <div className={styles.botones}>
-        <Button onClick={irALogin}>Iniciar Sesión</Button>
-        <Button onClick={irARegister}>Registrarse</Button>
+        <Button onClick={irALogin}>Ya soy un Campeón</Button>
+        <Button onClick={irARegister}>Quiero ser un Campeón</Button>
       </div>
     </div>
   )
