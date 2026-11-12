@@ -1,77 +1,119 @@
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 22px;
-  border: 1px solid #c3d0ea;
-  border-left: 4px solid #1a4fa8;
-  border-radius: 0;
-  background-color: white;
-  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border: 1px solid var(--borde-suave);
+  border-radius: var(--radio);
+  background-color: var(--blanco);
+  box-shadow: var(--sombra);
+  font-family: var(--fuente);
+  overflow: hidden;
+  transition: transform var(--transicion), box-shadow var(--transicion), border-color var(--transicion);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--azul) 0%, #4f8ae8 100%);
+  opacity: 0;
+  transition: opacity var(--transicion);
 }
 
 .card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(26, 79, 168, 0.15);
+  transform: translateY(-4px);
+  border-color: var(--borde);
+  box-shadow: var(--sombra-alta);
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .cabecera {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cabeceraDatos {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
 }
 
 .etiqueta {
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 2px;
-  color: #1a4fa8;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--azul);
+}
+
+.posicion {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background-color: var(--tinta);
+  font-family: var(--fuente-titulo);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: var(--blanco);
 }
 
 .titulo {
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 30px;
+  margin-top: 4px;
+  font-family: var(--fuente-titulo);
+  font-size: 28px;
   font-weight: 800;
+  line-height: 1.05;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #1a2233;
+  letter-spacing: 0.3px;
+  color: var(--tinta);
 }
 
 .relacion {
   font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #4a5568;
+  line-height: 1.4;
+  color: var(--tinta-suave);
 }
 
-.posicion {
-  align-self: flex-start;
-  padding: 3px 10px;
-  background-color: #1a2233;
-  font-size: 11px;
+.deporte {
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.6px;
   text-transform: uppercase;
-  color: white;
+  color: var(--azul);
+}
+
+.separador {
+  margin: 0 4px;
+  color: var(--borde);
 }
 
 .abrir {
-  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  margin-top: 10px;
   padding: 0;
   border: none;
   background: none;
-  text-align: left;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 16px;
+  font-family: var(--fuente-titulo);
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: #1a4fa8;
+  color: var(--azul);
   cursor: pointer;
+  transition: gap var(--transicion);
 }
 
 .abrir:hover {
-  text-decoration: underline;
+  gap: 12px;
 }

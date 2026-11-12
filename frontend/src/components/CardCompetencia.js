@@ -13,7 +13,7 @@ export default function CardCompetencia({ tipo, nombre, deporte, fecha, estado, 
   return (
     <div className={styles.card}>
       <div className={styles.cabecera}>
-        <span className={styles.etiqueta}>{tipo.toUpperCase()} · PIOZONE</span>
+        <span className={styles.etiqueta}>{tipo}</span>
         <div className={styles.calendario}>
           <span className={styles.dia}>{dia}</span>
           <span className={styles.mes}>{mes}</span>
@@ -21,7 +21,9 @@ export default function CardCompetencia({ tipo, nombre, deporte, fecha, estado, 
       </div>
       <h3 className={styles.titulo}>{nombre}</h3>
       <p className={styles.relacion}>
-        {deporte} · {fechaTexto}
+        <span className={styles.deporte}>{deporte}</span>
+        <span className={styles.separador}>·</span>
+        {fechaTexto}
       </p>
       <div className={styles.pie}>
         <span className={proximo ? styles.estadoProximo : styles.estado}>{estado}</span>
@@ -31,7 +33,9 @@ export default function CardCompetencia({ tipo, nombre, deporte, fecha, estado, 
           </span>
         )}
       </div>
-      <button className={styles.abrir} onClick={onClick}>Ver partidos →</button>
+      <button className={styles.abrir} onClick={onClick}>
+        Ver partidos <span aria-hidden="true">→</span>
+      </button>
     </div>
   )
 }

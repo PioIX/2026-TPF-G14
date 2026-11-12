@@ -1,110 +1,264 @@
 .contenedor {
-  max-width: 1132px;
+  max-width: var(--ancho);
   margin: 0 auto;
-  padding: 48px 24px 0 24px;
-  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  padding: 40px 24px 0 24px;
+  font-family: var(--fuente);
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.heroTexto {
+  position: relative;
+  padding: 40px 40px 36px 40px;
+  border: 1px solid var(--borde-suave);
+  border-radius: var(--radio);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(26, 79, 168, 0.1) 0%, transparent 55%),
+    linear-gradient(180deg, var(--blanco) 0%, var(--azul-suave) 100%);
+  box-shadow: var(--sombra);
+  overflow: hidden;
+}
+
+.heroTexto::after {
+  content: "";
+  position: absolute;
+  right: -60px;
+  bottom: -80px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  border: 28px solid rgba(26, 79, 168, 0.06);
 }
 
 .etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #1a4fa8;
+  color: var(--azul);
+}
+
+.etiqueta::before {
+  content: "";
+  width: 18px;
+  height: 2px;
+  background-color: var(--azul);
 }
 
 .titulo {
-  margin-top: 8px;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 64px;
+  position: relative;
+  z-index: 1;
+  margin-top: 12px;
+  max-width: 560px;
+  font-family: var(--fuente-titulo);
+  font-size: clamp(40px, 6vw, 64px);
   font-weight: 800;
-  line-height: 1;
+  line-height: 0.96;
+  letter-spacing: -0.5px;
   text-transform: uppercase;
-  color: #1a2233;
+  color: var(--tinta);
 }
 
 .descripcion {
-  margin-top: 12px;
-  max-width: 640px;
+  position: relative;
+  z-index: 1;
+  margin-top: 14px;
+  max-width: 480px;
   font-size: 17px;
-  line-height: 1.5;
-  color: #4a5568;
+  line-height: 1.55;
+  color: var(--tinta-suave);
 }
 
-.explorar {
-  margin-top: 32px;
-  padding: 32px 36px;
-  border: 1px solid #c3d0ea;
-  border-left: 6px solid #1a4fa8;
-  border-radius: 0;
-  background-color: #eaf1fd;
+.acciones {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
 }
 
-.subtitulo {
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 30px;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: #1a2233;
-}
-
-.texto {
-  margin-top: 6px;
+.accionPrimaria,
+.accionSecundaria {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radio-chico);
+  font-family: var(--fuente-titulo);
   font-size: 16px;
-  color: #4a5568;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  transition: background-color var(--transicion), color var(--transicion), border-color var(--transicion),
+    box-shadow var(--transicion);
+}
+
+.accionPrimaria {
+  border: 1px solid var(--azul);
+  background-color: var(--azul);
+  color: var(--blanco);
+  box-shadow: 0 8px 20px rgba(26, 79, 168, 0.26);
+}
+
+.accionPrimaria:hover {
+  background-color: var(--azul-oscuro);
+}
+
+.accionSecundaria {
+  border: 1px solid var(--borde);
+  background-color: var(--blanco);
+  color: var(--azul);
+}
+
+.accionSecundaria:hover {
+  border-color: var(--azul);
+  background-color: var(--azul-claro);
+}
+
+/* ---------- Panel de métricas ---------- */
+
+.heroPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  border-radius: var(--radio);
+  background: linear-gradient(160deg, #22304a 0%, var(--tinta) 100%);
+  box-shadow: var(--sombra-alta);
+}
+
+.heroPanelEtiqueta {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8fa3c4;
+}
+
+.metricas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  flex: 1;
+}
+
+.metrica {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radio-chico);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.metricaNumero {
+  font-family: var(--fuente-titulo);
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--blanco);
+}
+
+.metricaTexto {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #a9b6cc;
+}
+
+/* ---------- Accesos ---------- */
+
+.accesosCabecera {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 44px;
+  margin-bottom: 16px;
 }
 
 .accesosTitulo {
-  margin-top: 40px;
-  margin-bottom: 16px;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-family: var(--fuente-titulo);
   font-size: 26px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: #1a2233;
+  color: var(--tinta);
+}
+
+.accesosTexto {
+  font-size: 14px;
+  color: var(--tinta-suave);
 }
 
 .accesos {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
 
+/* ---------- Guía ---------- */
+
 .guia {
-  margin-top: 40px;
-  padding-top: 24px;
-  border-top: 1px solid #c3d0ea;
+  margin-top: 44px;
+  padding: 22px 26px;
+  border: 1px solid var(--borde-suave);
+  border-left: 4px solid var(--azul);
+  border-radius: var(--radio);
+  background-color: var(--azul-suave);
 }
 
 .guiaTitulo {
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-family: var(--fuente-titulo);
   font-size: 20px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
-  color: #1a2233;
+  color: var(--tinta);
 }
 
 .guiaTexto {
-  margin-top: 8px;
+  margin-top: 6px;
   font-size: 14px;
-  line-height: 1.5;
-  color: #4a5568;
+  line-height: 1.55;
+  color: var(--tinta-suave);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
   .accesos {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 600px) {
-  .accesos {
-    grid-template-columns: 1fr;
+  .contenedor {
+    padding: 28px 18px 0 18px;
   }
 
-  .titulo {
-    font-size: 42px;
+  .heroTexto {
+    padding: 28px 22px;
+  }
+
+  .accesos {
+    grid-template-columns: 1fr;
   }
 }

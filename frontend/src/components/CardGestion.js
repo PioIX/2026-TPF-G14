@@ -2,12 +2,27 @@
 
 import styles from "./CardGestion.module.css"
 
-export default function CardGestion({ titulo, cantidad, activa, onClick }) {
+// icono: emoji o texto corto que identifica la categoría
+export default function CardGestion({ titulo, cantidad, activa, icono, onClick }) {
   return (
-    <button className={activa ? styles.cardActiva : styles.card} onClick={onClick}>
-      <span className={styles.etiqueta}>GESTIONAR</span>
-      <span className={styles.titulo}>{titulo}</span>
-      <span className={styles.cantidad}>{cantidad} {cantidad === 1 ? "registro" : "registros"}</span>
+    <button
+      type="button"
+      className={activa ? styles.cardActiva : styles.card}
+      onClick={onClick}
+      aria-pressed={activa}
+    >
+      <span className={styles.icono} aria-hidden="true">
+        {icono}
+      </span>
+      <span className={styles.datos}>
+        <span className={styles.titulo}>{titulo}</span>
+        <span className={styles.cantidad}>
+          {cantidad} {cantidad === 1 ? "registro" : "registros"}
+        </span>
+      </span>
+      <span className={styles.flecha} aria-hidden="true">
+        →
+      </span>
     </button>
   )
 }

@@ -109,6 +109,16 @@ const categorias = {
   },
 }
 
+// Icono corto para cada tarjeta de categoría del panel
+const iconos = {
+  deportes: "🏅",
+  equipos: "🛡️",
+  jugadores: "👤",
+  competencias: "🏆",
+  partidos: "⚽",
+  inscripciones: "📋",
+}
+
 const formularioVacio = (clave) => {
   const vacio = {}
   categorias[clave].campos.forEach((campo) => {
@@ -573,21 +583,32 @@ export default function AdminPage() {
         <span className={styles.etiqueta}>ADMINISTRACIÓN / PIOZONE</span>
         <h1 className={styles.titulo}>Acceso restringido</h1>
         <div className={styles.restringido}>
-          Esta sección es solo para administradores. Volvé al inicio para seguir explorando.
+          <span className={styles.restringidoIcono} aria-hidden="true">
+            🔒
+          </span>
+          <p>Esta sección es solo para administradores. Volvé al inicio para seguir explorando.</p>
         </div>
       </div>
     )
   }
 
+  const totalRegistros = Object.keys(categorias).reduce((suma, clave) => suma + listas[clave].length, 0)
+
   return (
     <div className={styles.contenedor}>
-      <span className={styles.etiqueta}>ADMINISTRACIÓN / PIOZONE</span>
-      <h1 className={styles.titulo}>Panel de administración</h1>
-      <p className={styles.descripcion}>
-        Agregá, editá y eliminá registros. Los cambios se guardan en la base de datos.
-      </p>
-
-      <h2 className={styles.seccionTitulo}>Gestionar categorías</h2>
+      <div className={styles.encabezado}>
+        <div>
+          <span className={styles.etiqueta}>ADMINISTRACIÓN / PIOZONE</span>
+          <h1 className={styles.titulo}>Panel de administración</h1>
+          <p className={styles.descripcion}>
+            Agregá, editá y eliminá registros. Los cambios se guardan en la base de datos.
+          </p>
+        </div>
+        <div className={styles.resumen}>
+          <span className={styles.resumenNumero}>{totalRegistros}</span>
+          <span className={styles.resumenTexto}>registros totales</span>
+        </div>
+      </div>
 
       <div className={styles.categorias}>
         {Object.keys(categorias).map((clave) => (
@@ -595,6 +616,7 @@ export default function AdminPage() {
             key={clave}
             titulo={categorias[clave].titulo}
             cantidad={listas[clave].length}
+            icono={iconos[clave]}
             activa={categoria === clave}
             onClick={() => cambiarCategoria(clave)}
           />
@@ -603,32 +625,39 @@ export default function AdminPage() {
 
       <div className={styles.panel}>
         <form className={styles.formulario} onSubmit={guardar}>
-          <span className={editandoId ? styles.modoEditar : styles.modoAgregar}>
-            {editandoId ? "MODO EDICIÓN" : "NUEVO REGISTRO"}
-          </span>
-          <h2 className={styles.formTitulo}>
-            {editandoId ? `Editar ${config.singular}` : `Agregar ${config.singular}`}
-          </h2>
-          <p className={styles.formTexto}>
-            {editandoId
-              ? "Modificá los campos y guardá los cambios."
-              : `Completá los datos para crear ${config.articulo === "la" ? "una" : "un"} ${config.nuevo} ${config.singular}.`}
-          </p>
+          <div className={styles.formCabecera}>
+            <span className={editandoId ? styles.modoEditar : styles.modoAgregar}>
+              {editandoId ? "MODO EDICIÓN" : "NUEVO REGISTRO"}
+            </span>
+            <h2 className={styles.formTitulo}>
+              {editandoId ? `Editar ${config.singular}` : `Agregar ${config.singular}`}
+            </h2>
+            <p className={styles.formTexto}>
+              {editandoId
+                ? "Modificá los campos y guardá los cambios."
+                : `Completá los datos para crear ${config.articulo === "la" ? "una" : "un"} ${config.nuevo} ${config.singular}.`}
+            </p>
+          </div>
 
-          {config.campos.map((campo) => (
-            <div key={campo.nombre} className={styles.campo}>
-              <label className={styles.labelCampo}>
-                {campo.label}
-                {campo.requerido && <span className={styles.requerido}> *</span>}
-              </label>
-              {renderCampo(campo)}
-              {campo.max && (
-                <span className={styles.ayuda}>
-                  {formulario[campo.nombre].length} / {campo.max}
-                </span>
-              )}
-            </div>
-          ))}
+          <div className={styles.campos}>
+            {config.campos.map((campo) => (
+              <div
+                key={campo.nombre}
+                className={campo.tipo === "imagen" ? `${styles.campo} ${styles.campoAncho}` : styles.campo}
+              >
+                <label className={styles.labelCampo}>
+                  {campo.label}
+                  {campo.requerido && <span className={styles.requerido}> *</span>}
+                </label>
+                {renderCampo(campo)}
+                {campo.max && (
+                  <span className={styles.ayuda}>
+                    {formulario[campo.nombre].length} / {campo.max}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
 
           {mensaje && (
             <div className={mensaje.tipo === "ok" ? styles.mensajeOk : styles.mensajeError}>
@@ -637,20 +666,23 @@ export default function AdminPage() {
           )}
 
           <div className={styles.botones}>
-            <div className={styles.botonPrincipal}>
-              <Button type={"submit"}>{editandoId ? "Guardar cambios" : "Agregar registro"}</Button>
-            </div>
+            <Button type={"submit"} variante="primario">
+              {editandoId ? "Guardar cambios" : "Agregar registro"}
+            </Button>
             {editandoId && (
-              <div className={styles.botonSecundario}>
-                <Button type={"button"} onClick={cancelarEdicion}>Cancelar</Button>
-              </div>
+              <Button type={"button"} variante="secundario" onClick={cancelarEdicion}>
+                Cancelar
+              </Button>
             )}
           </div>
         </form>
 
         <div className={styles.registros}>
           <div className={styles.registrosCabecera}>
-            <h2 className={styles.formTitulo}>Registros · {config.titulo}</h2>
+            <div>
+              <span className={styles.registrosEtiqueta}>Registros</span>
+              <h2 className={styles.formTitulo}>{config.titulo}</h2>
+            </div>
             <span className={styles.contador}>{registros.length}</span>
           </div>
 

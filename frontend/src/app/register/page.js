@@ -63,25 +63,38 @@ export default function RegisterPage() {
   return (
     <div className={styles.contenedor}>
       <div className={styles.formulario}>
-        <h1 className={styles.titulo}> Convertirse en un Campeón </h1>
+        <span className={styles.marca}>PioZone</span>
+        <h1 className={styles.titulo}>Convertirse en un Campeón</h1>
+        <p className={styles.subtitulo}>Creá tu cuenta y empezá a explorar.</p>
 
-        <label className={styles.etiqueta}>Nombre</label>
-        <Input onChange={onChangeNombre} placeholder={"Nombre"} value={nombre} />
+        <div className={styles.fila}>
+          <div className={styles.campo}>
+            <label className={styles.etiqueta}>Nombre</label>
+            <Input onChange={onChangeNombre} placeholder={"Nombre"} value={nombre} />
+          </div>
 
-        <label className={styles.etiqueta}>Apellido</label>
-        <Input onChange={onChangeApellido} placeholder={"Apellido"} value={apellido} />
+          <div className={styles.campo}>
+            <label className={styles.etiqueta}>Apellido</label>
+            <Input onChange={onChangeApellido} placeholder={"Apellido"} value={apellido} />
+          </div>
+        </div>
 
         <label className={styles.etiqueta}>Email</label>
-        <Input onChange={onChangeMail} placeholder={"email"} value={mail} type={"email"} />
+        <Input onChange={onChangeMail} placeholder={"tu@email.com"} value={mail} type={"email"} />
 
         <label className={styles.etiqueta}>Contraseña (solo números)</label>
         <Input onChange={onChangePassword} placeholder={"contraseña"} value={password} type={"password"} />
 
-        <Button onClick={handleRegister}>Consagrarse</Button>
+        <Button onClick={handleRegister} className={styles.botonEnviar}>
+          Consagrarse
+        </Button>
       </div>
 
       <div className={styles.cambiarModo}>
-        <Button onClick={irALogin}>Ya sos parte? Ingresá</Button>
+        <span>¿Ya sos parte?</span>
+        <Button onClick={irALogin} variante="fantasma">
+          Ingresá
+        </Button>
       </div>
     </div>
   )

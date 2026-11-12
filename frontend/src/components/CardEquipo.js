@@ -7,21 +7,25 @@ export default function CardEquipo({ nombre, logo, deporte, competencia, cantida
   return (
     <div className={styles.card}>
       <div className={styles.cabecera}>
-        <span className={styles.etiqueta}>EQUIPOS · PIOZONE</span>
+        <span className={styles.etiqueta}>Equipo</span>
+        {cantidadJugadores !== undefined && (
+          <span className={styles.jugadores}>
+            {cantidadJugadores} {cantidadJugadores === 1 ? "jugador" : "jugadores"}
+          </span>
+        )}
       </div>
       <div className={styles.logo}>
         <Escudo imagen={logo} nombre={nombre} tamaño={"grande"} />
       </div>
       <h3 className={styles.titulo}>{nombre}</h3>
       <p className={styles.relacion}>
-        {deporte} · {competencia}
+        <span className={styles.deporte}>{deporte}</span>
+        <span className={styles.separador}>·</span>
+        {competencia}
       </p>
-      {cantidadJugadores !== undefined && (
-        <span className={styles.jugadores}>
-          {cantidadJugadores} {cantidadJugadores === 1 ? "jugador" : "jugadores"}
-        </span>
-      )}
-      <button className={styles.abrir} onClick={onClick}>Ver detalle →</button>
+      <button className={styles.abrir} onClick={onClick}>
+        Ver detalle <span aria-hidden="true">→</span>
+      </button>
     </div>
   )
 }

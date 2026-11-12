@@ -4,7 +4,12 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.contenido}>
-        <p className={styles.texto}>PioZone · Toda la información deportiva en un solo lugar.</p>
+        <div className={styles.marca}>
+          <span className={styles.logo}>PZ</span>
+          <span className={styles.nombre}>PioZone</span>
+        </div>
+        <p className={styles.texto}>Toda la información deportiva en un solo lugar.</p>
+        <span className={styles.anio}>© {new Date().getFullYear()}</span>
       </div>
     </footer>
   )

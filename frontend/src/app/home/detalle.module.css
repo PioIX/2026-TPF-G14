@@ -1,10 +1,10 @@
-/* Estilos compartidos por las páginas de detalle (equipo, jugador y deporte) */
+/* Estilos compartidos por las páginas de detalle (equipo, jugador, deporte y búsqueda) */
 
 .contenedor {
-  max-width: 1132px;
+  max-width: var(--ancho);
   margin: 0 auto;
   padding: 40px 24px 0 24px;
-  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  font-family: var(--fuente);
 }
 
 .volver {
@@ -12,53 +12,72 @@
 }
 
 .volver button {
-  padding: 10px 22px;
-  border: 2px solid #1a4fa8;
-  border-radius: 0;
-  background-color: white;
-  color: #1a4fa8;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  padding: 9px 18px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-chico);
+  background-color: var(--blanco);
+  color: var(--azul);
+  font-family: var(--fuente-titulo);
   font-size: 15px;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color var(--transicion), color var(--transicion), border-color var(--transicion);
 }
 
 .volver button:hover {
-  background-color: #1a4fa8;
-  color: white;
+  border-color: var(--azul);
+  background-color: var(--azul-claro);
 }
 
 .encabezado {
   display: flex;
   align-items: center;
   gap: 28px;
+  padding: 28px;
+  border: 1px solid var(--borde-suave);
+  border-radius: var(--radio);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(26, 79, 168, 0.08) 0%, transparent 55%),
+    linear-gradient(180deg, var(--blanco) 0%, var(--azul-suave) 100%);
+  box-shadow: var(--sombra);
 }
 
 .etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #1a4fa8;
+  color: var(--azul);
+}
+
+.etiqueta::before {
+  content: "";
+  width: 18px;
+  height: 2px;
+  background-color: var(--azul);
 }
 
 .titulo {
-  margin-top: 8px;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 64px;
+  margin-top: 10px;
+  font-family: var(--fuente-titulo);
+  font-size: clamp(38px, 6vw, 60px);
   font-weight: 800;
-  line-height: 1;
+  line-height: 0.98;
+  letter-spacing: -0.5px;
   text-transform: uppercase;
-  color: #1a2233;
+  color: var(--tinta);
 }
 
 .descripcion {
-  margin-top: 12px;
+  margin-top: 10px;
   font-size: 17px;
-  color: #4a5568;
+  line-height: 1.5;
+  color: var(--tinta-suave);
 }
 
 .enlace {
@@ -66,20 +85,20 @@
   border: none;
   background: none;
   font: inherit;
-  color: #1a4fa8;
+  font-weight: 700;
+  color: var(--azul);
   text-decoration: underline;
+  text-underline-offset: 3px;
   cursor: pointer;
 }
 
+/* ---------- Datos ---------- */
+
 .datos {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-top: 28px;
-  padding: 24px 28px;
-  border: 1px solid #c3d0ea;
-  border-left: 6px solid #1a4fa8;
-  background-color: #eaf1fd;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 20px;
 }
 
 .dato {
@@ -87,40 +106,48 @@
   flex-direction: column;
   gap: 4px;
   min-width: 0;
+  padding: 18px 20px;
+  border: 1px solid var(--borde-suave);
+  border-radius: var(--radio);
+  background-color: var(--blanco);
+  box-shadow: var(--sombra);
 }
 
 .datoEtiqueta {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.4px;
   text-transform: uppercase;
-  color: #1a4fa8;
+  color: var(--tinta-suave);
 }
 
 .datoValor {
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-family: var(--fuente-titulo);
   font-size: 26px;
   font-weight: 800;
+  line-height: 1.1;
   text-transform: uppercase;
-  color: #1a2233;
+  color: var(--tinta);
   overflow-wrap: anywhere;
 }
+
+/* ---------- Secciones ---------- */
 
 .seccionTitulo {
   margin-top: 40px;
   margin-bottom: 16px;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-family: var(--fuente-titulo);
   font-size: 26px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: #1a2233;
+  color: var(--tinta);
 }
 
 .grilla {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
 }
 
 .lista {
@@ -136,49 +163,56 @@
 }
 
 .chip {
-  padding: 8px 14px;
-  border: 1px solid #1a4fa8;
-  border-radius: 0;
-  background-color: white;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 16px;
+  padding: 8px 16px;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background-color: var(--blanco);
+  font-family: var(--fuente-titulo);
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
-  color: #1a4fa8;
+  color: var(--azul);
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color var(--transicion), color var(--transicion), border-color var(--transicion);
 }
 
 .chip:hover {
-  background-color: #1a4fa8;
-  color: white;
+  border-color: var(--azul);
+  background-color: var(--azul);
+  color: var(--blanco);
 }
 
 .vacio {
-  padding: 28px;
-  border: 1px dashed #c3d0ea;
+  padding: 36px 24px;
+  border: 1px dashed var(--borde);
+  border-radius: var(--radio);
+  background-color: var(--azul-suave);
   text-align: center;
-  color: #4a5568;
+  font-size: 15px;
+  color: var(--tinta-suave);
 }
 
 @media (max-width: 900px) {
   .datos {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .grilla {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 600px) {
-  .titulo {
-    font-size: 40px;
+  .contenedor {
+    padding: 28px 18px 0 18px;
   }
 
   .encabezado {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 16px;
+    padding: 22px;
   }
 
   .grilla {

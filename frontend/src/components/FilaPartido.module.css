@@ -5,38 +5,41 @@
   gap: 16px;
   width: 100%;
   padding: 14px 20px;
-  border: 1px solid #c3d0ea;
-  border-left: 4px solid #1a4fa8;
-  border-radius: 0;
-  background-color: white;
-  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  border: 1px solid var(--borde-suave);
+  border-radius: var(--radio);
+  background-color: var(--blanco);
+  box-shadow: var(--sombra);
+  font-family: var(--fuente);
   text-align: left;
-  color: #1a2233;
+  color: var(--tinta);
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform var(--transicion), box-shadow var(--transicion), border-color var(--transicion);
 }
 
 .fila:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(26, 79, 168, 0.15);
+  border-color: var(--borde);
+  box-shadow: var(--sombra-alta);
 }
 
 .calendario {
   display: flex;
   flex-direction: column;
   width: 56px;
-  border: 1px solid #1a2233;
+  border: 1px solid var(--borde-suave);
+  border-radius: var(--radio-chico);
+  overflow: hidden;
   text-align: center;
 }
 
 .dia {
   padding: 4px 0 2px 0;
-  background-color: #1a2233;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  background-color: var(--tinta);
+  font-family: var(--fuente-titulo);
   font-size: 20px;
   font-weight: 800;
   line-height: 1;
-  color: white;
+  color: var(--blanco);
 }
 
 .mes,
@@ -44,15 +47,15 @@
   padding: 2px 0;
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: #1a4fa8;
+  color: var(--azul);
 }
 
 .hora {
-  border-top: 1px solid #c3d0ea;
+  border-top: 1px solid var(--borde-suave);
   letter-spacing: 0.5px;
-  color: #4a5568;
+  color: var(--tinta-suave);
 }
 
 .equipoLocal,
@@ -70,7 +73,7 @@
 
 .nombre {
   overflow: hidden;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-family: var(--fuente-titulo);
   font-size: 22px;
   font-weight: 800;
   text-transform: uppercase;
@@ -82,22 +85,23 @@
   display: flex;
   justify-content: center;
   padding: 6px 0;
-  background-color: #1a2233;
+  border-radius: var(--radio-chico);
+  background-color: var(--tinta);
 }
 
 .goles,
 .vs {
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-family: var(--fuente-titulo);
   font-size: 28px;
   font-weight: 800;
   line-height: 1;
-  color: white;
+  color: var(--blanco);
 }
 
 .vs {
   font-size: 18px;
   letter-spacing: 3px;
-  color: #c3d0ea;
+  color: var(--borde);
 }
 
 .derecha {
@@ -114,34 +118,36 @@
   font-size: 12px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: #4a5568;
+  color: var(--tinta-suave);
 }
 
 .estado,
 .estadoProximo,
 .estadoHoy {
   padding: 3px 10px;
+  border-radius: 999px;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   text-transform: uppercase;
 }
 
 .estado {
-  border: 1px solid #c3d0ea;
-  color: #4a5568;
+  border: 1px solid var(--borde-suave);
+  background-color: var(--azul-suave);
+  color: var(--tinta-suave);
 }
 
 .estadoProximo {
-  border: 1px solid #1a4fa8;
-  background-color: #1a4fa8;
-  color: white;
+  border: 1px solid var(--azul);
+  background-color: var(--azul);
+  color: var(--blanco);
 }
 
 .estadoHoy {
   border: 1px solid #d64545;
   background-color: #d64545;
-  color: white;
+  color: var(--blanco);
 }
 
 @media (max-width: 800px) {
@@ -168,6 +174,7 @@
 }
 
 @media (max-width: 520px) {
+
   .equipoLocal,
   .equipoVisitante {
     flex-direction: column;

@@ -16,8 +16,12 @@ export default function FilaRegistro({ titulo, detalle, imagen, editando, onEdit
   return (
     <div className={editando ? styles.filaEditando : styles.fila}>
       <div className={styles.izquierda}>
-        {imagen && imagen !== imagenRota && (
+        {imagen && imagen !== imagenRota ? (
           <img src={imagen} alt="" className={styles.miniatura} onError={() => setImagenRota(imagen)} />
+        ) : (
+          <span className={styles.miniaturaVacia} aria-hidden="true">
+            {String(titulo || "?").charAt(0).toUpperCase()}
+          </span>
         )}
         <div className={styles.datos}>
           <span className={styles.titulo}>{titulo}</span>
@@ -28,13 +32,21 @@ export default function FilaRegistro({ titulo, detalle, imagen, editando, onEdit
       {confirmando ? (
         <div className={styles.acciones}>
           <span className={styles.pregunta}>¿Eliminar?</span>
-          <button className={styles.peligro} onClick={confirmarEliminar}>Sí, eliminar</button>
-          <button className={styles.secundario} onClick={() => setConfirmando(false)}>Cancelar</button>
+          <button type="button" className={styles.peligro} onClick={confirmarEliminar}>
+            Sí, eliminar
+          </button>
+          <button type="button" className={styles.secundario} onClick={() => setConfirmando(false)}>
+            Cancelar
+          </button>
         </div>
       ) : (
         <div className={styles.acciones}>
-          <button className={styles.primario} onClick={onEditar}>Editar</button>
-          <button className={styles.secundario} onClick={() => setConfirmando(true)}>Eliminar</button>
+          <button type="button" className={styles.primario} onClick={onEditar}>
+            Editar
+          </button>
+          <button type="button" className={styles.secundario} onClick={() => setConfirmando(true)}>
+            Eliminar
+          </button>
         </div>
       )}
     </div>

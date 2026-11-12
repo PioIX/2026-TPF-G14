@@ -5,21 +5,61 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
-  padding: 14px 0;
-  border-bottom: 1px solid #c3d0ea;
-  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  padding: 12px 14px;
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--borde-suave);
+  border-radius: var(--radio-chico);
+  font-family: var(--fuente);
+  transition: background-color var(--transicion), border-color var(--transicion);
+}
+
+.fila:hover {
+  background-color: var(--azul-suave);
 }
 
 .fila:last-child,
 .filaEditando:last-child {
-  border-bottom: none;
+  border-bottom-color: transparent;
 }
 
 .filaEditando {
-  margin: 0 -12px;
-  padding: 14px 12px;
-  border-left: 4px solid #1a4fa8;
-  background-color: #eaf1fd;
+  border-color: var(--azul);
+  background-color: var(--azul-claro);
+  box-shadow: 0 0 0 1px var(--azul);
+}
+
+.izquierda {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.miniatura,
+.miniaturaVacia {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 9px;
+  border: 1px solid var(--borde-suave);
+  background-color: var(--blanco);
+}
+
+.miniatura {
+  padding: 4px;
+  object-fit: contain;
+}
+
+.miniaturaVacia {
+  background-color: var(--azul-claro);
+  font-family: var(--fuente-titulo);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--azul);
 }
 
 .datos {
@@ -30,18 +70,21 @@
 }
 
 .titulo {
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 20px;
+  overflow: hidden;
+  font-family: var(--fuente-titulo);
+  font-size: 19px;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   text-transform: uppercase;
-  color: #1a2233;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--tinta);
 }
 
 .detalle {
   overflow: hidden;
   font-size: 13px;
-  color: #4a5568;
+  color: var(--tinta-suave);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -55,70 +98,61 @@
 .pregunta {
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  color: #b42318;
+  color: var(--rojo);
 }
 
 .primario,
 .secundario,
 .peligro {
-  padding: 8px 16px;
-  border-radius: 0;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  padding: 7px 14px;
+  border-radius: var(--radio-chico);
+  font-family: var(--fuente-titulo);
   font-size: 14px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color var(--transicion), color var(--transicion), border-color var(--transicion);
 }
 
 .primario {
-  border: 2px solid #1a4fa8;
-  background-color: white;
-  color: #1a4fa8;
+  border: 1px solid var(--borde);
+  background-color: var(--blanco);
+  color: var(--azul);
 }
 
 .primario:hover {
-  background-color: #1a4fa8;
-  color: white;
+  border-color: var(--azul);
+  background-color: var(--azul);
+  color: var(--blanco);
 }
 
 .secundario {
-  border: 2px solid #c3d0ea;
-  background-color: white;
-  color: #1a2233;
+  border: 1px solid var(--borde-suave);
+  background-color: var(--blanco);
+  color: var(--tinta-suave);
 }
 
 .secundario:hover {
-  border-color: #1a2233;
+  border-color: var(--tinta-suave);
+  color: var(--tinta);
 }
 
 .peligro {
-  border: 2px solid #b42318;
-  background-color: #b42318;
-  color: white;
+  border: 1px solid var(--rojo);
+  background-color: var(--rojo);
+  color: var(--blanco);
 }
 
 .peligro:hover {
   background-color: #8f1c13;
 }
 
-.izquierda {
-  display: flex;
-  flex: 1 1 0;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-
-.miniatura {
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  padding: 3px;
-  object-fit: contain;
-  border: 1px solid #c3d0ea;
-  background-color: white;
+@media (max-width: 560px) {
+  .acciones {
+    width: 100%;
+    justify-content: flex-end;
+  }
 }

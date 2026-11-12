@@ -42,19 +42,26 @@ export default function LoginPage() {
   return (
     <div className={styles.contenedor}>
       <div className={styles.formulario}>
-        <h1 className={styles.titulo}>Iniciar Sesión</h1>
+        <span className={styles.marca}>PioZone</span>
+        <h1 className={styles.titulo}>Iniciar sesión</h1>
+        <p className={styles.subtitulo}>Entrá para seguir todo el deporte en vivo.</p>
 
         <label className={styles.etiqueta}>Email</label>
-        <Input onChange={onChangeMail} placeholder={"email"} value={mail} type={"email"} />
+        <Input onChange={onChangeMail} placeholder={"tu@email.com"} value={mail} type={"email"} />
 
         <label className={styles.etiqueta}>Contraseña</label>
         <Input onChange={onChangePassword} placeholder={"contraseña"} value={password} type={"password"} />
 
-        <Button onClick={handleLogin}>Activar el prime</Button>
+        <Button onClick={handleLogin} className={styles.botonEnviar}>
+          Activar el prime
+        </Button>
       </div>
 
       <div className={styles.cambiarModo}>
-        <Button onClick={irARegister}>Como que todavía no tenes cuenta? Registrate ya maquina</Button>
+        <span>¿Todavía no tenés cuenta?</span>
+        <Button onClick={irARegister} variante="fantasma">
+          Registrate ya maquina
+        </Button>
       </div>
     </div>
   )

@@ -6,8 +6,10 @@
   gap: 18px;
   min-height: 100vh;
   padding: 24px;
-  background: linear-gradient(180deg, #ffffff 0%, #eaf1fd 100%);
-  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(26, 79, 168, 0.12) 0%, transparent 45%),
+    linear-gradient(180deg, var(--blanco) 0%, var(--azul-claro) 100%);
+  font-family: var(--fuente);
 }
 
 .formulario {
@@ -17,86 +19,97 @@
   width: 100%;
   max-width: 420px;
   padding: 36px;
-  border-radius: 0;
-  background-color: white;
-  border: 1px solid #c3d0ea;
-  border-top: 4px solid #1a4fa8;
-  box-shadow: 0 8px 24px rgba(26, 79, 168, 0.1);
+  border: 1px solid var(--borde-suave);
+  border-radius: 16px;
+  background-color: var(--blanco);
+  box-shadow: var(--sombra-alta);
+}
+
+.marca {
+  align-self: center;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background-color: var(--azul-claro);
+  font-family: var(--fuente-titulo);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--azul);
 }
 
 .titulo {
+  margin-top: 10px;
   text-align: center;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 36px;
+  font-family: var(--fuente-titulo);
+  font-size: 38px;
   font-weight: 800;
+  line-height: 1;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #1a2233;
-  margin-bottom: 12px;
+  letter-spacing: 0.3px;
+  color: var(--tinta);
+}
+
+.subtitulo {
+  margin-bottom: 14px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--tinta-suave);
 }
 
 .etiqueta {
   margin-top: 8px;
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: #1a4fa8;
+  color: var(--tinta-suave);
 }
 
 .formulario input {
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid #c3d0ea;
-  border-radius: 0;
-  background-color: #f8faff;
-  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-chico);
+  background-color: var(--azul-suave);
+  font-family: var(--fuente);
   font-size: 15px;
-  color: #1a2233;
-  transition: border-color 0.15s ease;
+  color: var(--tinta);
+  transition: border-color var(--transicion), box-shadow var(--transicion), background-color var(--transicion);
 }
 
 .formulario input:focus {
   outline: none;
-  border-color: #1a4fa8;
-  background-color: white;
+  border-color: var(--azul);
+  background-color: var(--blanco);
+  box-shadow: var(--anillo);
 }
 
-.formulario button {
-  margin-top: 18px;
+.botonEnviar {
+  margin-top: 20px;
   padding: 13px;
-  border: none;
-  border-radius: 0;
-  background-color: #1a4fa8;
-  color: white;
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-}
-
-.formulario button:hover {
-  background-color: #153f87;
+  font-size: 17px;
 }
 
 .cambiarModo {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  color: var(--tinta-suave);
 }
 
 .cambiarModo button {
-  border: none;
-  background: none;
-  color: #1a4fa8;
-  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  padding: 6px 10px;
   font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  color: var(--azul);
 }
 
 .cambiarModo button:hover {
+  background-color: var(--azul-claro);
   text-decoration: underline;
 }

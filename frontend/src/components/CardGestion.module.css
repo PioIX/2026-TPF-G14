@@ -1,48 +1,81 @@
 .card,
 .cardActiva {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 22px;
-  border: 1px solid #c3d0ea;
-  border-left: 4px solid #1a4fa8;
-  border-radius: 0;
-  background-color: white;
-  font-family: "Barlow", "Segoe UI", Arial, sans-serif;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--borde-suave);
+  border-radius: var(--radio);
+  background-color: var(--blanco);
+  box-shadow: var(--sombra);
+  font-family: var(--fuente);
   text-align: left;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  transition: transform var(--transicion), box-shadow var(--transicion), border-color var(--transicion),
+    background-color var(--transicion);
 }
 
 .card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(26, 79, 168, 0.15);
+  transform: translateY(-2px);
+  border-color: var(--borde);
+  box-shadow: var(--sombra-alta);
 }
 
 .cardActiva {
-  border-color: #1a4fa8;
-  border-left-width: 6px;
-  background-color: #eaf1fd;
+  border-color: var(--azul);
+  background: linear-gradient(180deg, var(--blanco) 0%, var(--azul-claro) 100%);
+  box-shadow: 0 0 0 1px var(--azul), var(--sombra-alta);
 }
 
-.etiqueta {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #1a4fa8;
+.icono {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background-color: var(--azul-claro);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.cardActiva .icono {
+  background-color: var(--azul);
+  color: var(--blanco);
+}
+
+.datos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
 .titulo {
-  font-family: "Barlow Condensed", "Barlow", sans-serif;
-  font-size: 24px;
+  font-family: var(--fuente-titulo);
+  font-size: 21px;
   font-weight: 800;
   line-height: 1.1;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #1a2233;
+  letter-spacing: 0.4px;
+  color: var(--tinta);
 }
 
 .cantidad {
-  font-size: 14px;
-  color: #4a5568;
+  font-size: 13px;
+  color: var(--tinta-suave);
+}
+
+.flecha {
+  margin-left: auto;
+  font-size: 18px;
+  color: var(--borde);
+  transition: color var(--transicion), transform var(--transicion);
+}
+
+.card:hover .flecha,
+.cardActiva .flecha {
+  color: var(--azul);
+  transform: translateX(3px);
 }

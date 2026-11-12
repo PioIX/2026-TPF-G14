@@ -2,13 +2,14 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import Input from "@/components/Input"
 import Button from "@/components/Button"
 import styles from "./Navbar.module.css"
 
 export default function Navbar() {
   const router = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams()
   const [busqueda, setBusqueda] = useState("")
 
@@ -39,28 +40,56 @@ export default function Navbar() {
     router.push(`/home/buscar?q=${encodeURIComponent(busqueda.trim())}&${params}`)
   }
 
+  const esActivo = (ruta) => pathname === ruta
+
   return (
     <header className={styles.header}>
       <div className={styles.superior}>
-        <div className={styles.logo}>
-          <span className={styles.nombreLogo}>PioZone</span>
-        </div>
+        <Link href={`/home?${params}`} className={styles.logo}>
+          <span className={styles.marca}>PZ</span>
+          <span className={styles.nombreLogo}>
+            Pio<span>Zone</span>
+          </span>
+        </Link>
 
         <form className={styles.buscador} onSubmit={handleBuscar}>
-          <Input onChange={onChangeBusqueda} placeholder={"Buscar deportes, equipos..."} value={busqueda} type={"text"} />
+          <Input
+            onChange={onChangeBusqueda}
+            placeholder={"Buscar deportes, equipos, jugadores..."}
+            value={busqueda}
+            type={"text"}
+            aria-label="Buscar"
+          />
           <Button type={"submit"}>Buscar</Button>
         </form>
+
+        {nombre && (
+          <div className={styles.usuario}>
+            <span className={styles.avatar}>{nombre.charAt(0).toUpperCase()}</span>
+            <span className={styles.usuarioDatos}>
+              <span className={styles.usuarioNombre}>{nombre}</span>
+              <span className={styles.usuarioRol}>{es_admin === "1" ? "Administrador" : "Usuario"}</span>
+            </span>
+          </div>
+        )}
       </div>
 
       <nav className={styles.nav}>
         {links.map((link) => (
-          <Link key={link.id} href={`${link.ruta}?${params}`} className={styles.link}>
+          <Link
+            key={link.id}
+            href={`${link.ruta}?${params}`}
+            className={esActivo(link.ruta) ? styles.linkActivo : styles.link}
+          >
             {link.texto}
           </Link>
         ))}
 
         {es_admin === "1" && (
-          <Link href={`/home/admin?${params}`} className={styles.link}>
+          <Link
+            href={`/home/admin?${params}`}
+            className={`${esActivo("/home/admin") ? styles.linkActivo : styles.link} ${styles.linkAdmin}`}
+          >
             Administración
           </Link>
         )}

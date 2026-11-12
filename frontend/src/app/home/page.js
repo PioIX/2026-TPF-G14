@@ -51,18 +51,51 @@ export default function HomePage() {
 
   return (
     <div className={styles.contenedor}>
-      <span className={styles.etiqueta}>PIOZONE / HOLA, {nombre}</span>
-      <h1 className={styles.titulo}>Todo el deporte, en un solo lugar</h1>
-      <p className={styles.descripcion}>
-        Explorá deportes, equipos, jugadores y competencias en una única aplicación.
-      </p>
+      <section className={styles.hero}>
+        <div className={styles.heroTexto}>
+          <span className={styles.etiqueta}>PIOZONE / HOLA, {nombre}</span>
+          <h1 className={styles.titulo}>Todo el deporte, en un solo lugar</h1>
+          <p className={styles.descripcion}>
+            Explorá deportes, equipos, jugadores y competencias en una única aplicación.
+          </p>
 
-      <div className={styles.explorar}>
-        <h2 className={styles.subtitulo}>¿Qué querés explorar?</h2>
-        <p className={styles.texto}>Elegí una categoría o utilizá el buscador del encabezado.</p>
+          <div className={styles.acciones}>
+            <button className={styles.accionPrimaria} onClick={() => irASeccion("/home/competencias")}>
+              Ver competencias <span aria-hidden="true">→</span>
+            </button>
+            <button className={styles.accionSecundaria} onClick={() => irASeccion("/home/equipos")}>
+              Explorar equipos
+            </button>
+          </div>
+        </div>
+
+        <div className={styles.heroPanel}>
+          <span className={styles.heroPanelEtiqueta}>Resumen</span>
+          <div className={styles.metricas}>
+            <div className={styles.metrica}>
+              <span className={styles.metricaNumero}>{deportes.length}</span>
+              <span className={styles.metricaTexto}>Deportes</span>
+            </div>
+            <div className={styles.metrica}>
+              <span className={styles.metricaNumero}>{equipos.length}</span>
+              <span className={styles.metricaTexto}>Equipos</span>
+            </div>
+            <div className={styles.metrica}>
+              <span className={styles.metricaNumero}>{jugadores.length}</span>
+              <span className={styles.metricaTexto}>Jugadores</span>
+            </div>
+            <div className={styles.metrica}>
+              <span className={styles.metricaNumero}>{competencias.length}</span>
+              <span className={styles.metricaTexto}>Competencias</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className={styles.accesosCabecera}>
+        <h2 className={styles.accesosTitulo}>Accesos rápidos</h2>
+        <p className={styles.accesosTexto}>Elegí una categoría o utilizá el buscador del encabezado.</p>
       </div>
-
-      <h2 className={styles.accesosTitulo}>Accesos rápidos</h2>
 
       <div className={styles.accesos}>
         {accesos.map((acceso) => (
