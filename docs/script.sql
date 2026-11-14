@@ -2,7 +2,7 @@ CREATE TABLE Equipos (
     id_equipo INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     logo_url VARCHAR(50) NOT NULL,
-    descripcion VARCHAR(255) NOT NULL,
+    descrpcion VARCHAR(255) NOT NULL,
 	cant_jugadores INT,
 	id_deporte INT NOT NULL,
     FOREIGN KEY (id_deporte) REFERENCES Deportes(id_deporte)
@@ -65,3 +65,6 @@ CREATE TABLE Usuarios_tpf (
     contraseña INT NOT NULL,
     es_admin BOOLEAN NOT NULL
 );
+
+
+

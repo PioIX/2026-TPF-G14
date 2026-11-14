@@ -210,6 +210,9 @@ export default function AdminPage() {
     if (origen === "deportes") {
       return deportes.map((d) => ({ valor: d.id_deporte, texto: d.nombre }))
     }
+    if (origen === "competencias") {
+      return competencias.map((c) => ({ valor: c.id_competencia, texto: c.nombre }))
+    }
     return equipos.map((e) => ({ valor: e.id_equipo, texto: e.nombre }))
   }
 
