@@ -76,8 +76,17 @@ const sessionMiddleware = session({
 });
 app.use(sessionMiddleware);
 
+// Cambiá este texto cada vez que actualices el backend, para saber qué versión está corriendo
+const VERSION = "2026-11-14 v4 · Deportes.descrpcion · Competencias.descripcion · Equipos.descripcion";
+
 const server = app.listen(PORT, () => {
   console.log(`[PioZone] Servidor corriendo en http://localhost:${PORT}/`);
+  console.log(`[PioZone] Versión: ${VERSION}`);
+});
+
+// Abrí http://localhost:4000/version en el navegador para ver qué backend está atendiendo
+app.get("/version", (req, res) => {
+  res.json({ version: VERSION, carpeta: __dirname });
 });
 
 const io = new Server(server, {
@@ -91,56 +100,6 @@ const io = new Server(server, {
 io.use((socket, next) => {
   sessionMiddleware(socket.request, {}, next);
 });
-
-// ---------- Chequeo de columnas al arrancar ----------
-// Compara las columnas que usa este archivo con las que tiene la base.
-// Si alguna no coincide, lo avisa en la consola (no cambia nada en la base).
-const columnasEsperadas = {
-  Deportes: ["id_deporte", "nombre", "descripcion", "es_equipo"],
-  Equipos: ["id_equipo", "nombre", "logo_url", "descripcion", "cant_jugadores", "id_deporte"],
-  Competencias: ["id_competencia", "nombre", "descripcion", "fecha_inicio", "fecha_fin", "id_deporte"],
-  Equipos_Competencias: ["id_equipo_competencia", "posicion", "id_competencia", "id_equipo"],
-  Partidos: ["id_partido", "fecha", "hora", "lugar", "resultado", "id_competencia", "id_equipo_local", "id_equipo_visitante"],
-  Jugadores: ["id_jugadores", "nombre", "apellido", "fecha_nacimiento", "nacionalidad", "posicion", "imagen_url", "id_equipo"],
-  Usuarios_tpf: ["id_usuario", "nombre", "apellido", "email", "contraseña", "es_admin"],
-};
-
-const verificarColumnas = async () => {
-  try {
-    const sql = "SELECT TABLE_NAME, COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE()";
-    const filas = await realizarQuery(sql);
-    let problemas = 0;
-
-    for (const tabla of Object.keys(columnasEsperadas)) {
-      // En Windows MySQL guarda los nombres en minúscula: se compara sin distinguir mayúsculas
-      const reales = filas
-        .filter((f) => f.TABLE_NAME.toLowerCase() === tabla.toLowerCase())
-        .map((f) => f.COLUMN_NAME);
-
-      if (reales.length === 0) {
-        console.warn(`[PioZone] ⚠ No existe la tabla ${tabla}`);
-        problemas++;
-        continue;
-      }
-
-      const faltan = columnasEsperadas[tabla].filter(
-        (c) => !reales.some((r) => r.toLowerCase() === c.toLowerCase())
-      );
-      if (faltan.length > 0) {
-        console.warn(`[PioZone] ⚠ ${tabla}: no encuentro ${faltan.join(", ")}. Columnas reales: ${reales.join(", ")}`);
-        problemas++;
-      }
-    }
-
-    if (problemas === 0) {
-      console.log("[PioZone] ✓ Las columnas de la base coinciden con el backend");
-    }
-  } catch (error) {
-    console.warn("[PioZone] No se pudo verificar la base:", error.message);
-  }
-};
-
-verificarColumnas();
 
 
 // ---------- Helpers ----------
@@ -171,7 +130,7 @@ const manejarError = (res, error) => {
 
 app.get("/deportes", async (req, res) => {
   try {
-    const result = await realizarQuery("SELECT * FROM Deportes");
+    const result = await realizarQuery("SELECT *, descrpcion AS descripcion FROM Deportes");
     res.json(result);
   } catch (error) {
     manejarError(res, error);
@@ -237,7 +196,7 @@ app.get("/usuarios", async (req, res) => {
 app.get("/deportes/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const sql = "SELECT * FROM Deportes WHERE id_deporte = ?";
+    const sql = "SELECT *, descrpcion AS descripcion FROM Deportes WHERE id_deporte = ?";
     const result = await realizarQuery(sql, [id]);
     res.json(result[0] || null);
   } catch (error) {
@@ -315,13 +274,15 @@ app.get("/usuarios/:id", async (req, res) => {
 
 app.post("/deportes", async (req, res) => {
   try {
-    const { nombre, descripcion, es_equipo } = req.body;
-    const faltan = camposFaltantes(req.body, ["nombre", "descripcion", "es_equipo"]);
+    const { nombre, es_equipo } = req.body;
+    // El frontend manda "descripcion"; en la base la columna está escrita "descrpcion"
+    const descrpcion = req.body.descripcion ?? req.body.descrpcion;
+    const faltan = camposFaltantes({ ...req.body, descrpcion }, ["nombre", "descrpcion", "es_equipo"]);
     if (faltan.length > 0) {
       return res.status(400).json({ error: `Faltan datos: ${faltan.join(", ")}` });
     }
-    const sql = "INSERT INTO Deportes (nombre, descripcion, es_equipo) VALUES (?, ?, ?)";
-    const result = await realizarQuery(sql, [nombre, descripcion, es_equipo]);
+    const sql = "INSERT INTO Deportes (nombre, descrpcion, es_equipo) VALUES (?, ?, ?)";
+    const result = await realizarQuery(sql, [nombre, descrpcion, es_equipo]);
     res.json({ id_deporte: result.insertId, ...req.body });
   } catch (error) {
     manejarError(res, error);
@@ -450,13 +411,15 @@ app.post("/login", async (req, res) => {
 app.put("/deportes/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, descripcion, es_equipo } = req.body;
-    const faltan = camposFaltantes(req.body, ["nombre", "descripcion", "es_equipo"]);
+    const { nombre, es_equipo } = req.body;
+    // El frontend manda "descripcion"; en la base la columna está escrita "descrpcion"
+    const descrpcion = req.body.descripcion ?? req.body.descrpcion;
+    const faltan = camposFaltantes({ ...req.body, descrpcion }, ["nombre", "descrpcion", "es_equipo"]);
     if (faltan.length > 0) {
       return res.status(400).json({ error: `Faltan datos: ${faltan.join(", ")}` });
     }
-    const sql = "UPDATE Deportes SET nombre = ?, descripcion = ?, es_equipo = ? WHERE id_deporte = ?";
-    const result = await realizarQuery(sql, [nombre, descripcion, es_equipo, id]);
+    const sql = "UPDATE Deportes SET nombre = ?, descrpcion = ?, es_equipo = ? WHERE id_deporte = ?";
+    const result = await realizarQuery(sql, [nombre, descrpcion, es_equipo, id]);
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: "No se encontró el registro." });
     }
