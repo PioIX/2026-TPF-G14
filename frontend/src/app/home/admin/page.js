@@ -8,8 +8,16 @@ import CardGestion from "@/components/CardGestion"
 import FilaRegistro from "@/components/FilaRegistro"
 import styles from "./page.module.css"
 
+// Valores posibles de Partidos.resultado (columna INT)
+const RESULTADOS = [
+  { valor: 0, texto: "Sin jugar" },
+  { valor: 1, texto: "Ganó el local" },
+  { valor: 2, texto: "Ganó el visitante" },
+  { valor: 3, texto: "Empate" },
+]
+
 // Configuración de cada categoría según las tablas de la base de datos.
-// tipo: "text" | "number" | "date" | "select" | "booleano" | "imagen"
+// tipo: "text" | "number" | "date" | "time" | "select" | "booleano" | "opciones" | "imagen"
 // max: largo máximo de la columna VARCHAR
 const categorias = {
   deportes: {
@@ -70,6 +78,23 @@ const categorias = {
       { nombre: "fecha_inicio", label: "Fecha de inicio", tipo: "date", requerido: true },
       { nombre: "fecha_fin", label: "Fecha de fin", tipo: "date", requerido: true },
       { nombre: "id_deporte", label: "Deporte", tipo: "select", origen: "deportes", requerido: true },
+    ],
+  },
+  partidos: {
+    titulo: "Partidos",
+    singular: "partido",
+    articulo: "el",
+    nuevo: "nuevo",
+    endpoint: "partidos",
+    idCampo: "id_partido",
+    campos: [
+      { nombre: "id_competencia", label: "Competencia", tipo: "select", origen: "competencias", requerido: true },
+      { nombre: "id_equipo_local", label: "Equipo local", tipo: "select", origen: "equiposDeCompetencia", requerido: true },
+      { nombre: "id_equipo_visitante", label: "Equipo visitante", tipo: "select", origen: "equiposDeCompetencia", requerido: true },
+      { nombre: "fecha", label: "Fecha", tipo: "date", requerido: true },
+      { nombre: "hora", label: "Hora", tipo: "time", requerido: true },
+      { nombre: "lugar", label: "Lugar", tipo: "text", requerido: true, max: 100 },
+      { nombre: "resultado", label: "Resultado", tipo: "opciones", requerido: true, opciones: RESULTADOS },
     ],
   },
 }
@@ -134,6 +159,7 @@ export default function AdminPage() {
   const [equipos, setEquipos] = useState([])
   const [jugadores, setJugadores] = useState([])
   const [competencias, setCompetencias] = useState([])
+  const [partidos, setPartidos] = useState([])
 
   const [categoria, setCategoria] = useState("deportes")
   const [formulario, setFormulario] = useState(formularioVacio("deportes"))
@@ -161,13 +187,18 @@ export default function AdminPage() {
       .then((response) => response.json())
       .then((data) => setCompetencias(Array.isArray(data) ? data : []))
       .catch(() => setCompetencias([]))
+
+    fetch("http://localhost:4000/partidos")
+      .then((response) => response.json())
+      .then((data) => setPartidos(Array.isArray(data) ? data : []))
+      .catch(() => setPartidos([]))
   }
 
   useEffect(() => {
     cargarDatos()
   }, [])
 
-  const listas = { deportes, equipos, jugadores, competencias }
+  const listas = { deportes, equipos, jugadores, competencias, partidos }
   const config = categorias[categoria]
   const registros = listas[categoria]
 
@@ -183,9 +214,22 @@ export default function AdminPage() {
     return equipo ? equipo.nombre : "Sin equipo"
   }
 
+  const nombreCompetencia = (idCompetencia) => {
+    const competencia = competencias.find((c) => c.id_competencia === idCompetencia)
+    return competencia ? competencia.nombre : "Sin competencia"
+  }
+
+  const textoResultado = (valor) => {
+    const resultado = RESULTADOS.find((r) => r.valor === Number(valor))
+    return resultado ? resultado.texto : "Sin resultado"
+  }
+
   const tituloRegistro = (registro) => {
     if (categoria === "jugadores") {
       return `${registro.nombre} ${registro.apellido}`
+    }
+    if (categoria === "partidos") {
+      return `${nombreEquipo(registro.id_equipo_local)} vs ${nombreEquipo(registro.id_equipo_visitante)}`
     }
     return registro.nombre
   }
@@ -203,6 +247,10 @@ export default function AdminPage() {
     if (categoria === "jugadores") {
       return `${nombreEquipo(registro.id_equipo)} · N° ${registro.posicion} · ${registro.nacionalidad}`
     }
+    if (categoria === "partidos") {
+      const hora = String(registro.hora || "").slice(0, 5)
+      return `${nombreCompetencia(registro.id_competencia)} · ${fechaLegible(registro.fecha)} ${hora} · ${registro.lugar} · ${textoResultado(registro.resultado)}`
+    }
     return `${nombreDeporte(registro.id_deporte)} · ${fechaLegible(registro.fecha_inicio)} al ${fechaLegible(registro.fecha_fin)}`
   }
 
@@ -212,6 +260,11 @@ export default function AdminPage() {
     }
     if (origen === "competencias") {
       return competencias.map((c) => ({ valor: c.id_competencia, texto: c.nombre }))
+    }
+    if (origen === "equiposDeCompetencia") {
+      const competencia = competencias.find((c) => String(c.id_competencia) === formulario.id_competencia)
+      const lista = competencia ? equipos.filter((e) => e.id_deporte === competencia.id_deporte) : equipos
+      return lista.map((e) => ({ valor: e.id_equipo, texto: e.nombre }))
     }
     return equipos.map((e) => ({ valor: e.id_equipo, texto: e.nombre }))
   }
@@ -226,7 +279,13 @@ export default function AdminPage() {
   }
 
   const onChangeCampo = (nombreCampo) => (event) => {
-    setFormulario({ ...formulario, [nombreCampo]: event.target.value })
+    const cambios = { [nombreCampo]: event.target.value }
+    // En partidos, al cambiar la competencia se vacían los equipos (pueden ser de otro deporte)
+    if (categoria === "partidos" && nombreCampo === "id_competencia") {
+      cambios.id_equipo_local = ""
+      cambios.id_equipo_visitante = ""
+    }
+    setFormulario({ ...formulario, ...cambios })
   }
 
   // Sube el archivo elegido al backend y guarda la ruta que devuelve en el formulario
@@ -282,6 +341,8 @@ export default function AdminPage() {
       const valor = registro[campo.nombre]
       if (campo.tipo === "date") {
         datos[campo.nombre] = aFechaInput(valor)
+      } else if (campo.tipo === "time") {
+        datos[campo.nombre] = valor ? String(valor).slice(0, 5) : ""
       } else if (campo.tipo === "booleano") {
         datos[campo.nombre] = valor ? "1" : "0"
       } else {
@@ -298,7 +359,7 @@ export default function AdminPage() {
     const body = {}
     config.campos.forEach((campo) => {
       const valor = formulario[campo.nombre]
-      if (campo.tipo === "select" || campo.tipo === "number" || campo.tipo === "booleano") {
+      if (["select", "number", "booleano", "opciones"].includes(campo.tipo)) {
         body[campo.nombre] = valor === "" ? null : Number(valor)
       } else {
         body[campo.nombre] = valor.trim()
@@ -321,6 +382,10 @@ export default function AdminPage() {
     )
     if (largos.length > 0) {
       return largos.map((c) => `«${c.label}» admite hasta ${c.max} caracteres.`).join(" ")
+    }
+
+    if (categoria === "partidos" && formulario.id_equipo_local === formulario.id_equipo_visitante) {
+      return "El equipo local y el visitante tienen que ser distintos."
     }
 
     if (categoria === "competencias" && formulario.fecha_fin < formulario.fecha_inicio) {
@@ -410,6 +475,19 @@ export default function AdminPage() {
         <select className={styles.select} value={formulario[campo.nombre]} onChange={onChangeCampo(campo.nombre)}>
           <option value="">Elegí una opción</option>
           {opcionesSelect(campo.origen).map((opcion) => (
+            <option key={opcion.valor} value={String(opcion.valor)}>
+              {opcion.texto}
+            </option>
+          ))}
+        </select>
+      )
+    }
+
+    if (campo.tipo === "opciones") {
+      return (
+        <select className={styles.select} value={formulario[campo.nombre]} onChange={onChangeCampo(campo.nombre)}>
+          <option value="">Elegí una opción</option>
+          {campo.opciones.map((opcion) => (
             <option key={opcion.valor} value={String(opcion.valor)}>
               {opcion.texto}
             </option>
