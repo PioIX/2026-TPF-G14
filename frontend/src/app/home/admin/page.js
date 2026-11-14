@@ -6,13 +6,10 @@ import Input from "@/components/Input"
 import Button from "@/components/Button"
 import CardGestion from "@/components/CardGestion"
 import FilaRegistro from "@/components/FilaRegistro"
-import { BACKEND, urlImagen } from "@/utils/imagenes"
-import { codificarResultado, decodificarResultado, validarGoles } from "@/utils/resultado"
 import styles from "./page.module.css"
 
 // Configuración de cada categoría según las tablas de la base de datos.
-// tipo: "text" | "number" | "date" | "time" | "select" | "booleano" | "imagen"
-// virtual: el campo no existe en la tabla (se usa para armar otro, como el resultado)
+// tipo: "text" | "number" | "date" | "select" | "booleano" | "imagen"
 // max: largo máximo de la columna VARCHAR
 const categorias = {
   deportes: {
@@ -24,7 +21,7 @@ const categorias = {
     idCampo: "id_deporte",
     campos: [
       { nombre: "nombre", label: "Nombre", tipo: "text", requerido: true, max: 100 },
-      { nombre: "descrpcion", label: "Descripción breve", tipo: "text", requerido: true, max: 50 },
+      { nombre: "descripcion", label: "Descripción breve", tipo: "text", requerido: true, max: 50 },
       { nombre: "es_equipo", label: "Categoría", tipo: "booleano", requerido: true, opciones: ["Equipo", "Individual"] },
     ],
   },
@@ -69,42 +66,10 @@ const categorias = {
     idCampo: "id_competencia",
     campos: [
       { nombre: "nombre", label: "Nombre", tipo: "text", requerido: true, max: 100 },
-      { nombre: "descrpcion", label: "Descripción breve", tipo: "text", requerido: true, max: 50 },
+      { nombre: "descripcion", label: "Descripción breve", tipo: "text", requerido: true, max: 50 },
       { nombre: "fecha_inicio", label: "Fecha de inicio", tipo: "date", requerido: true },
       { nombre: "fecha_fin", label: "Fecha de fin", tipo: "date", requerido: true },
       { nombre: "id_deporte", label: "Deporte", tipo: "select", origen: "deportes", requerido: true },
-    ],
-  },
-  partidos: {
-    titulo: "Partidos",
-    singular: "partido",
-    articulo: "el",
-    nuevo: "nuevo",
-    endpoint: "partidos",
-    idCampo: "id_partido",
-    campos: [
-      { nombre: "id_competencia", label: "Competencia", tipo: "select", origen: "competencias", requerido: true },
-      { nombre: "id_equipo_local", label: "Equipo local", tipo: "select", origen: "equipos", requerido: true },
-      { nombre: "id_equipo_visitante", label: "Equipo visitante", tipo: "select", origen: "equipos", requerido: true },
-      { nombre: "fecha", label: "Fecha", tipo: "date", requerido: true },
-      { nombre: "hora", label: "Hora", tipo: "time", requerido: true },
-      { nombre: "lugar", label: "Lugar", tipo: "text", requerido: true, max: 100 },
-      // Se guardan juntos en "resultado" = local * 1000 + visitante
-      { nombre: "goles_local", label: "Goles local", tipo: "number", requerido: true, virtual: true, inicial: "0" },
-      { nombre: "goles_visitante", label: "Goles visitante", tipo: "number", requerido: true, virtual: true, inicial: "0" },
-    ],
-  },
-  inscripciones: {
-    titulo: "Inscripciones",
-    singular: "inscripción",
-    articulo: "la",
-    nuevo: "nueva",
-    endpoint: "equipos_competencias",
-    idCampo: "id_equipo_competencia",
-    campos: [
-      { nombre: "id_competencia", label: "Competencia", tipo: "select", origen: "competencias", requerido: true },
-      { nombre: "id_equipo", label: "Equipo", tipo: "select", origen: "equipos", requerido: true },
-      { nombre: "posicion", label: "Posición en la tabla", tipo: "text", requerido: true, max: 100 },
     ],
   },
 }
@@ -112,7 +77,7 @@ const categorias = {
 const formularioVacio = (clave) => {
   const vacio = {}
   categorias[clave].campos.forEach((campo) => {
-    vacio[campo.nombre] = campo.inicial || ""
+    vacio[campo.nombre] = ""
   })
   return vacio
 }
@@ -144,6 +109,23 @@ const fechaLegible = (valor) => {
   return `${dia}/${mes}/${anio}`
 }
 
+// Dirección del backend (donde quedan las imágenes subidas)
+const BACKEND = "http://localhost:4000"
+
+// Convierte lo guardado en la base en una dirección que el navegador pueda mostrar:
+//  - "/uploads/..."  → imagen subida al backend      → http://localhost:4000/uploads/...
+//  - "/imagenes/..." → imagen en frontend/public     → se usa tal cual
+//  - "https://..."   → imagen de internet            → se usa tal cual
+const urlImagen = (valor) => {
+  if (!valor) {
+    return null
+  }
+  if (valor.startsWith("/uploads/")) {
+    return `${BACKEND}${valor}`
+  }
+  return valor
+}
+
 export default function AdminPage() {
   const searchParams = useSearchParams()
   const es_admin = searchParams.get("es_admin")
@@ -152,8 +134,6 @@ export default function AdminPage() {
   const [equipos, setEquipos] = useState([])
   const [jugadores, setJugadores] = useState([])
   const [competencias, setCompetencias] = useState([])
-  const [partidos, setPartidos] = useState([])
-  const [inscripciones, setInscripciones] = useState([])
 
   const [categoria, setCategoria] = useState("deportes")
   const [formulario, setFormulario] = useState(formularioVacio("deportes"))
@@ -181,23 +161,13 @@ export default function AdminPage() {
       .then((response) => response.json())
       .then((data) => setCompetencias(Array.isArray(data) ? data : []))
       .catch(() => setCompetencias([]))
-
-    fetch("http://localhost:4000/partidos")
-      .then((response) => response.json())
-      .then((data) => setPartidos(Array.isArray(data) ? data : []))
-      .catch(() => setPartidos([]))
-
-    fetch("http://localhost:4000/equipos_competencias")
-      .then((response) => response.json())
-      .then((data) => setInscripciones(Array.isArray(data) ? data : []))
-      .catch(() => setInscripciones([]))
   }
 
   useEffect(() => {
     cargarDatos()
   }, [])
 
-  const listas = { deportes, equipos, jugadores, competencias, partidos, inscripciones }
+  const listas = { deportes, equipos, jugadores, competencias }
   const config = categorias[categoria]
   const registros = listas[categoria]
 
@@ -213,21 +183,9 @@ export default function AdminPage() {
     return equipo ? equipo.nombre : "Sin equipo"
   }
 
-  const nombreCompetencia = (idCompetencia) => {
-    const competencia = competencias.find((c) => c.id_competencia === idCompetencia)
-    return competencia ? competencia.nombre : "Sin competencia"
-  }
-
   const tituloRegistro = (registro) => {
     if (categoria === "jugadores") {
       return `${registro.nombre} ${registro.apellido}`
-    }
-    if (categoria === "partidos") {
-      const goles = decodificarResultado(registro.resultado)
-      return `${nombreEquipo(registro.id_equipo_local)} ${goles.local} - ${goles.visitante} ${nombreEquipo(registro.id_equipo_visitante)}`
-    }
-    if (categoria === "inscripciones") {
-      return nombreEquipo(registro.id_equipo)
     }
     return registro.nombre
   }
@@ -235,17 +193,12 @@ export default function AdminPage() {
   const detalleRegistro = (registro) => {
     if (categoria === "deportes") {
       const tipo = registro.es_equipo ? "Equipo" : "Individual"
-      return `${tipo} · ${registro.descrpcion}`
+      const cantidad = equipos.filter((e) => e.id_deporte === registro.id_deporte).length
+      return `${tipo} · ${cantidad} ${cantidad === 1 ? "equipo" : "equipos"} · ${registro.descripcion}`
     }
     if (categoria === "equipos") {
       const cantidad = jugadores.filter((j) => j.id_equipo === registro.id_equipo).length
       return `${nombreDeporte(registro.id_deporte)} · ${cantidad} ${cantidad === 1 ? "jugador" : "jugadores"} · ${registro.descripcion}`
-    }
-    if (categoria === "partidos") {
-      return `${nombreCompetencia(registro.id_competencia)} · ${fechaLegible(registro.fecha)} ${String(registro.hora || "").slice(0, 5)} · ${registro.lugar}`
-    }
-    if (categoria === "inscripciones") {
-      return `${nombreCompetencia(registro.id_competencia)} · Posición: ${registro.posicion}`
     }
     if (categoria === "jugadores") {
       return `${nombreEquipo(registro.id_equipo)} · N° ${registro.posicion} · ${registro.nacionalidad}`
@@ -256,9 +209,6 @@ export default function AdminPage() {
   const opcionesSelect = (origen) => {
     if (origen === "deportes") {
       return deportes.map((d) => ({ valor: d.id_deporte, texto: d.nombre }))
-    }
-    if (origen === "competencias") {
-      return competencias.map((c) => ({ valor: c.id_competencia, texto: c.nombre }))
     }
     return equipos.map((e) => ({ valor: e.id_equipo, texto: e.nombre }))
   }
@@ -314,12 +264,6 @@ export default function AdminPage() {
     if (categoria === "jugadores") {
       return urlImagen(registro.imagen_url)
     }
-    if (categoria === "partidos" || categoria === "inscripciones") {
-      const equipo = equipos.find(
-        (e) => e.id_equipo === (categoria === "partidos" ? registro.id_equipo_local : registro.id_equipo)
-      )
-      return equipo ? urlImagen(equipo.logo_url) : null
-    }
     return null
   }
 
@@ -335,13 +279,6 @@ export default function AdminPage() {
       const valor = registro[campo.nombre]
       if (campo.tipo === "date") {
         datos[campo.nombre] = aFechaInput(valor)
-      } else if (campo.tipo === "time") {
-        // MySQL devuelve "18:30:00" y el input type="time" usa "18:30"
-        datos[campo.nombre] = valor ? String(valor).slice(0, 5) : ""
-      } else if (campo.nombre === "goles_local") {
-        datos[campo.nombre] = String(decodificarResultado(registro.resultado).local)
-      } else if (campo.nombre === "goles_visitante") {
-        datos[campo.nombre] = String(decodificarResultado(registro.resultado).visitante)
       } else if (campo.tipo === "booleano") {
         datos[campo.nombre] = valor ? "1" : "0"
       } else {
@@ -362,18 +299,6 @@ export default function AdminPage() {
         body[campo.nombre] = valor === "" ? null : Number(valor)
       } else {
         body[campo.nombre] = valor.trim()
-      }
-    })
-
-    // El resultado se guarda en un solo INT: local * 1000 + visitante
-    if (categoria === "partidos") {
-      body.resultado = codificarResultado(formulario.goles_local, formulario.goles_visitante)
-    }
-
-    // Los campos virtuales no se mandan al backend
-    config.campos.forEach((campo) => {
-      if (campo.virtual) {
-        delete body[campo.nombre]
       }
     })
     return body
@@ -397,28 +322,6 @@ export default function AdminPage() {
 
     if (categoria === "competencias" && formulario.fecha_fin < formulario.fecha_inicio) {
       return "La fecha de fin no puede ser anterior a la de inicio."
-    }
-
-    if (categoria === "partidos") {
-      if (formulario.id_equipo_local === formulario.id_equipo_visitante) {
-        return "El equipo local y el visitante tienen que ser distintos."
-      }
-      const errorGoles = validarGoles(formulario.goles_local, formulario.goles_visitante)
-      if (errorGoles) {
-        return errorGoles
-      }
-    }
-
-    if (categoria === "inscripciones") {
-      const repetida = inscripciones.find(
-        (i) =>
-          String(i.id_equipo) === formulario.id_equipo &&
-          String(i.id_competencia) === formulario.id_competencia &&
-          i.id_equipo_competencia !== editandoId
-      )
-      if (repetida) {
-        return "Ese equipo ya está inscripto en esa competencia."
-      }
     }
 
     return null
@@ -447,12 +350,14 @@ export default function AdminPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(armarBody()),
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error al guardar")
-        }
-        return response.json()
-      })
+      .then((response) =>
+        response.json().then((data) => {
+          if (!response.ok) {
+            throw new Error(data.error || "No se pudo guardar.")
+          }
+          return data
+        })
+      )
       .then(() => {
         setMensaje({
           tipo: "ok",
@@ -464,8 +369,8 @@ export default function AdminPage() {
         setEditandoId(null)
         cargarDatos()
       })
-      .catch(() => {
-        setMensaje({ tipo: "error", texto: "No se pudo guardar. Revisá los datos e intentá de nuevo." })
+      .catch((error) => {
+        setMensaje({ tipo: "error", texto: error.message || "No se pudo guardar. Revisá los datos e intentá de nuevo." })
       })
   }
 
@@ -473,12 +378,14 @@ export default function AdminPage() {
     const idRegistro = registro[config.idCampo]
 
     fetch(`http://localhost:4000/${config.endpoint}/${idRegistro}`, { method: "DELETE" })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error al eliminar")
-        }
-        return response.json()
-      })
+      .then((response) =>
+        response.json().then((data) => {
+          if (!response.ok) {
+            throw new Error(data.error || "No se pudo eliminar.")
+          }
+          return data
+        })
+      )
       .then(() => {
         setMensaje({ tipo: "ok", texto: `Se eliminó «${tituloRegistro(registro)}».` })
         if (editandoId === idRegistro) {
@@ -487,11 +394,8 @@ export default function AdminPage() {
         }
         cargarDatos()
       })
-      .catch(() => {
-        setMensaje({
-          tipo: "error",
-          texto: "No se pudo eliminar porque otros registros dependen de este (por ejemplo, jugadores de un equipo o competencias de un deporte).",
-        })
+      .catch((error) => {
+        setMensaje({ tipo: "error", texto: error.message || "No se pudo eliminar." })
       })
   }
 
