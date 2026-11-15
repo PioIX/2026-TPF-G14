@@ -38,7 +38,7 @@ const almacenamiento = multer.diskStorage({
   },
 });
 
-const upload = multer({
+const upload = multer({ //multer busca un archivo que venga con el nombre "imagen" 
   storage: almacenamiento,
   limits: { fileSize: 2 * 1024 * 1024 }, // 2 MB
   fileFilter: (req, file, cb) => {
