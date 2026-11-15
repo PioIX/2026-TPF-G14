@@ -76,17 +76,8 @@ const sessionMiddleware = session({
 });
 app.use(sessionMiddleware);
 
-// Cambiá este texto cada vez que actualices el backend, para saber qué versión está corriendo
-const VERSION = "2026-11-14 v4 · Deportes.descrpcion · Competencias.descripcion · Equipos.descripcion";
-
 const server = app.listen(PORT, () => {
   console.log(`[PioZone] Servidor corriendo en http://localhost:${PORT}/`);
-  console.log(`[PioZone] Versión: ${VERSION}`);
-});
-
-// Abrí http://localhost:4000/version en el navegador para ver qué backend está atendiendo
-app.get("/version", (req, res) => {
-  res.json({ version: VERSION, carpeta: __dirname });
 });
 
 const io = new Server(server, {
@@ -100,7 +91,6 @@ const io = new Server(server, {
 io.use((socket, next) => {
   sessionMiddleware(socket.request, {}, next);
 });
-
 
 // ---------- Helpers ----------
 
@@ -130,7 +120,7 @@ const manejarError = (res, error) => {
 
 app.get("/deportes", async (req, res) => {
   try {
-    const result = await realizarQuery("SELECT *, descrpcion AS descripcion FROM Deportes");
+    const result = await realizarQuery("SELECT * FROM Deportes");
     res.json(result);
   } catch (error) {
     manejarError(res, error);
@@ -173,15 +163,6 @@ app.get("/partidos", async (req, res) => {
   }
 });
 
-app.get("/equipos_competencias", async (req, res) => {
-  try {
-    const result = await realizarQuery("SELECT * FROM Equipos_Competencias");
-    res.json(result);
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
 app.get("/usuarios", async (req, res) => {
   try {
     const result = await realizarQuery("SELECT * FROM Usuarios_tpf");
@@ -191,98 +172,17 @@ app.get("/usuarios", async (req, res) => {
   }
 });
 
-//GET ID GET ID GET ID GET ID GET ID GET ID GET ID GET ID GET ID GET ID
-
-app.get("/deportes/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "SELECT *, descrpcion AS descripcion FROM Deportes WHERE id_deporte = ?";
-    const result = await realizarQuery(sql, [id]);
-    res.json(result[0] || null);
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
-app.get("/equipos/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "SELECT * FROM Equipos WHERE id_equipo = ?";
-    const result = await realizarQuery(sql, [id]);
-    res.json(result[0] || null);
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
-app.get("/jugadores/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "SELECT * FROM Jugadores WHERE id_jugadores = ?";
-    const result = await realizarQuery(sql, [id]);
-    res.json(result[0] || null);
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
-app.get("/competencias/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "SELECT * FROM Competencias WHERE id_competencia = ?";
-    const result = await realizarQuery(sql, [id]);
-    res.json(result[0] || null);
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
-app.get("/partidos/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "SELECT * FROM Partidos WHERE id_partido = ?";
-    const result = await realizarQuery(sql, [id]);
-    res.json(result[0] || null);
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
-app.get("/equipos_competencias/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "SELECT * FROM Equipos_Competencias WHERE id_equipo_competencia = ?";
-    const result = await realizarQuery(sql, [id]);
-    res.json(result[0] || null);
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
-app.get("/usuarios/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "SELECT * FROM Usuarios_tpf WHERE id_usuario = ?";
-    const result = await realizarQuery(sql, [id]);
-    res.json(result[0] || null);
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
 //POST POST POST POST POST POST POST POST POST POST POST POST
 
 app.post("/deportes", async (req, res) => {
   try {
-    const { nombre, es_equipo } = req.body;
-    // El frontend manda "descripcion"; en la base la columna está escrita "descrpcion"
-    const descrpcion = req.body.descripcion ?? req.body.descrpcion;
-    const faltan = camposFaltantes({ ...req.body, descrpcion }, ["nombre", "descrpcion", "es_equipo"]);
+    const { nombre, descripcion, es_equipo } = req.body;
+    const faltan = camposFaltantes(req.body, ["nombre", "descripcion", "es_equipo"]);
     if (faltan.length > 0) {
       return res.status(400).json({ error: `Faltan datos: ${faltan.join(", ")}` });
     }
-    const sql = "INSERT INTO Deportes (nombre, descrpcion, es_equipo) VALUES (?, ?, ?)";
-    const result = await realizarQuery(sql, [nombre, descrpcion, es_equipo]);
+    const sql = "INSERT INTO Deportes (nombre, descripcion, es_equipo) VALUES (?, ?, ?)";
+    const result = await realizarQuery(sql, [nombre, descripcion, es_equipo]);
     res.json({ id_deporte: result.insertId, ...req.body });
   } catch (error) {
     manejarError(res, error);
@@ -355,21 +255,6 @@ app.post("/partidos", async (req, res) => {
   }
 });
 
-app.post("/equipos_competencias", async (req, res) => {
-  try {
-    const { posicion, id_competencia, id_equipo } = req.body;
-    const faltan = camposFaltantes(req.body, ["posicion", "id_competencia", "id_equipo"]);
-    if (faltan.length > 0) {
-      return res.status(400).json({ error: `Faltan datos: ${faltan.join(", ")}` });
-    }
-    const sql = "INSERT INTO Equipos_Competencias (posicion, id_competencia, id_equipo) VALUES (?, ?, ?)";
-    const result = await realizarQuery(sql, [posicion, id_competencia, id_equipo]);
-    res.json({ id_equipo_competencia: result.insertId, ...req.body });
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
 app.post("/usuarios", async (req, res) => {
   try {
     const { nombre, apellido, email, contraseña, es_admin } = req.body;
@@ -385,25 +270,6 @@ app.post("/usuarios", async (req, res) => {
   }
 });
 
-// Login: compara en el servidor y devuelve el usuario SIN la contraseña
-app.post("/login", async (req, res) => {
-  try {
-    const { email, contraseña } = req.body;
-    const faltan = camposFaltantes(req.body, ["email", "contraseña"]);
-    if (faltan.length > 0) {
-      return res.status(400).json({ error: `Faltan datos: ${faltan.join(", ")}` });
-    }
-    const sql = "SELECT id_usuario, nombre, apellido, email, es_admin FROM Usuarios_tpf WHERE email = ? AND `contraseña` = ?";
-    const result = await realizarQuery(sql, [email, contraseña]);
-    if (result.length === 0) {
-      return res.status(401).json({ error: "Email o contraseña incorrectos" });
-    }
-    res.json(result[0]);
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
 // PUT PUT PUT PUT PUT PUT PUT PUT PUT PUT PUT
 
 // PUT para la actualización de registros en cada tabla
@@ -411,15 +277,13 @@ app.post("/login", async (req, res) => {
 app.put("/deportes/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, es_equipo } = req.body;
-    // El frontend manda "descripcion"; en la base la columna está escrita "descrpcion"
-    const descrpcion = req.body.descripcion ?? req.body.descrpcion;
-    const faltan = camposFaltantes({ ...req.body, descrpcion }, ["nombre", "descrpcion", "es_equipo"]);
+    const { nombre, descripcion, es_equipo } = req.body;
+    const faltan = camposFaltantes(req.body, ["nombre", "descripcion", "es_equipo"]);
     if (faltan.length > 0) {
       return res.status(400).json({ error: `Faltan datos: ${faltan.join(", ")}` });
     }
-    const sql = "UPDATE Deportes SET nombre = ?, descrpcion = ?, es_equipo = ? WHERE id_deporte = ?";
-    const result = await realizarQuery(sql, [nombre, descrpcion, es_equipo, id]);
+    const sql = "UPDATE Deportes SET nombre = ?, descripcion = ?, es_equipo = ? WHERE id_deporte = ?";
+    const result = await realizarQuery(sql, [nombre, descripcion, es_equipo, id]);
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: "No se encontró el registro." });
     }
@@ -511,44 +375,6 @@ app.put("/partidos/:id", async (req, res) => {
   }
 });
 
-app.put("/equipos_competencias/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { posicion, id_competencia, id_equipo } = req.body;
-    const faltan = camposFaltantes(req.body, ["posicion", "id_competencia", "id_equipo"]);
-    if (faltan.length > 0) {
-      return res.status(400).json({ error: `Faltan datos: ${faltan.join(", ")}` });
-    }
-    const sql = "UPDATE Equipos_Competencias SET posicion = ?, id_competencia = ?, id_equipo = ? WHERE id_equipo_competencia = ?";
-    const result = await realizarQuery(sql, [posicion, id_competencia, id_equipo, id]);
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "No se encontró el registro." });
-    }
-    res.json({ id_equipo_competencia: id, ...req.body });
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
-app.put("/usuarios/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { nombre, apellido, email, contraseña, es_admin } = req.body;
-    const faltan = camposFaltantes(req.body, ["nombre", "apellido", "email", "contraseña", "es_admin"]);
-    if (faltan.length > 0) {
-      return res.status(400).json({ error: `Faltan datos: ${faltan.join(", ")}` });
-    }
-    const sql = "UPDATE Usuarios_tpf SET nombre = ?, apellido = ?, email = ?, `contraseña` = ?, es_admin = ? WHERE id_usuario = ?";
-    const result = await realizarQuery(sql, [nombre, apellido, email, contraseña, es_admin, id]);
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "No se encontró el registro." });
-    }
-    res.json({ id_usuario: id, ...req.body });
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
 //DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE
 
 app.delete("/deportes/:id", async (req, res) => {
@@ -620,35 +446,6 @@ app.delete("/partidos/:id", async (req, res) => {
     manejarError(res, error);
   }
 });
-
-app.delete("/equipos_competencias/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "DELETE FROM Equipos_Competencias WHERE id_equipo_competencia = ?";
-    const result = await realizarQuery(sql, [id]);
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "No se encontró el registro." });
-    }
-    res.json({ mensaje: "Inscripción eliminada", id_equipo_competencia: id });
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
-app.delete("/usuarios/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sql = "DELETE FROM Usuarios_tpf WHERE id_usuario = ?";
-    const result = await realizarQuery(sql, [id]);
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "No se encontró el registro." });
-    }
-    res.json({ mensaje: "Usuario eliminado", id_usuario: id });
-  } catch (error) {
-    manejarError(res, error);
-  }
-});
-
 
 // Eventos de WebSockets
 io.on("connection", (socket) => {
