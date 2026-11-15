@@ -16,9 +16,10 @@ const RESULTADOS = [
   { valor: 3, texto: "Empate" },
 ]
 
-// Configuración de cada categoría según las tablas de la base de datos.
+// Configuración de cada categsoría según las tablas de la base de datos.
 // tipo: "text" | "number" | "date" | "time" | "select" | "booleano" | "opciones" | "imagen"
 // max: largo máximo de la columna VARCHAR
+//mayor facilidad al expandir categorias
 const categorias = {
   deportes: {
     titulo: "Deportes",
@@ -88,6 +89,7 @@ const categorias = {
     endpoint: "partidos",
     idCampo: "id_partido",
     campos: [
+      //los select de parametros usan el valor de origen acllaro
       { nombre: "id_competencia", label: "Competencia", tipo: "select", origen: "competencias", requerido: true },
       { nombre: "id_equipo_local", label: "Equipo local", tipo: "select", origen: "equiposDeCompetencia", requerido: true },
       { nombre: "id_equipo_visitante", label: "Equipo visitante", tipo: "select", origen: "equiposDeCompetencia", requerido: true },
@@ -98,7 +100,7 @@ const categorias = {
     ],
   },
 }
-
+//Arma un objeto con todos los campos de esa tabla en blanco, se usa al cambiar de tarjeta, al cancelar y después de guardar
 const formularioVacio = (clave) => {
   const vacio = {}
   categorias[clave].campos.forEach((campo) => {
@@ -107,9 +109,9 @@ const formularioVacio = (clave) => {
   return vacio
 }
 
-// MySQL devuelve las fechas como "2027-03-12T03:00:00.000Z".
-// El input type="date" necesita "2027-03-12".
-const aFechaInput = (valor) => {
+// MySQL devuelve las fechas como "2027-03-12T03:00:00.000Z"
+// El input type="date" necesita "2027-03-12"
+const aFechaInput = (valor) => { // convierte la fecha del imput
   if (!valor) {
     return ""
   }
@@ -125,7 +127,7 @@ const aFechaInput = (valor) => {
   return `${fecha.getFullYear()}-${mes}-${dia}`
 }
 
-const fechaLegible = (valor) => {
+const fechaLegible = (valor) => { //convierte a fecha para mostrar
   const texto = aFechaInput(valor)
   if (!texto) {
     return "Sin fecha"
@@ -138,9 +140,9 @@ const fechaLegible = (valor) => {
 const BACKEND = "http://localhost:4000"
 
 // Convierte lo guardado en la base en una dirección que el navegador pueda mostrar:
-//  - "/uploads/..."  → imagen subida al backend      → http://localhost:4000/uploads/...
-//  - "/imagenes/..." → imagen en frontend/public     → se usa tal cual
-//  - "https://..."   → imagen de internet            → se usa tal cual
+// /uploads/ imagen subida al backend      http://localhost:4000/uploads/...
+// /imagenes/ imagen en frontend/public     se usa tal cual
+// "https:// imagen de internet            → se usa tal cual
 const urlImagen = (valor) => {
   if (!valor) {
     return null
@@ -170,7 +172,7 @@ export default function AdminPage() {
   const cargarDatos = () => {
     fetch("http://localhost:4000/deportes")
       .then((response) => response.json())
-      .then((data) => setDeportes(Array.isArray(data) ? data : []))
+      .then((data) => setDeportes(Array.isArray(data) ? data : [])) //si data es una lista la usa, sino lo convierte en una lista vacia nomas para seguridad y para no comerme la cabeza con estos errores
       .catch(() => setDeportes([]))
 
     fetch("http://localhost:4000/equipos")
@@ -202,7 +204,7 @@ export default function AdminPage() {
   const config = categorias[categoria]
   const registros = listas[categoria]
 
-  // ---------- Helpers para mostrar relaciones ----------
+  // ---------- busquedas ----------
 
   const nombreDeporte = (idDeporte) => {
     const deporte = deportes.find((d) => d.id_deporte === idDeporte)
@@ -224,7 +226,7 @@ export default function AdminPage() {
     return resultado ? resultado.texto : "Sin resultado"
   }
 
-  const tituloRegistro = (registro) => {
+  const tituloRegistro = (registro) => { //para tener el nombre de un jugador para mostrar y lo mismo con partidos
     if (categoria === "jugadores") {
       return `${registro.nombre} ${registro.apellido}`
     }
@@ -234,7 +236,7 @@ export default function AdminPage() {
     return registro.nombre
   }
 
-  const detalleRegistro = (registro) => {
+  const detalleRegistro = (registro) => { //lo mismo aca esto saca info para mostrar cada registro de cada categoria
     if (categoria === "deportes") {
       const tipo = registro.es_equipo ? "Equipo" : "Individual"
       const cantidad = equipos.filter((e) => e.id_deporte === registro.id_deporte).length
@@ -254,7 +256,7 @@ export default function AdminPage() {
     return `${nombreDeporte(registro.id_deporte)} · ${fechaLegible(registro.fecha_inicio)} al ${fechaLegible(registro.fecha_fin)}`
   }
 
-  const opcionesSelect = (origen) => {
+  const opcionesSelect = (origen) => { //consigue los valores para los select de los formularios
     if (origen === "deportes") {
       return deportes.map((d) => ({ valor: d.id_deporte, texto: d.nombre }))
     }
@@ -271,7 +273,7 @@ export default function AdminPage() {
 
   // ---------- Formulario ----------
 
-  const cambiarCategoria = (clave) => {
+  const cambiarCategoria = (clave) => { //func para cambiar de formulario
     setCategoria(clave)
     setFormulario(formularioVacio(clave))
     setEditandoId(null)
@@ -290,9 +292,9 @@ export default function AdminPage() {
 
   // Sube el archivo elegido al backend y guarda la ruta que devuelve en el formulario
   const subirImagen = (nombreCampo) => (event) => {
-    const archivo = event.target.files[0]
+    const archivo = event.target.files[0]//toma el archivo
     event.target.value = "" // permite volver a elegir el mismo archivo
-    if (!archivo) {
+    if (!archivo) { //si se cancela el evento se dispara igual pero como el archivo es undifined lo corta aca
       return
     }
 
