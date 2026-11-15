@@ -13,6 +13,7 @@ export default function BuscarPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
+  //se obtienen los parametrosd de busqueda despuesde haber tocado buscar
   const q = searchParams.get("q") || ""
   const id = searchParams.get("id")
   const nombre = searchParams.get("nombre")
@@ -24,7 +25,7 @@ export default function BuscarPage() {
   const [equipos, setEquipos] = useState([])
   const [jugadores, setJugadores] = useState([])
   const [competencias, setCompetencias] = useState([])
-
+  //fetch a equipos jugadoes y deportes para la busqueda y competencias
   useEffect(() => {
     fetch("http://localhost:4000/deportes")
       .then((response) => response.json())
@@ -47,9 +48,9 @@ export default function BuscarPage() {
       .catch(() => setCompetencias([]))
   }, [])
 
-  const texto = q.toLowerCase()
+  const texto = q.toLowerCase() //nuestra busqueda
 
-  const coincide = (valor) => String(valor || "").toLowerCase().includes(texto)
+  const coincide = (valor) => String(valor || "").toLowerCase().includes(texto) //funcion que se aplicara a cada registro de todos los datos que nos dieron niestros fetchj
 
   const nombreDeporte = (idDeporte) => {
     const deporte = deportes.find((d) => d.id_deporte === idDeporte)
@@ -60,18 +61,18 @@ export default function BuscarPage() {
     return equipos.find((equipo) => equipo.id_equipo === idEquipo)
   }
 
-  const deportesEncontrados = deportes.filter((d) => coincide(d.nombre) || coincide(d.descrpcion))
-  const equiposEncontrados = equipos.filter((e) => coincide(e.nombre) || coincide(e.descripcion))
+  const deportesEncontrados = deportes.filter((d) => coincide(d.nombre) || coincide(d.descrpcion)) //se consuguie las similitudes entre nuestra busqueda y las deescripciones o nombres encontrados
+  const equiposEncontrados = equipos.filter((e) => coincide(e.nombre) || coincide(e.descripcion)) //mismo de arriba
   const jugadoresEncontrados = jugadores.filter(
     (j) => coincide(`${j.nombre} ${j.apellido}`) || coincide(j.nacionalidad)
-  )
-  const competenciasEncontradas = competencias.filter((c) => coincide(c.nombre) || coincide(c.descrpcion))
+  ) //coincidencias de nombre apellido y nacionaliodad
+  const competenciasEncontradas = competencias.filter((c) => coincide(c.nombre) || coincide(c.descrpcion)) //coincidencias de nom y desc
 
   const total =
     deportesEncontrados.length +
     equiposEncontrados.length +
     jugadoresEncontrados.length +
-    competenciasEncontradas.length
+    competenciasEncontradas.length;
 
   const ir = (ruta) => {
     router.push(`${ruta}?${params}`)
@@ -79,10 +80,10 @@ export default function BuscarPage() {
 
   return (
     <div className={styles.contenedor}>
-      <span className={styles.etiqueta}>BUSCAR / PIOZONE</span>
+      <span className={styles.etiqueta}>BUSCAR / PIOZONE</span> {/*titulos tu busqueda descripcion del apartado*/}
       <h1 className={styles.titulo}>“{q}”</h1>
       <p className={styles.descripcion}>
-        {total} {total === 1 ? "resultado" : "resultados"} en deportes, equipos, jugadores y competencias.
+        {total} {total === 1 ? "resultado" : "resultados"} en deportes, equipos, jugadores y competencias. 
       </p>
 
       {total === 0 && (
@@ -92,11 +93,11 @@ export default function BuscarPage() {
         </>
       )}
 
-      {deportesEncontrados.length > 0 && (
+      {deportesEncontrados.length > 0 && ( //si se encuentran deportes
         <>
           <h2 className={styles.seccionTitulo}>Deportes</h2>
           <div className={styles.grilla}>
-            {deportesEncontrados.map((deporte) => (
+            {deportesEncontrados.map((deporte) => ( //se hace un map a deportes encontrados y toidos se renderizan
               <CardDeporte
                 key={deporte.id_deporte}
                 nombre={deporte.nombre}
@@ -109,11 +110,11 @@ export default function BuscarPage() {
         </>
       )}
 
-      {equiposEncontrados.length > 0 && (
+      {equiposEncontrados.length > 0 && ( //lo mismo aca
         <>
           <h2 className={styles.seccionTitulo}>Equipos</h2>
           <div className={styles.grilla}>
-            {equiposEncontrados.map((equipo) => (
+            {equiposEncontrados.map((equipo) => ( //lo mismo aca
               <CardEquipo
                 key={equipo.id_equipo}
                 nombre={equipo.nombre}
@@ -127,11 +128,11 @@ export default function BuscarPage() {
         </>
       )}
 
-      {jugadoresEncontrados.length > 0 && (
+      {jugadoresEncontrados.length > 0 && ( // mismo
         <>
           <h2 className={styles.seccionTitulo}>Jugadores</h2>
           <div className={styles.grilla}>
-            {jugadoresEncontrados.map((jugador) => {
+            {jugadoresEncontrados.map((jugador) => { //mismo
               const equipo = buscarEquipo(jugador.id_equipo)
               return (
                 <CardJugador
@@ -150,7 +151,7 @@ export default function BuscarPage() {
         </>
       )}
 
-      {competenciasEncontradas.length > 0 && (
+      {competenciasEncontradas.length > 0 && ( // mismo
         <>
           <h2 className={styles.seccionTitulo}>Competencias</h2>
           <div className={styles.grilla}>

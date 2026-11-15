@@ -26,40 +26,42 @@ export default function CompetenciasPage() {
   const [filtroEstado, setFiltroEstado] = useState("todos")
   const [orden, setOrden] = useState("fecha")
 
+
+  //se ejecutan los fetch para de competencias partridos y deportes
   useEffect(() => {
-    fetch("http://localhost:4000/competencias")
+    fetch("http://localhost:4000/competencias") //fetch a competencias para postrarlas con CardCompetencia
       .then((response) => response.json())
       .then((data) => setCompetencias(Array.isArray(data) ? data : []))
       .catch(() => setCompetencias([]))
 
-    fetch("http://localhost:4000/partidos")
+    fetch("http://localhost:4000/partidos") //para ver la cantidad de partidos en custo (info que nesesita la card)
       .then((response) => response.json())
       .then((data) => setPartidos(Array.isArray(data) ? data : []))
       .catch(() => setPartidos([]))
 
-    fetch("http://localhost:4000/deportes")
+    fetch("http://localhost:4000/deportes") //info para la card para decir que deporte es
       .then((response) => response.json())
       .then((data) => setDeportes(Array.isArray(data) ? data : []))
       .catch(() => setDeportes([]))
   }, [])
-
-  const onChangeBusqueda = (event) => {
+  //se presenta una barra de navegacion arriva de las cards deporetes
+  const onChangeBusqueda = (event) => { //al cambiar la busqueda
     setBusqueda(event.target.value)
   }
 
-  const onChangeDeporte = (event) => {
+  const onChangeDeporte = (event) => { //al cambiar el deporte 
     setFiltroDeporte(event.target.value)
   }
 
-  const onChangeEstado = (event) => {
+  const onChangeEstado = (event) => { //al camvbiar el estado
     setFiltroEstado(event.target.value)
   }
 
-  const onChangeOrden = (event) => {
+  const onChangeOrden = (event) => { // al cambiar el origen
     setOrden(event.target.value)
   }
 
-  const limpiarFiltros = () => {
+  const limpiarFiltros = () => { //el boton para limpiar el filtro
     setBusqueda("")
     setFiltroDeporte("todos")
     setFiltroEstado("todos")
@@ -67,32 +69,32 @@ export default function CompetenciasPage() {
   }
 
   const nombreDeporte = (idDeporte) => {
-    const deporte = deportes.find((d) => d.id_deporte === idDeporte)
+    const deporte = deportes.find((d) => d.id_deporte === idDeporte) //info para la card nesesita el nombre del deporte
     return deporte ? deporte.nombre : "Sin deporte"
   }
 
   const contarPartidos = (idCompetencia) => {
-    return partidos.filter((partido) => partido.id_competencia === idCompetencia).length
+    return partidos.filter((partido) => partido.id_competencia === idCompetencia).length //info para la card (nesesita el numero de partidos activos)
   }
 
-  const hoy = hoySinHora()
+  const hoy = hoySinHora() //que ghora es hoy
 
-  // proxima: todavía no empezó · encurso: entre inicio y fin · finalizada: ya terminó
+  // calcular los estados
   const calcularEstado = (inicio, fin) => {
-    if (!inicio) {
+    if (!inicio) { //si no hay inicio
       return { clave: "sinfecha", texto: "Sin fecha", proximo: false }
     }
-    if (inicio > hoy) {
+    if (inicio > hoy) { //si inicia proximamente
       return { clave: "proxima", texto: "Próxima", proximo: true }
     }
-    if (!fin || fin >= hoy) {
+    if (!fin || fin >= hoy) { //esta en curso
       return { clave: "encurso", texto: "En curso", proximo: true }
     }
-    return { clave: "finalizada", texto: "Finalizada", proximo: false }
+    return { clave: "finalizada", texto: "Finalizada", proximo: false } //si finalizo
   }
 
-  const items = competencias.map((competencia) => {
-    const inicio = convertirFecha(competencia.fecha_inicio)
+  const items = competencias.map((competencia) => { //toda la info que se usara para la card
+    const inicio = convertirFecha(competencia.fecha_inicio)//funcion traida de /utils
     const fin = convertirFecha(competencia.fecha_fin)
     return {
       id: competencia.id_competencia,
@@ -105,27 +107,27 @@ export default function CompetenciasPage() {
   })
 
   const verDetalle = (idCompetencia) => {
-    router.push(`/home/competencias/${idCompetencia}?${params}`)
+    router.push(`/home/competencias/${idCompetencia}?${params}`) //al tocar el botyon de la tarjeta nos lleva acom/id
   }
 
-  const texto = busqueda.toLowerCase()
+  const texto = busqueda.toLowerCase() //ponemos a min la busqueda
 
-  const itemsFiltrados = items.filter((item) => {
+  const itemsFiltrados = items.filter((item) => { //al filtrar con la barra de filttracion de arriba da esto
     const coincideTexto =
-      item.nombre.toLowerCase().includes(texto) ||
-      nombreDeporte(item.idDeporte).toLowerCase().includes(texto)
+      item.nombre.toLowerCase().includes(texto) ||//si lacompetencia coincide con tu busqueda
+      nombreDeporte(item.idDeporte).toLowerCase().includes(texto)//si el deporte de la competencia coincide
 
     const coincideDeporte =
-      filtroDeporte === "todos" || String(item.idDeporte) === filtroDeporte
+      filtroDeporte === "todos" || String(item.idDeporte) === filtroDeporte // siu coincide el selector del deporte
 
     const coincideEstado =
-      filtroEstado === "todos" || item.estado.clave === filtroEstado
+      filtroEstado === "todos" || item.estado.clave === filtroEstado // si coincide el estado (finalizado en progreso etc)
 
-    return coincideTexto && coincideDeporte && coincideEstado
+    return coincideTexto && coincideDeporte && coincideEstado //retirba estas listas transformadas
   })
 
   // Orden de los estados cuando se ordena por fecha
-  const prioridadEstado = { encurso: 0, proxima: 1, finalizada: 2, sinfecha: 3 }
+  const prioridadEstado = { encurso: 0, proxima: 1, finalizada: 2, sinfecha: 3 } //rpioridades asi esta mas ordenados
 
   const itemsOrdenados = [...itemsFiltrados].sort((a, b) => {
     if (orden === "az") {
@@ -134,6 +136,7 @@ export default function CompetenciasPage() {
     if (orden === "za") {
       return b.nombre.localeCompare(a.nombre)
     }
+    //ordenado:
     // Por fecha: primero las que están en curso, después las próximas (la más
     // cercana arriba), después las finalizadas (la más reciente arriba)
     const diferencia = prioridadEstado[a.estado.clave] - prioridadEstado[b.estado.clave]
@@ -142,9 +145,9 @@ export default function CompetenciasPage() {
     return a.estado.clave === "finalizada" ? b.fecha - a.fecha : a.fecha - b.fecha
   })
 
-  const textosEstado = { proxima: "Próximas", encurso: "En curso", finalizada: "Finalizadas" }
+  const textosEstado = { proxima: "Próximas", encurso: "En curso", finalizada: "Finalizadas" } //los textos de estado
 
-  const hayFiltros = busqueda !== "" || filtroDeporte !== "todos" || filtroEstado !== "todos"
+  const hayFiltros = busqueda !== "" || filtroDeporte !== "todos" || filtroEstado !== "todos" //bool si hay fgiltrtods
 
   return (
     <div className={styles.contenedor}>
@@ -223,7 +226,7 @@ export default function CompetenciasPage() {
       ) : (
         <div className={styles.grilla}>
           {itemsOrdenados.map((item) => (
-            <CardCompetencia
+            <CardCompetencia //toda la info para la tarjeta competencia sale de la const items ordenados
               key={item.id}
               tipo={"Competencia"}
               nombre={item.nombre}

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import Input from "@/components/Input"
 import Button from "@/components/Button"
-import CardGestion from "@/components/CardGestion"
+import CardGestion from "@/components/CardGestion" //las tarjetas de arriba
 import FilaRegistro from "@/components/FilaRegistro"
 import styles from "./page.module.css"
 
@@ -141,8 +141,6 @@ const BACKEND = "http://localhost:4000"
 
 // Convierte lo guardado en la base en una dirección que el navegador pueda mostrar:
 // /uploads/ imagen subida al backend      http://localhost:4000/uploads/...
-// /imagenes/ imagen en frontend/public     se usa tal cual
-// "https:// imagen de internet            → se usa tal cual
 const urlImagen = (valor) => {
   if (!valor) {
     return null
@@ -299,9 +297,9 @@ export default function AdminPage() {
     }
 
     const datos = new FormData()
-    datos.append("imagen", archivo)
+    datos.append("imagen", archivo) //append("imagen", archivo) agrega un dato llamado "imagen" con el archivo como valor ese nombre tiene que coincidir con el del backend es para formatearlo
 
-    setSubiendo(true)
+    setSubiendo(true) //el boton pasa a ser "subiendo" la funch guardar() revisa este estado y no lo guarda si se esta subiendo
     setMensaje(null)
 
     // Sin "Content-Type": el navegador lo arma solo para FormData
@@ -314,8 +312,8 @@ export default function AdminPage() {
         setFormulario((anterior) => ({ ...anterior, [nombreCampo]: data.ruta }))
         setMensaje({ tipo: "ok", texto: "Imagen subida. Guardá el registro para aplicarla." })
       })
-      .catch((error) => {
-        setMensaje({ tipo: "error", texto: error.message || "No se pudo subir la imagen." })
+      .catch((error) => { 
+        setMensaje({ tipo: "error", texto: error.message || "No se pudo subir la imagen." }) //fallos
       })
       .finally(() => setSubiendo(false))
   }
@@ -323,25 +321,25 @@ export default function AdminPage() {
   // Imagen de cada registro para la miniatura de la lista
   const imagenRegistro = (registro) => {
     if (categoria === "equipos") {
-      return urlImagen(registro.logo_url)
+      return urlImagen(registro.logo_url) //ejecuta el el peddido
     }
     if (categoria === "jugadores") {
-      return urlImagen(registro.imagen_url)
+      return urlImagen(registro.imagen_url) //lo mismo
     }
     return null
   }
 
-  const cancelarEdicion = () => {
+  const cancelarEdicion = () => { //no hace falta explicar mucho aca
     setFormulario(formularioVacio(categoria))
     setEditandoId(null)
     setMensaje(null)
   }
 
   const editar = (registro) => {
-    const datos = {}
-    config.campos.forEach((campo) => {
+    const datos = {}  // Objeto vacío donde se van a ir guardando los valores ya convertidos para el formulario
+    config.campos.forEach((campo) => { // Recorre los campos de la tabla actual (los definidos en "categorias"), uno por uno
       const valor = registro[campo.nombre]
-      if (campo.tipo === "date") {
+      if (campo.tipo === "date") { //formatea cada campoq
         datos[campo.nombre] = aFechaInput(valor)
       } else if (campo.tipo === "time") {
         datos[campo.nombre] = valor ? String(valor).slice(0, 5) : ""
@@ -351,79 +349,80 @@ export default function AdminPage() {
         datos[campo.nombre] = valor === null || valor === undefined ? "" : String(valor)
       }
     })
-    setFormulario(datos)
-    setEditandoId(registro[config.idCampo])
-    setMensaje(null)
+    setFormulario(datos) //setea el formulario con el objeto datos
+    setEditandoId(registro[config.idCampo]) // Guarda el id del registro (ej: id_equipo = 5): ahora "Guardar" va a hacer PUT /equipos/5
+    setMensaje(null)// Borra el cartel verde o rojo que hubiera de una acción anterior
   }
 
   // Arma el body: selects y números como Number, booleano como 1/0, el resto como texto
   const armarBody = () => {
-    const body = {}
-    config.campos.forEach((campo) => {
-      const valor = formulario[campo.nombre]
+    const body = {} // Objeto vacío donde se van a ir guardando los valores listos para la base
+    config.campos.forEach((campo) => {  // Recorre los campos de la tabla actual (los definidos en "categorias"), uno por uno
+      const valor = formulario[campo.nombre]   // Lee lo que hay escrito o elegido en ese campo
       if (["select", "number", "booleano", "opciones"].includes(campo.tipo)) {
-        body[campo.nombre] = valor === "" ? null : Number(valor)
+        body[campo.nombre] = valor === "" ? null : Number(valor) //si quedó vacío manda null (sin valor) si no lo convierte a número ("3" a 3)
       } else {
-        body[campo.nombre] = valor.trim()
+        body[campo.nombre] = valor.trim() //saca espacios del inicio y final
       }
     })
-    return body
+    return body // Devuelve el objeto armado; guardar() lo convierte a JSON y lo manda
   }
 
   // Devuelve un texto de error, o null si está todo bien
   const validar = () => {
-    const faltantes = config.campos.filter(
-      (campo) => campo.requerido && String(formulario[campo.nombre]).trim() === ""
+    const faltantes = config.campos.filter( //chekeamos si campos obligatorios quearon vacios
+      (campo) => campo.requerido && String(formulario[campo.nombre]).trim() === "" // Un campo "falta" si es requerido Y lo escrito (sin espacios) está vacío
     )
     if (faltantes.length > 0) {
-      return `Completá: ${faltantes.map((c) => c.label).join(", ")}.`
+      return `Completá: ${faltantes.map((c) => c.label).join(", ")}.`  //es el error que se devielve
     }
 
-    const largos = config.campos.filter(
+    const largos = config.campos.filter( // Arma la lista de campos con largo máximo cuyo texto se pasa de ese máximo
       (campo) => campo.max && formulario[campo.nombre].trim().length > campo.max
     )
+    //si alguno se pasa
     if (largos.length > 0) {
       return largos.map((c) => `«${c.label}» admite hasta ${c.max} caracteres.`).join(" ")
     }
 
-    if (categoria === "partidos" && formulario.id_equipo_local === formulario.id_equipo_visitante) {
+    if (categoria === "partidos" && formulario.id_equipo_local === formulario.id_equipo_visitante) { //si los 2 equipos son iguales
       return "El equipo local y el visitante tienen que ser distintos."
     }
 
-    if (categoria === "competencias" && formulario.fecha_fin < formulario.fecha_inicio) {
+    if (categoria === "competencias" && formulario.fecha_fin < formulario.fecha_inicio) { //si inicia despues de terminar
       return "La fecha de fin no puede ser anterior a la de inicio."
     }
-
-    return null
+  
+    return null //paso todos los chekeos
   }
 
-  const guardar = (event) => {
-    event.preventDefault()
+  const guardar = (event) => { // Se ejecuta al tocar Agregar registro o Guardar cambios
+    event.preventDefault()// Evita que el formulario recargue la página, que es lo que hace un <form> por defecto
 
-    if (subiendo) {
-      setMensaje({ tipo: "error", texto: "Esperá a que termine de subir la imagen." })
+    if (subiendo) { 
+      setMensaje({ tipo: "error", texto: "Esperá a que termine de subir la imagen." }) //si todavia se esta subiendo una imagen se corta
       return
     }
 
-    const error = validar()
+    const error = validar() //se llama a la funcion de validacion y se devuelve el error en caso de que la validacion fallo y dio con ubn error
     if (error) {
       setMensaje({ tipo: "error", texto: error })
       return
     }
 
-    const url = editandoId
-      ? `http://localhost:4000/${config.endpoint}/${editandoId}`
-      : `http://localhost:4000/${config.endpoint}`
+    const url = editandoId //arma direccion pedido
+      ? `http://localhost:4000/${config.endpoint}/${editandoId}` //pedido si se esta editando
+      : `http://localhost:4000/${config.endpoint}`//pedido si se esta posteando
 
-    fetch(url, {
-      method: editandoId ? "PUT" : "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(armarBody()),
+    fetch(url, { //se hace el dedido
+      method: editandoId ? "PUT" : "POST", //si hay un id es put y sino post
+      headers: { "Content-Type": "application/json" }, //default
+      body: JSON.stringify(armarBody()), // los datos que se envian
     })
       .then((response) =>
         response.json().then((data) => {
           if (!response.ok) {
-            throw new Error(data.error || "No se pudo guardar.")
+            throw new Error(data.error || "No se pudo guardar.") //manda el error del backend y salta a catch
           }
           return data
         })
@@ -432,51 +431,53 @@ export default function AdminPage() {
         setMensaje({
           tipo: "ok",
           texto: editandoId
-            ? `Se actualizó ${config.articulo} ${config.singular}.`
-            : `Se agregó ${config.articulo} ${config.singular}.`,
+            ? `Se actualizo ${config.articulo} ${config.singular}.`//mensajes para el usuario
+            : `Se agrego ${config.articulo} ${config.singular}.`, // lo miusmo de arriba
         })
-        setFormulario(formularioVacio(categoria))
-        setEditandoId(null)
-        cargarDatos()
+        setFormulario(formularioVacio(categoria)) //deja el form en blanco para cargar otro registro
+        setEditandoId(null) //sale del modo edicion
+        cargarDatos() //se vuelve a pedir los datos al back asi se muestra esta edicion o registro
       })
       .catch((error) => {
-        setMensaje({ tipo: "error", texto: error.message || "No se pudo guardar. Revisá los datos e intentá de nuevo." })
+        setMensaje({ tipo: "error", texto: error.message || "No se pudo guardar Revisa los datos e intenta de nuevo." })
       })
   }
 
-  const eliminar = (registro) => {
-    const idRegistro = registro[config.idCampo]
+  const eliminar = (registro) => { //se ejecuta al confirmar la eliminacion
+    const idRegistro = registro[config.idCampo] //se saca el id del registro
 
-    fetch(`http://localhost:4000/${config.endpoint}/${idRegistro}`, { method: "DELETE" })
+    fetch(`http://localhost:4000/${config.endpoint}/${idRegistro}`, { method: "DELETE" }) //se manda el pedido al back
       .then((response) =>
         response.json().then((data) => {
           if (!response.ok) {
-            throw new Error(data.error || "No se pudo eliminar.")
+            throw new Error(data.error || "No se pudo eliminar.") //en caso de errores
           }
           return data
         })
       )
       .then(() => {
-        setMensaje({ tipo: "ok", texto: `Se eliminó «${tituloRegistro(registro)}».` })
-        if (editandoId === idRegistro) {
-          setFormulario(formularioVacio(categoria))
-          setEditandoId(null)
+        setMensaje({ tipo: "ok", texto: `Se eliminó «${tituloRegistro(registro)}».` }) //mensaje de exito
+        if (editandoId === idRegistro) {  //si justo se estaba editando este registro
+          setFormulario(formularioVacio(categoria)) //se vacia el formularrio
+          setEditandoId(null) //se sale del modo edicioon 
         }
-        cargarDatos()
+        cargarDatos() //se renderiza los reegistros sin este eliminado
       })
       .catch((error) => {
-        setMensaje({ tipo: "error", texto: error.message || "No se pudo eliminar." })
+        setMensaje({ tipo: "error", texto: error.message || "No se pudo eliminar." }) //mensaje de error
       })
   }
 
-  // ---------- Vista ----------
+  // ---------- Vista/renderizado ----------
 
-  const renderCampo = (campo) => {
-    if (campo.tipo === "select") {
+  const renderCampo = (campo) => {// Mira de qué tipo es el campo y devuelve el control que hay que mostrar
+    if (campo.tipo === "select") { //si el campo a rellenar es un select
       return (
-        <select className={styles.select} value={formulario[campo.nombre]} onChange={onChangeCampo(campo.nombre)}>
+        // Muestra lo que está elegido y, al cambiar, lo guarda en el formulario
+        <select className={styles.select} value={formulario[campo.nombre]} onChange={onChangeCampo(campo.nombre)}> 
           <option value="">Elegí una opción</option>
-          {opcionesSelect(campo.origen).map((opcion) => (
+          {opcionesSelect(campo.origen).map((opcion) => ( /*se llama a la funcion para obtener las funciones*/
+             /* Una opcion por cada dato de la otra tabla (ej: Futbol, Basquet) */
             <option key={opcion.valor} value={String(opcion.valor)}>
               {opcion.texto}
             </option>
@@ -485,11 +486,11 @@ export default function AdminPage() {
       )
     }
 
-    if (campo.tipo === "opciones") {
+    if (campo.tipo === "opciones") { //si una lista desplegable con valores fijos
       return (
         <select className={styles.select} value={formulario[campo.nombre]} onChange={onChangeCampo(campo.nombre)}>
           <option value="">Elegí una opción</option>
-          {campo.opciones.map((opcion) => (
+          {campo.opciones.map((opcion) => ( //sE dan las opcions
             <option key={opcion.valor} value={String(opcion.valor)}>
               {opcion.texto}
             </option>
@@ -498,17 +499,17 @@ export default function AdminPage() {
       )
     }
 
-    if (campo.tipo === "booleano") {
+    if (campo.tipo === "booleano") { // si es bool
       return (
         <select className={styles.select} value={formulario[campo.nombre]} onChange={onChangeCampo(campo.nombre)}>
           <option value="">Elegí una opción</option>
           <option value="1">{campo.opciones[0]}</option>
-          <option value="0">{campo.opciones[1]}</option>
+          <option value="0">{campo.opciones[1]}</option> 
         </select>
       )
     }
 
-    if (campo.tipo === "imagen") {
+    if (campo.tipo === "imagen") {//si es un campo de imagen
       const vistaPrevia = urlImagen(formulario[campo.nombre])
       return (
         <div className={styles.imagenCampo}>
@@ -521,21 +522,21 @@ export default function AdminPage() {
               )}
             </div>
             <div className={styles.imagenAcciones}>
-              <label className={subiendo ? styles.botonArchivoDeshabilitado : styles.botonArchivo}>
+              <label className={subiendo ? styles.botonArchivoDeshabilitado : styles.botonArchivo}> {/*boton corte oculto adentro del label*/}
                 {subiendo ? "Subiendo..." : "Elegir imagen"}
                 <input
                   type="file"
-                  accept="image/png, image/jpeg, image/webp, image/svg+xml"
-                  onChange={subirImagen(campo.nombre)}
-                  disabled={subiendo}
+                  accept="image/png, image/jpeg, image/webp, image/svg+xml" //que formato
+                  onChange={subirImagen(campo.nombre)} //se llama a la func para subirla
+                  disabled={subiendo} //depende de si se esta subiendo
                   hidden
                 />
               </label>
-              <span className={styles.ayudaImagen}>JPG, PNG, WEBP o SVG · máx. 2 MB</span>
+              <span className={styles.ayudaImagen}>JPG, PNG, WEBP o SVG · máx. 2 MB</span> {/*aclaracion*/}
             </div>
           </div>
           <Input
-            onChange={onChangeCampo(campo.nombre)}
+            onChange={onChangeCampo(campo.nombre)} //caja con la ruta de la imagen
             placeholder={"/uploads/... o /imagenes/..."}
             value={formulario[campo.nombre]}
             type={"text"}
@@ -543,7 +544,7 @@ export default function AdminPage() {
         </div>
       )
     }
-
+    //cualquier otro input text, num, date, etc
     return (
       <Input
         onChange={onChangeCampo(campo.nombre)}
@@ -553,8 +554,8 @@ export default function AdminPage() {
       />
     )
   }
-
-  if (es_admin !== "1") {
+  
+  if (es_admin !== "1") { //si no es admin no se muestrea es como un doble chequeo
     return (
       <div className={styles.contenedor}>
         <span className={styles.etiqueta}>ADMINISTRACIÓN / PIOZONE</span>
@@ -576,7 +577,7 @@ export default function AdminPage() {
 
       <h2 className={styles.seccionTitulo}>Gestionar categorías</h2>
 
-      <div className={styles.categorias}>
+      <div className={styles.categorias}> {/*render de todas las tarjetas*/}
         {Object.keys(categorias).map((clave) => (
           <CardGestion
             key={clave}
@@ -588,7 +589,7 @@ export default function AdminPage() {
         ))}
       </div>
 
-      <div className={styles.panel}>
+      <div className={styles.panel}> {/*panel de edicion o creacion */}
         <form className={styles.formulario} onSubmit={guardar}>
           <span className={editandoId ? styles.modoEditar : styles.modoAgregar}>
             {editandoId ? "MODO EDICIÓN" : "NUEVO REGISTRO"}
@@ -604,14 +605,14 @@ export default function AdminPage() {
 
           {config.campos.map((campo) => (
             <div key={campo.nombre} className={styles.campo}>
-              <label className={styles.labelCampo}>
+              <label className={styles.labelCampo}> {/*las cosas de arriba de cada cambo osea el nombre y la marquita de su es obligatorio*/}
                 {campo.label}
                 {campo.requerido && <span className={styles.requerido}> *</span>}
               </label>
-              {renderCampo(campo)}
+              {renderCampo(campo)}{/*func para renderizar el campo*/}
               {campo.max && (
                 <span className={styles.ayuda}>
-                  {formulario[campo.nombre].length} / {campo.max}
+                  {formulario[campo.nombre].length} / {campo.max} {/*aclara cuanto espacio has usado y el limite*/}
                 </span>
               )}
             </div>
@@ -619,17 +620,17 @@ export default function AdminPage() {
 
           {mensaje && (
             <div className={mensaje.tipo === "ok" ? styles.mensajeOk : styles.mensajeError}>
-              {mensaje.texto}
+              {mensaje.texto} {/*el mensaje de abajo*/}
             </div>
           )}
 
           <div className={styles.botones}>
             <div className={styles.botonPrincipal}>
-              <Button type={"submit"}>{editandoId ? "Guardar cambios" : "Agregar registro"}</Button>
+              <Button type={"submit"}>{editandoId ? "Guardar cambios" : "Agregar registro"}</Button> {/*boton de agregar registro*/}
             </div>
             {editandoId && (
               <div className={styles.botonSecundario}>
-                <Button type={"button"} onClick={cancelarEdicion}>Cancelar</Button>
+                <Button type={"button"} onClick={cancelarEdicion}>Cancelar</Button> {/*boton de cancelamiento*/}
               </div>
             )}
           </div>
@@ -642,11 +643,12 @@ export default function AdminPage() {
           </div>
 
           {registros.length === 0 ? (
-            <div className={styles.vacio}>Todavía no hay registros en esta categoría.</div>
+            <div className={styles.vacio}>Todavía no hay registros en esta categoría.</div> //por si la categoria esta vacia
           ) : (
             <div className={styles.lista}>
               {registros.map((registro) => (
                 <FilaRegistro
+                //cada registro junto con sus funciones on editar o eliminar
                   key={registro[config.idCampo]}
                   titulo={tituloRegistro(registro)}
                   detalle={detalleRegistro(registro)}
@@ -663,7 +665,7 @@ export default function AdminPage() {
 
       <div className={styles.guia}>
         <h3 className={styles.guiaTitulo}>Guía rápida</h3>
-        <p className={styles.guiaTexto}>
+        <p className={styles.guiaTexto}>{/*prefooter o guia */}
           Elegí una categoría para ver sus registros. Usá el formulario para agregar uno nuevo, o tocá «Editar» para cargarlo en el formulario. Para eliminar se pide una confirmación antes de borrar.
         </p>
       </div>

@@ -4,18 +4,19 @@ import { useState } from "react"
 import styles from "./FilaRegistro.module.css"
 
 export default function FilaRegistro({ titulo, detalle, imagen, editando, onEditar, onEliminar }) {
-  const [confirmando, setConfirmando] = useState(false)
+  const [confirmando, setConfirmando] = useState(false)  // ¿Está mostrando la pregunta "¿Eliminar?"? Empieza en false (muestra Editar / Eliminar)
   // Guarda la ruta que falló: si la imagen cambia, se vuelve a intentar
-  const [imagenRota, setImagenRota] = useState(null)
+  const [imagenRota, setImagenRota] = useState(null)  // Guarda la ruta de una imagen que no cargó, para no mostrar el ícono de imagen rota.
 
-  const confirmarEliminar = () => {
+  const confirmarEliminar = () => { //es de cuando de toca eliminar
     setConfirmando(false)
     onEliminar()
   }
 
-  return (
+  return ( //si se esta editando se ve diff
     <div className={editando ? styles.filaEditando : styles.fila}>
       <div className={styles.izquierda}>
+        {/*muestra la img si hay y no es una q fallo*/}
         {imagen && imagen !== imagenRota && (
           <img src={imagen} alt="" className={styles.miniatura} onError={() => setImagenRota(imagen)} />
         )}
@@ -29,12 +30,12 @@ export default function FilaRegistro({ titulo, detalle, imagen, editando, onEdit
         <div className={styles.acciones}>
           <span className={styles.pregunta}>¿Eliminar?</span>
           <button className={styles.peligro} onClick={confirmarEliminar}>Sí, eliminar</button>
-          <button className={styles.secundario} onClick={() => setConfirmando(false)}>Cancelar</button>
+          <button className={styles.secundario} onClick={() => setConfirmando(false)}>Cancelar</button> {/*si se arrepiente*/}
         </div>
       ) : (
         <div className={styles.acciones}>
           <button className={styles.primario} onClick={onEditar}>Editar</button>
-          <button className={styles.secundario} onClick={() => setConfirmando(true)}>Eliminar</button>
+          <button className={styles.secundario} onClick={() => setConfirmando(true)}>Eliminar</button> {/*si lo confirma*/}
         </div>
       )}
     </div>
