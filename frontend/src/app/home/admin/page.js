@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import Input from "@/components/Input"
 import Button from "@/components/Button"
-import CardGestion from "@/components/CardGestion"
+import CardGestion from "@/components/CardGestion" //las tarjetas de arriba
 import FilaRegistro from "@/components/FilaRegistro"
 import styles from "./page.module.css"
 
