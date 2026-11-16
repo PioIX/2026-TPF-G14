@@ -10,6 +10,7 @@
   box-shadow: var(--sombra);
   font-family: var(--fuente);
   overflow: hidden;
+  cursor: pointer;
   transition: transform var(--transicion), box-shadow var(--transicion), border-color var(--transicion);
 }
 
@@ -18,13 +19,13 @@
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--azul) 0%, #4f8ae8 100%);
+  background: linear-gradient(90deg, var(--azul) 0%, var(--azul-vivo) 55%, var(--acento) 100%);
   opacity: 0;
   transition: opacity var(--transicion);
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   border-color: var(--borde);
   box-shadow: var(--sombra-alta);
 }
@@ -54,11 +55,12 @@
   min-width: 34px;
   padding: 3px 9px;
   border-radius: 999px;
-  background-color: var(--azul-claro);
+  background: linear-gradient(135deg, var(--azul) 0%, var(--azul-vivo) 100%);
   font-family: var(--fuente-titulo);
   font-size: 16px;
   font-weight: 800;
-  color: var(--azul);
+  color: var(--blanco);
+  box-shadow: 0 3px 8px rgba(29, 63, 216, 0.3);
 }
 
 .titulo {
