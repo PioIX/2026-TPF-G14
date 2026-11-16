@@ -7,9 +7,14 @@
   min-height: 100vh;
   padding: 24px;
   background:
-    radial-gradient(circle at 20% 0%, rgba(26, 79, 168, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 20% 0%, rgba(29, 63, 216, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 90% 100%, rgba(255, 122, 26, 0.08) 0%, transparent 45%),
     linear-gradient(180deg, var(--blanco) 0%, var(--azul-claro) 100%);
   font-family: var(--fuente);
+}
+
+.contenedor > * {
+  animation: subir 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .formulario {
@@ -29,7 +34,7 @@
   align-self: center;
   padding: 5px 14px;
   border-radius: 999px;
-  background-color: var(--azul-claro);
+  background: linear-gradient(135deg, rgba(29, 63, 216, 0.12) 0%, rgba(255, 122, 26, 0.14) 100%);
   font-family: var(--fuente-titulo);
   font-size: 13px;
   font-weight: 800;
@@ -89,6 +94,15 @@
   margin-top: 20px;
   padding: 13px;
   font-size: 17px;
+  background: linear-gradient(135deg, var(--azul) 0%, var(--azul-vivo) 100%);
+  color: var(--blanco);
+  box-shadow: 0 8px 20px rgba(29, 63, 216, 0.3);
+}
+
+.botonEnviar:hover {
+  background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(29, 63, 216, 0.4);
 }
 
 .cambiarModo {
