@@ -24,7 +24,9 @@ export default function Home() {
 
       <div className={styles.contenido}>
         <span className={styles.marca}>PioZone</span>
-        <h1 className={styles.titulo}>Bienvenido a PioZone, CAMPEÓN!</h1>
+        <h1 className={styles.titulo}>
+          Bienvenido a <span>PioZone</span>, CAMPEÓN!
+        </h1>
         <p className={styles.descripcion}>Acá vas a ver todo lo que necesitas sobre todos los deportes</p>
 
         <div className={styles.botones}>
