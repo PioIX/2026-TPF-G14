@@ -5,38 +5,42 @@
 
 :root {
   /* Marca */
-  --azul: #1a4fa8;
-  --azul-oscuro: #153f87;
-  --azul-claro: #eaf1fd;
-  --azul-suave: #f4f7fd;
-  --tinta: #1a2233;
-  --tinta-suave: #4a5568;
-  --borde: #c3d0ea;
-  --borde-suave: #e2e9f6;
+  --azul: #1d3fd8;
+  --azul-oscuro: #1426a0;
+  --azul-vivo: #4f7bff;
+  --acento: #ff7a1a;
+  --acento-oscuro: #e05e00;
+  --azul-claro: #e9efff;
+  --azul-suave: #f3f6ff;
+  --tinta: #10131f;
+  --tinta-suave: #525a70;
+  --borde: #c4cdec;
+  --borde-suave: #e1e6f5;
   --blanco: #ffffff;
 
   /* Estados */
-  --verde: #1a7f4b;
-  --verde-claro: #e6f4ec;
-  --rojo: #b42318;
-  --rojo-claro: #fdecea;
-  --ambar: #b7791f;
-  --ambar-claro: #fff4d6;
+  --verde: #0f9d58;
+  --verde-claro: #e5f6ec;
+  --rojo: #d92b2b;
+  --rojo-claro: #fdeaea;
+  --ambar: #d97706;
+  --ambar-claro: #fff3d6;
 
   /* Tipografía */
   --fuente: "Barlow", "Segoe UI", Arial, sans-serif;
   --fuente-titulo: "Barlow Condensed", "Barlow", sans-serif;
 
   /* Formas y sombras */
-  --radio: 10px;
-  --radio-chico: 6px;
-  --sombra: 0 1px 2px rgba(26, 34, 51, 0.06), 0 8px 24px rgba(26, 34, 51, 0.06);
-  --sombra-alta: 0 2px 4px rgba(26, 34, 51, 0.06), 0 18px 40px rgba(26, 79, 168, 0.16);
-  --anillo: 0 0 0 3px rgba(26, 79, 168, 0.18);
+  --radio: 16px;
+  --radio-chico: 10px;
+  --sombra: 0 1px 2px rgba(16, 19, 31, 0.05), 0 10px 30px rgba(16, 19, 31, 0.07);
+  --sombra-alta: 0 2px 6px rgba(16, 19, 31, 0.06), 0 24px 60px rgba(29, 63, 216, 0.18);
+  --sombra-acento: 0 8px 24px rgba(255, 122, 26, 0.32);
+  --anillo: 0 0 0 3px rgba(79, 123, 255, 0.28);
 
   /* Layout */
   --ancho: 1180px;
-  --transicion: 0.18s ease;
+  --transicion: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   --background: var(--blanco);
   --foreground: var(--tinta);
@@ -58,10 +62,21 @@ body {
   display: flex;
   flex-direction: column;
   color: var(--foreground);
-  background: var(--background);
+  background: var(--blanco);
   font-family: var(--fuente);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 40% at 85% -5%, rgba(79, 123, 255, 0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 35% at 0% 100%, rgba(255, 122, 26, 0.05) 0%, transparent 60%);
 }
 
 * {
@@ -92,7 +107,7 @@ img {
 }
 
 ::selection {
-  background-color: rgba(26, 79, 168, 0.18);
+  background-color: rgba(79, 123, 255, 0.25);
 }
 
 :focus-visible {
@@ -141,12 +156,56 @@ img {
   color: var(--tinta);
 }
 
+.titulo em,
+.titulo strong {
+  font-style: normal;
+  color: var(--azul);
+}
+
 .descripcion {
   margin-top: 12px;
   max-width: 680px;
   font-size: 17px;
   line-height: 1.55;
   color: var(--tinta-suave);
+}
+
+/* Animaciones de entrada */
+
+@keyframes subir {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animar {
+  animation: subir 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animarTarde {
+  animation: subir 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.animarTarde2 {
+  animation: subir 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+}
+
+.animarTarde3 {
+  animation: subir 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.36s both;
 }
 
 .seccionTitulo {
@@ -200,14 +259,15 @@ img {
 }
 
 .botonPrimario {
-  background-color: var(--azul);
+  background: linear-gradient(135deg, var(--azul) 0%, var(--azul-vivo) 100%);
   color: var(--blanco);
-  box-shadow: 0 6px 16px rgba(26, 79, 168, 0.24);
+  box-shadow: 0 6px 18px rgba(29, 63, 216, 0.3);
 }
 
 .botonPrimario:hover {
-  background-color: var(--azul-oscuro);
-  box-shadow: 0 8px 20px rgba(26, 79, 168, 0.3);
+  background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul) 100%);
+  box-shadow: 0 10px 26px rgba(29, 63, 216, 0.4);
+  transform: translateY(-1px);
 }
 
 .botonSecundario {
@@ -233,12 +293,14 @@ img {
 }
 
 .botonPeligro {
-  background-color: var(--rojo);
+  background: linear-gradient(135deg, #d92b2b 0%, #ff5a3c 100%);
   color: var(--blanco);
+  box-shadow: 0 6px 18px rgba(217, 43, 43, 0.28);
 }
 
 .botonPeligro:hover {
-  background-color: #8f1c13;
+  background: linear-gradient(135deg, #b82323 0%, #d92b2b 100%);
+  transform: translateY(-1px);
 }
 
 /* ---------- Campos ---------- */
@@ -327,13 +389,20 @@ img {
 /* ---------- Estados vacíos ---------- */
 
 .vacio {
-  padding: 36px 24px;
-  border: 1px dashed var(--borde);
+  padding: 40px 24px;
+  border: 1.5px dashed var(--borde);
   border-radius: var(--radio);
   background-color: var(--azul-suave);
   text-align: center;
   font-size: 15px;
   color: var(--tinta-suave);
+}
+
+.vacio::before {
+  content: "⚽";
+  display: block;
+  margin-bottom: 8px;
+  font-size: 26px;
 }
 
 /* ---------- Grillas ---------- */
