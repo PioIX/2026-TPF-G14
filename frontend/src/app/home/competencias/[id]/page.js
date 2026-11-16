@@ -31,7 +31,7 @@ export default function CompetenciaDetallePage() {
   const [inscripciones, setInscripciones] = useState([])
   const [filtroPartidos, setFiltroPartidos] = useState("todos")
 
-  useEffect(() => {
+  useEffect(() => { //traemos todo lo que vamos a nesesitar para mostrar los partidos equipos que participen y de que deporte es esta comepencia
     fetch(`http://localhost:4000/competencias/${idCompetencia}`)
       .then((response) => response.json())
       .then((data) => {
@@ -75,68 +75,71 @@ export default function CompetenciaDetallePage() {
 
     const ids = idsPartidos.split(",")
 
+    //se mete a la sala de cada partido asi puede ver los resultados de trodos los partidos en vivo de esa competencia
     const unirse = () => {
       ids.forEach((idPartido) => {
         socket.emit("join_room", { tipo_sala: "partido", id_sala: idPartido })
       })
     }
-
+    //que hacer cuando el back avisa q un partido se actualizo
     const onPartidoActualizado = (data) => {
       setPartidos((anteriores) =>
-        anteriores.map((partido) =>
+        anteriores.map((partido) => //recorre el array hasta encontrar el partido que se actualizo
           String(partido.id_partido) === String(data.id_partido)
-            ? { ...partido, resultado: data.resultado }
-            : partido
+            ? { ...partido, resultado: data.resultado }// si coincide se cambia
+            : partido //sino no
         )
       )
     }
 
     unirse()
-    socket.on("connect", unirse)
-    socket.on("partido_actualizado", onPartidoActualizado)
-
+    socket.on("connect", unirse) //escuchando elk bacj
+    socket.on("partido_actualizado", onPartidoActualizado) //escucha el back
+    //se ejecuta al salir de la pagina o antes de volver a correr use efffect
     return () => {
-      socket.off("connect", unirse)
-      socket.off("partido_actualizado", onPartidoActualizado)
+      socket.off("connect", unirse) //deja de escuchar
+      socket.off("partido_actualizado", onPartidoActualizado) //deja de escuchar
       ids.forEach((idPartido) => {
-        socket.emit("leave_room", { tipo_sala: "partido", id_sala: idPartido })
+        socket.emit("leave_room", { tipo_sala: "partido", id_sala: idPartido }) //deja de escuchar
       })
     }
   }, [socket, idsPartidos])
+
+  //---------------UTILIDADES PARA EL FILTRO DE LA PARTE SUPERIOR Y EL BOTON VOLVER ENTRAR AL PARTIDO ETC----------------
 
   const onChangeFiltro = (event) => {
     setFiltroPartidos(event.target.value)
   }
 
-  const volver = () => {
+  const volver = () => {//vuelve a las competencias al ejecutar
     router.push(`/home/competencias?${params}`)
   }
 
-  const buscarEquipo = (idEquipo) => {
+  const buscarEquipo = (idEquipo) => { 
     return equipos.find((equipo) => equipo.id_equipo === idEquipo)
   }
 
-  const nombreDeporte = (idDeporte) => {
+  const nombreDeporte = (idDeporte) => { //
     const deporte = deportes.find((d) => d.id_deporte === idDeporte)
     return deporte ? deporte.nombre : "Sin deporte"
   }
 
-  const verPartido = (idPartido) => {
+  const verPartido = (idPartido) => { //lleva al partido
     router.push(`/home/partidos/${idPartido}?${params}`)
   }
 
-  const verEquipo = (idEquipo) => {
+  const verEquipo = (idEquipo) => { //lleva aal equipo
     router.push(`/home/equipos/${idEquipo}?${params}`)
   }
 
   // Equipos que participan: los inscriptos y también los que aparecen en algún partido
   const idsParticipantes = []
-  inscripciones.forEach((inscripcion) => {
+  inscripciones.forEach((inscripcion) => { 
     if (!idsParticipantes.includes(inscripcion.id_equipo)) {
-      idsParticipantes.push(inscripcion.id_equipo)
+      idsParticipantes.push(inscripcion.id_equipo) //mete adentro de la lista a cada id del equipo q participe en la ligua
     }
   })
-  partidos.forEach((partido) => {
+  partidos.forEach((partido) => { //similar para los partidos
     if (!idsParticipantes.includes(partido.id_equipo_local)) {
       idsParticipantes.push(partido.id_equipo_local)
     }
@@ -144,14 +147,14 @@ export default function CompetenciaDetallePage() {
       idsParticipantes.push(partido.id_equipo_visitante)
     }
   })
-
+ //ve los ids de equipops si fueron eliminado los saca y si siguen sugie
   const participantes = idsParticipantes
-    .map((idEquipo) => {
+    .map((idEquipo) => { //Recibe una lista de números y devuelve una lista de equipos, cada uno con su posición agregada
       const equipo = buscarEquipo(idEquipo)
       const inscripcion = inscripciones.find((i) => i.id_equipo === idEquipo)
-      return equipo ? { ...equipo, posicion: inscripcion ? inscripcion.posicion : null } : null
+      return equipo ? { ...equipo, posicion: inscripcion ? inscripcion.posicion : null } : null //si el map dejo algun null pq borraron un equipo esto lo saca
     })
-    .filter((equipo) => equipo !== null)
+    .filter((equipo) => equipo !== null) // saca el idequipo q quede null
 
   const hoy = hoySinHora()
 
@@ -168,16 +171,19 @@ export default function CompetenciaDetallePage() {
 
   // Ordena por fecha y hora (el más viejo arriba)
   const partidosOrdenados = [...partidosFiltrados].sort((a, b) => {
+     // Arma un texto con la fecha y la hora del partido A, ej: "2027-03-12 17:30:00"
     const textoA = `${String(a.fecha).slice(0, 10)} ${a.hora}`
+    // lo mismo
     const textoB = `${String(b.fecha).slice(0, 10)} ${b.hora}`
+    // compra cuao de los 2 va primero
     return textoA.localeCompare(textoB)
   })
 
-  if (cargando) {
+  if (cargando) { //pag cargando
     return <div className={styles.contenedor}>Cargando...</div>
   }
 
-  if (!competencia) {
+  if (!competencia) { //pag vacia
     return (
       <div className={styles.contenedor}>
         <div className={styles.volver}>
@@ -196,8 +202,8 @@ export default function CompetenciaDetallePage() {
 
       <span className={styles.etiqueta}>COMPETENCIA / {nombreDeporte(competencia.id_deporte)}</span>
       <h1 className={styles.titulo}>{competencia.nombre}</h1>
-      {competencia.descrpcion && <p className={styles.descripcion}>{competencia.descrpcion}</p>}
-
+      {competencia.descripcion && <p className={styles.descripcion}>{competencia.descripcion}</p>}
+      {/*aca va la barra azul de daots*/}
       <div className={styles.datos}>
         <div className={styles.dato}>
           <span className={styles.datoEtiqueta}>Deporte</span>
@@ -220,13 +226,14 @@ export default function CompetenciaDetallePage() {
       <div className={styles.seccionCabecera}>
         <h2 className={styles.seccionTitulo}>Partidos</h2>
         <select className={styles.select} value={filtroPartidos} onChange={onChangeFiltro}>
+          {/*select para filtrar partidos*/}
           <option value="todos">Todos</option>
           <option value="proximos">Próximos</option>
           <option value="jugados">Jugados</option>
         </select>
       </div>
 
-      {partidosOrdenados.length === 0 ? (
+      {partidosOrdenados.length === 0  ? ( //caso a esta vacio se muestra un mensaje y se dice q se agrege en panel admin
         <div className={styles.vacio}>
           {partidos.length === 0
             ? "Esta competencia todavía no tiene partidos cargados."

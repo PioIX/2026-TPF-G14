@@ -9,6 +9,7 @@ import { codificarResultado, decodificarResultado, validarGoles, MAX_GOLES } fro
 import { formatearFecha, formatearHora, calcularEdad } from "@/utils/fechas"
 import styles from "./page.module.css"
 
+// Página de un partido en vivo
 export default function PartidoSalaPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -30,11 +31,12 @@ export default function PartidoSalaPage() {
   const [competencia, setCompetencia] = useState(null)
   const [ultimaActualizacion, setUltimaActualizacion] = useState(null)
 
-  // Valores que el administrador está editando (todavía sin publicar)
+  // Goles que el admin está editando (todavía sin publicar)
   const [golesLocal, setGolesLocal] = useState("0")
   const [golesVisitante, setGolesVisitante] = useState("0")
   const [mensaje, setMensaje] = useState(null)
-
+  
+  // Carga el partido, su competencia, los equipos y los jugadores
   useEffect(() => {
     fetch(`http://localhost:4000/partidos/${idPartido}`)
       .then((response) => response.json())
@@ -65,6 +67,7 @@ export default function PartidoSalaPage() {
       .catch(() => setJugadores([]))
   }, [idPartido])
 
+  // En vivo: entra a la sala del partido y escucha los cambios de resultado
   useEffect(() => {
     if (!socket) return
 
@@ -85,11 +88,11 @@ export default function PartidoSalaPage() {
     }
 
     unirse()
-    // Si se corta la conexión y vuelve, hay que volver a entrar a la sala
     socket.on("connect", unirse)
     socket.on("partido_actualizado", onPartidoActualizado)
     socket.on("error_mensaje", onError)
 
+    // Al salir de la página, deja de escuchar y sale de la sala
     return () => {
       socket.off("connect", unirse)
       socket.off("partido_actualizado", onPartidoActualizado)
@@ -110,7 +113,7 @@ export default function PartidoSalaPage() {
     setMensaje(null)
   }
 
-  // Suma o resta 1 sin bajar de 0 ni pasar del máximo
+  // Suma o resta goles sin bajar de 0 ni pasar del máximo
   const sumar = (valor, cantidad) => {
     const numero = (Number(valor) || 0) + cantidad
     return String(Math.min(Math.max(numero, 0), MAX_GOLES))
@@ -126,9 +129,8 @@ export default function PartidoSalaPage() {
     setMensaje(null)
   }
 
+  // Vuelve los contadores al resultado ya publicado
   const descartarCambios = () => {
-    // Ojo: con el React Compiler no se puede leer partido.resultado sin chequear
-    // antes que partido exista (mientras carga es null)
     if (!partido) return
     const goles = decodificarResultado(partido.resultado)
     setGolesLocal(String(goles.local))
@@ -136,6 +138,7 @@ export default function PartidoSalaPage() {
     setMensaje(null)
   }
 
+  // Manda el resultado por socket: el backend lo guarda y se lo avisa a todos
   const publicarResultado = () => {
     const error = validarGoles(golesLocal, golesVisitante)
     if (error) {
@@ -147,7 +150,7 @@ export default function PartidoSalaPage() {
       return
     }
 
-    // Local * 1000 + visitante → se guarda en el INT "resultado"
+    // Junta los goles en un solo número (local * 1000 + visitante)
     const resultado = codificarResultado(golesLocal, golesVisitante)
 
     socket.emit("actualizar_partido", {
@@ -185,6 +188,8 @@ export default function PartidoSalaPage() {
       .sort((a, b) => Number(a.posicion) - Number(b.posicion))
   }
 
+  // ---------- Pantallas de carga y de error ----------
+
   if (cargando) {
     return <div className={styles.contenedor}>Cargando...</div>
   }
@@ -200,12 +205,15 @@ export default function PartidoSalaPage() {
     )
   }
 
+  // ---------- Datos para mostrar ----------
+
   const local = buscarEquipo(partido.id_equipo_local)
   const visitante = buscarEquipo(partido.id_equipo_visitante)
   const nombreLocal = local ? local.nombre : "A definir"
   const nombreVisitante = visitante ? visitante.nombre : "A definir"
 
   const marcador = decodificarResultado(partido.resultado)
+  // true si el admin cambió los goles y todavía no los publicó
   const hayCambios =
     String(Number(golesLocal)) !== String(marcador.local) ||
     String(Number(golesVisitante)) !== String(marcador.visitante)
@@ -214,6 +222,8 @@ export default function PartidoSalaPage() {
     { clave: "local", rol: "Local", equipo: local, idEquipo: partido.id_equipo_local, nombre: nombreLocal },
     { clave: "visitante", rol: "Visitante", equipo: visitante, idEquipo: partido.id_equipo_visitante, nombre: nombreVisitante },
   ]
+
+  // ---------- Pantalla ----------
 
   return (
     <div className={styles.contenedor}>
@@ -231,6 +241,7 @@ export default function PartidoSalaPage() {
         {nombreLocal} vs {nombreVisitante}
       </h1>
 
+      {/* Marcador */}
       <div className={styles.marcador}>
         <button className={styles.marcadorEquipo} onClick={() => local && verEquipo(local.id_equipo)}>
           <Escudo imagen={local && local.logo_url} nombre={nombreLocal} tamaño={"grande"} />
@@ -259,6 +270,7 @@ export default function PartidoSalaPage() {
         </button>
       </div>
 
+      {/* Fecha, hora y lugar */}
       <div className={styles.datos}>
         <div className={styles.dato}>
           <span className={styles.datoEtiqueta}>Fecha</span>
@@ -276,6 +288,7 @@ export default function PartidoSalaPage() {
         </div>
       </div>
 
+      {/* Panel del administrador (solo admins) */}
       {es_admin === "1" && (
         <div className={styles.admin}>
           <div className={styles.adminCabecera}>
@@ -335,6 +348,7 @@ export default function PartidoSalaPage() {
         </div>
       )}
 
+      {/* Planteles de los dos equipos */}
       <h2 className={styles.seccionTitulo}>Planteles</h2>
 
       <div className={styles.planteles}>

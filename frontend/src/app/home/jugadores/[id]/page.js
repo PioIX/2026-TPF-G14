@@ -8,17 +8,20 @@ import CardJugador from "@/components/CardJugador"
 import { formatearFecha, calcularEdad } from "@/utils/fechas"
 import styles from "../../detalle.module.css"
 
+// Página de detalle de un jugador
 export default function JugadorDetallePage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const urlParams = useParams()
 
+  // Id del jugador, sacado de la ruta (ej: /home/jugadores/3 → 3)
   const idJugador = Number(urlParams.id)
 
   const id = searchParams.get("id")
   const nombre = searchParams.get("nombre")
   const es_admin = searchParams.get("es_admin")
 
+  // Datos del usuario para pasarlos al navegar
   const params = `id=${id}&nombre=${nombre}&es_admin=${es_admin}`
 
   const [jugador, setJugador] = useState(null)
@@ -27,6 +30,7 @@ export default function JugadorDetallePage() {
   const [equipos, setEquipos] = useState([])
   const [deportes, setDeportes] = useState([])
 
+  // Carga el jugador y, además, todos los jugadores, equipos y deportes
   useEffect(() => {
     fetch(`http://localhost:4000/jugadores/${idJugador}`)
       .then((response) => response.json())
@@ -52,6 +56,8 @@ export default function JugadorDetallePage() {
       .catch(() => setDeportes([]))
   }, [idJugador])
 
+  // ---------- Navegación ----------
+
   const volver = () => {
     router.push(`/home/jugadores?${params}`)
   }
@@ -59,6 +65,8 @@ export default function JugadorDetallePage() {
   const verEquipo = (idEquipo) => {
     router.push(`/home/equipos/${idEquipo}?${params}`)
   }
+
+  // ---------- Pantallas de carga y de error ----------
 
   if (cargando) {
     return <div className={styles.contenedor}>Cargando...</div>
@@ -75,14 +83,20 @@ export default function JugadorDetallePage() {
     )
   }
 
+  // ---------- Datos para mostrar ----------
+
+  // Equipo del jugador y, a partir del equipo, su deporte
   const equipo = equipos.find((e) => e.id_equipo === jugador.id_equipo)
   const deporte = equipo ? deportes.find((d) => d.id_deporte === equipo.id_deporte) : null
   const edad = calcularEdad(jugador.fecha_nacimiento)
   const nombreCompleto = `${jugador.nombre} ${jugador.apellido}`
 
+  // Los otros jugadores del mismo equipo, ordenados por número
   const companeros = jugadores
     .filter((j) => j.id_equipo === jugador.id_equipo && j.id_jugadores !== jugador.id_jugadores)
     .sort((a, b) => Number(a.posicion) - Number(b.posicion))
+
+  // ---------- Pantalla ----------
 
   return (
     <div className={styles.contenedor}>
@@ -90,6 +104,7 @@ export default function JugadorDetallePage() {
         <Button onClick={volver}>← Volver a jugadores</Button>
       </div>
 
+      {/* Encabezado: foto, deporte y número, nombre y equipo */}
       <div className={styles.encabezado}>
         <Escudo imagen={jugador.imagen_url} nombre={nombreCompleto} tamaño={"grande"} redondo={true} />
         <div>
@@ -108,6 +123,7 @@ export default function JugadorDetallePage() {
         </div>
       </div>
 
+      {/* Datos del jugador */}
       <div className={styles.datos}>
         <div className={styles.dato}>
           <span className={styles.datoEtiqueta}>Equipo</span>
@@ -130,6 +146,7 @@ export default function JugadorDetallePage() {
         </div>
       </div>
 
+      {/* Compañeros de equipo (solo si tiene equipo) */}
       {equipo && (
         <>
           <h2 className={styles.seccionTitulo}>Compañeros en {equipo.nombre}</h2>
