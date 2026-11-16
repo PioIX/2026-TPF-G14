@@ -26,8 +26,8 @@
   align-items: center;
   width: 30px;
   height: 30px;
-  border-radius: 7px;
-  background-color: var(--azul);
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--azul) 0%, var(--azul-vivo) 60%, var(--acento) 130%);
   font-family: var(--fuente-titulo);
   font-size: 15px;
   font-weight: 800;
@@ -41,6 +41,10 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--blanco);
+}
+
+.nombre span {
+  color: #9db4ff;
 }
 
 .texto {
