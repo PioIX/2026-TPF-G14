@@ -43,7 +43,7 @@ export default function CompetenciasPage() {
       .then((response) => response.json())
       .then((data) => setDeportes(Array.isArray(data) ? data : []))
       .catch(() => setDeportes([]))
-  }, [])
+  }, []) 
   //se presenta una barra de navegacion arriva de las cards deporetes
   const onChangeBusqueda = (event) => { //al cambiar la busqueda
     setBusqueda(event.target.value)
