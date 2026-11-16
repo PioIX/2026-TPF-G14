@@ -7,8 +7,8 @@
   padding: 24px;
   overflow: hidden;
   background:
-    radial-gradient(circle at 15% 10%, rgba(26, 79, 168, 0.12) 0%, transparent 45%),
-    radial-gradient(circle at 85% 90%, rgba(26, 79, 168, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 15% 10%, rgba(29, 63, 216, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 85% 90%, rgba(255, 122, 26, 0.1) 0%, transparent 45%),
     linear-gradient(180deg, var(--blanco) 0%, var(--azul-claro) 100%);
   font-family: var(--fuente);
 }
@@ -62,9 +62,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 16px;
+  padding: 7px 18px;
   border-radius: 999px;
-  background-color: var(--azul-claro);
+  background: linear-gradient(135deg, rgba(29, 63, 216, 0.12) 0%, rgba(255, 122, 26, 0.14) 100%);
   font-family: var(--fuente-titulo);
   font-size: 14px;
   font-weight: 800;
@@ -82,6 +82,13 @@
   letter-spacing: -0.5px;
   text-transform: uppercase;
   color: var(--tinta);
+}
+
+.titulo span {
+  background: linear-gradient(135deg, var(--azul) 0%, var(--azul-vivo) 55%, var(--acento) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .descripcion {
@@ -116,14 +123,14 @@
 }
 
 .pie span {
-  padding: 4px 12px;
+  padding: 4px 14px;
   border-radius: 999px;
-  background-color: var(--azul-suave);
+  background: linear-gradient(180deg, var(--azul-claro) 0%, var(--azul-suave) 100%);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--tinta-suave);
+  color: var(--azul);
 }
 
 @media (max-width: 600px) {
@@ -133,5 +140,26 @@
 
   .descripcion {
     font-size: 16px;
+  }
+}
+
+.contenido {
+  animation: subir 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.circulo {
+  animation: flotar 9s ease-in-out infinite alternate;
+}
+
+.circuloChico {
+  animation: flotar 7s ease-in-out 1s infinite alternate-reverse;
+}
+
+@keyframes flotar {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(20px, 24px, 0);
   }
 }
