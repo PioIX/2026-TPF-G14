@@ -20,10 +20,12 @@
   border: 1px solid var(--borde-suave);
   border-radius: var(--radio);
   background:
-    radial-gradient(circle at 100% 0%, rgba(26, 79, 168, 0.1) 0%, transparent 55%),
+    radial-gradient(circle at 100% 0%, rgba(255, 122, 26, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(79, 123, 255, 0.14) 0%, transparent 55%),
     linear-gradient(180deg, var(--blanco) 0%, var(--azul-suave) 100%);
   box-shadow: var(--sombra);
   overflow: hidden;
+  animation: subir 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .heroTexto::after {
@@ -34,7 +36,7 @@
   width: 240px;
   height: 240px;
   border-radius: 50%;
-  border: 28px solid rgba(26, 79, 168, 0.06);
+  border: 28px solid rgba(255, 122, 26, 0.1);
 }
 
 .etiqueta {
@@ -106,13 +108,15 @@
 
 .accionPrimaria {
   border: 1px solid var(--azul);
-  background-color: var(--azul);
+  background: linear-gradient(135deg, var(--azul) 0%, var(--azul-vivo) 100%);
   color: var(--blanco);
-  box-shadow: 0 8px 20px rgba(26, 79, 168, 0.26);
+  box-shadow: 0 8px 22px rgba(29, 63, 216, 0.32);
 }
 
 .accionPrimaria:hover {
-  background-color: var(--azul-oscuro);
+  background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(29, 63, 216, 0.4);
 }
 
 .accionSecundaria {
@@ -129,13 +133,32 @@
 /* ---------- Panel de métricas ---------- */
 
 .heroPanel {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 28px;
   border-radius: var(--radio);
-  background: linear-gradient(160deg, #22304a 0%, var(--tinta) 100%);
+  background:
+    radial-gradient(circle at 110% -10%, rgba(255, 122, 26, 0.35) 0%, transparent 45%),
+    linear-gradient(160deg, #1b2743 0%, var(--tinta) 100%);
   box-shadow: var(--sombra-alta);
+  overflow: hidden;
+  animation: subir 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.heroPanel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.025) 0px,
+    rgba(255, 255, 255, 0.025) 1px,
+    transparent 1px,
+    transparent 8px
+  );
+  pointer-events: none;
 }
 
 .heroPanelEtiqueta {
@@ -154,14 +177,23 @@
 }
 
 .metrica {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 2px;
   padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radio-chico);
-  background-color: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.06);
+  transition: background-color var(--transicion), border-color var(--transicion), transform var(--transicion);
+}
+
+.metrica:hover {
+  border-color: rgba(255, 122, 26, 0.45);
+  background: rgba(255, 255, 255, 0.09);
+  transform: translateY(-2px);
 }
 
 .metricaNumero {
@@ -169,7 +201,10 @@
   font-size: 38px;
   font-weight: 800;
   line-height: 1;
-  color: var(--blanco);
+  background: linear-gradient(180deg, var(--blanco) 30%, #9db4ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .metricaTexto {
@@ -190,6 +225,7 @@
   gap: 8px;
   margin-top: 44px;
   margin-bottom: 16px;
+  animation: subir 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
 }
 
 .accesosTitulo {
@@ -218,9 +254,12 @@
   margin-top: 44px;
   padding: 22px 26px;
   border: 1px solid var(--borde-suave);
-  border-left: 4px solid var(--azul);
+  border-left: 4px solid var(--acento);
   border-radius: var(--radio);
-  background-color: var(--azul-suave);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 122, 26, 0.08) 0%, transparent 50%),
+    var(--azul-suave);
+  animation: subir 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
 }
 
 .guiaTitulo {
