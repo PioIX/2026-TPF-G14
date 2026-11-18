@@ -258,7 +258,10 @@
 
 /* Scroll propio para Equipos y Jugadores (cada uno con su altura) */
 .listaEquipos,
-.listaJugadores {
+.listaJugadores,
+.listaDeportes,
+.listaPartidos,
+.listaCompetencias {
   scrollbar-width: thin;
   scrollbar-color: #b8ccef #f4f7fd;
   overflow-y: auto;
@@ -266,14 +269,29 @@
 }
 .listaEquipos { max-height: 712.5px; }
 .listaJugadores { max-height: 894.5px; }
+.listaDeportes { max-height: 894.5px; }
+.listaPartidos { max-height: 894.5px; }
+.listaCompetencias { max-height: 894.5px; }
 
 .listaEquipos::-webkit-scrollbar,
-.listaJugadores::-webkit-scrollbar { width: 8px; }
+.listaJugadores::-webkit-scrollbar,
+.listaDeportres::-webkit-scrollbar,
+.listaPartidos::-webkit-scrollbar,
+.listaCompetencias::-webkit-scrollbar { width: 8px; }
 .listaEquipos::-webkit-scrollbar-track,
-.listaJugadores::-webkit-scrollbar-track { background: #f4f7fd; }
+.listaJugadores::-webkit-scrollbar-track,
+.listaDeportes::-webkit-scrollbar-track,
+.listaPartidos::-webkit-scrollbar-track,
+.listaCompetencias::-webkit-scrollbar-track { background: #f4f7fd; }
 .listaEquipos::-webkit-scrollbar-thumb,
-.listaJugadores::-webkit-scrollbar-thumb { background: #b8ccef; border-radius: 8px; }
+.listaJugadores::-webkit-scrollbar-thumb,
+.listaDeportes::-webkit-scrollbar-thumb,
+.listaPartidos::-webkit-scrollbar-thumb,
+.listaCompetencias::-webkit-scrollbar-thumb { background: #b8ccef; border-radius: 8px; }
 .listaEquipos::-webkit-scrollbar-thumb:hover,
+.listaDeportes::-webkit-scrollbar-thumb:hover,
+.listaPartidos::-webkit-scrollbar-thumb:hover,
+.listaCompetencias::-webkit-scrollbar-thumb:hover,
 .listaJugadores::-webkit-scrollbar-thumb:hover { background: var(--blue); }
 
 .vacio,
