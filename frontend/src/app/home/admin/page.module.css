@@ -251,7 +251,16 @@
   font-size: 13px;
   font-weight: 800;
 }
-.lista { display: flex; flex-direction: column; }
+.lista {
+  display: flex;
+  flex-direction: column;
+  max-height: 560px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #b8ccef #f4f7fd;
+}
+
 .vacio,
 .restringido {
   margin: 17px;
