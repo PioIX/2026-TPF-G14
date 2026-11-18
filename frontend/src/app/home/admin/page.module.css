@@ -251,15 +251,30 @@
   font-size: 13px;
   font-weight: 800;
 }
-.lista {
-  display: flex;
+.lista { 
+  display: flex; 
   flex-direction: column;
-  max-height: 560px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+}
+
+/* Scroll propio para Equipos y Jugadores (cada uno con su altura) */
+.listaEquipos,
+.listaJugadores {
   scrollbar-width: thin;
   scrollbar-color: #b8ccef #f4f7fd;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
+.listaEquipos { max-height: 712.5px; }
+.listaJugadores { max-height: 894.5px; }
+
+.listaEquipos::-webkit-scrollbar,
+.listaJugadores::-webkit-scrollbar { width: 8px; }
+.listaEquipos::-webkit-scrollbar-track,
+.listaJugadores::-webkit-scrollbar-track { background: #f4f7fd; }
+.listaEquipos::-webkit-scrollbar-thumb,
+.listaJugadores::-webkit-scrollbar-thumb { background: #b8ccef; border-radius: 8px; }
+.listaEquipos::-webkit-scrollbar-thumb:hover,
+.listaJugadores::-webkit-scrollbar-thumb:hover { background: var(--blue); }
 
 .vacio,
 .restringido {
