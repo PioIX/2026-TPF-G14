@@ -32,7 +32,7 @@ export default function JugadorDetallePage() {
 
   // Carga el jugador y, además, todos los jugadores, equipos y deportes
   useEffect(() => {
-    fetch(`http://localhost:4000/jugadores/${idJugador}`)
+    fetch(`http://192.168.56.1:4000/jugadores/${idJugador}`)
       .then((response) => response.json())
       .then((data) => {
         setJugador(data)
@@ -40,17 +40,17 @@ export default function JugadorDetallePage() {
       })
       .catch(() => setCargando(false))
 
-    fetch("http://localhost:4000/jugadores")
+    fetch("http://192.168.56.1:4000/jugadores")
       .then((response) => response.json())
       .then((data) => setJugadores(Array.isArray(data) ? data : []))
       .catch(() => setJugadores([]))
 
-    fetch("http://localhost:4000/equipos")
+    fetch("http://192.168.56.1:4000/equipos")
       .then((response) => response.json())
       .then((data) => setEquipos(Array.isArray(data) ? data : []))
       .catch(() => setEquipos([]))
 
-    fetch("http://localhost:4000/deportes")
+    fetch("http://192.168.56.1:4000/deportes")
       .then((response) => response.json())
       .then((data) => setDeportes(Array.isArray(data) ? data : []))
       .catch(() => setDeportes([]))

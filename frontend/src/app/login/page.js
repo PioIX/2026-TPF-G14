@@ -20,7 +20,7 @@ export default function LoginPage() {
   }
 
   const handleLogin = () => {
-    fetch("http://localhost:4000/usuarios")
+    fetch("http://192.168.56.1:4000/usuarios")
       .then((response) => response.json())
       .then((data) => {
         const usuario = data.find(

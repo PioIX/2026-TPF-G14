@@ -283,10 +283,10 @@ const fechaLegible = (valor) => {
 };
 
 // Dirección del backend (donde quedan las imágenes subidas)
-const BACKEND = "http://localhost:4000";
+const BACKEND = "http://192.168.56.1:4000";
 
 // Convierte lo guardado en la base en una dirección que el navegador pueda mostrar:
-// /uploads/ imagen subida al backend      http://localhost:4000/uploads/...
+// /uploads/ imagen subida al backend      http://192.168.56.1:4000/uploads/...
 const urlImagen = (valor) => {
   if (!valor) {
     return null;
@@ -618,8 +618,8 @@ export default function AdminPage() {
     }
 
     const url = editandoId //arma direccion pedido
-      ? `http://localhost:4000/${config.endpoint}/${editandoId}` //pedido si se esta editando
-      : `http://localhost:4000/${config.endpoint}`; //pedido si se esta posteando
+      ? `http://192.168.56.1:4000/${config.endpoint}/${editandoId}` //pedido si se esta editando
+      : `http://192.168.56.1:4000/${config.endpoint}`; //pedido si se esta posteando
 
     fetch(url, {
       //se hace el dedido
@@ -660,7 +660,7 @@ export default function AdminPage() {
     //se ejecuta al confirmar la eliminacion
     const idRegistro = registro[config.idCampo]; //se saca el id del registro
 
-    fetch(`http://localhost:4000/${config.endpoint}/${idRegistro}`, {
+    fetch(`http://192.168.56.1:4000/${config.endpoint}/${idRegistro}`, {
       method: "DELETE",
     }) //se manda el pedido al back
       .then((response) =>

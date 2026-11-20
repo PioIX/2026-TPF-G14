@@ -28,7 +28,7 @@ export default function DeporteDetallePage() {
   const [jugadores, setJugadores] = useState([])
 
   useEffect(() => {
-    fetch(`http://localhost:4000/deportes/${idDeporte}`)
+    fetch(`http://192.168.56.1:4000/deportes/${idDeporte}`)
       .then((response) => response.json())
       .then((data) => {
         setDeporte(data)
@@ -36,7 +36,7 @@ export default function DeporteDetallePage() {
       })
       .catch(() => setCargando(false))
 
-    fetch("http://localhost:4000/equipos")
+    fetch("http://192.168.56.1:4000/equipos")
       .then((response) => response.json())
       .then((data) => {
         const lista = Array.isArray(data) ? data : []
@@ -44,7 +44,7 @@ export default function DeporteDetallePage() {
       })
       .catch(() => setEquipos([]))
 
-    fetch("http://localhost:4000/competencias")
+    fetch("http://192.168.56.1:4000/competencias")
       .then((response) => response.json())
       .then((data) => {
         const lista = Array.isArray(data) ? data : []
@@ -52,7 +52,7 @@ export default function DeporteDetallePage() {
       })
       .catch(() => setCompetencias([]))
 
-    fetch("http://localhost:4000/jugadores")
+    fetch("http://192.168.56.1:4000/jugadores")
       .then((response) => response.json())
       .then((data) => setJugadores(Array.isArray(data) ? data : []))
       .catch(() => setJugadores([]))

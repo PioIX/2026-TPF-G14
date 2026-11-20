@@ -14,7 +14,7 @@ export default function PartidoSalaPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const urlParams = useParams()
-  const { socket, isConnected } = useSocket({ serverUrl: "http://localhost:4000" })
+  const { socket, isConnected } = useSocket({ serverUrl: "http://192.168.56.1:4000" })
 
   const idPartido = urlParams.id
 
@@ -38,7 +38,7 @@ export default function PartidoSalaPage() {
   
   // Carga el partido, su competencia, los equipos y los jugadores
   useEffect(() => {
-    fetch(`http://localhost:4000/partidos/${idPartido}`)
+    fetch(`http://192.168.56.1:4000/partidos/${idPartido}`)
       .then((response) => response.json())
       .then((data) => {
         setPartido(data)
@@ -48,7 +48,7 @@ export default function PartidoSalaPage() {
           setGolesLocal(String(goles.local))
           setGolesVisitante(String(goles.visitante))
 
-          fetch(`http://localhost:4000/competencias/${data.id_competencia}`)
+          fetch(`http://192.168.56.1:4000/competencias/${data.id_competencia}`)
             .then((response) => response.json())
             .then((datosCompetencia) => setCompetencia(datosCompetencia))
             .catch(() => setCompetencia(null))
@@ -56,12 +56,12 @@ export default function PartidoSalaPage() {
       })
       .catch(() => setCargando(false))
 
-    fetch("http://localhost:4000/equipos")
+    fetch("http://192.168.56.1:4000/equipos")
       .then((response) => response.json())
       .then((data) => setEquipos(Array.isArray(data) ? data : []))
       .catch(() => setEquipos([]))
 
-    fetch("http://localhost:4000/jugadores")
+    fetch("http://192.168.56.1:4000/jugadores")
       .then((response) => response.json())
       .then((data) => setJugadores(Array.isArray(data) ? data : []))
       .catch(() => setJugadores([]))

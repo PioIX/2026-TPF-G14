@@ -13,7 +13,7 @@ export default function CompetenciaDetallePage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const urlParams = useParams()
-  const { socket } = useSocket({ serverUrl: "http://localhost:4000" })
+  const { socket } = useSocket({ serverUrl: "http://192.168.56.1:4000" })
 
   const idCompetencia = Number(urlParams.id)
 
@@ -48,17 +48,17 @@ export default function CompetenciaDetallePage() {
       })
       .catch(() => setPartidos([]))
 
-    fetch("http://localhost:4000/equipos")
+    fetch("http://192.168.56.1:4000/equipos")
       .then((response) => response.json())
       .then((data) => setEquipos(Array.isArray(data) ? data : []))
       .catch(() => setEquipos([]))
 
-    fetch("http://localhost:4000/deportes")
+    fetch("http://192.168.56.1:4000/deportes")
       .then((response) => response.json())
       .then((data) => setDeportes(Array.isArray(data) ? data : []))
       .catch(() => setDeportes([]))
 
-    fetch("http://localhost:4000/equipos_competencias")
+    fetch("http://192.168.56.1:4000/equipos_competencias")
       .then((response) => response.json())
       .then((data) => {
         const lista = Array.isArray(data) ? data : []

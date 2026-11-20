@@ -23,11 +23,11 @@ export default function DeportesPage() {
   const [orden, setOrden] = useState("az")
 
   useEffect(() => {
-    fetch("http://localhost:4000/deportes")
+    fetch("http://192.168.56.1:4000/deportes")
       .then((response) => response.json())
       .then((data) => setDeportes(data))
 
-    fetch("http://localhost:4000/equipos")
+    fetch("http://192.168.56.1:4000/equipos")
       .then((response) => response.json())
       .then((data) => setEquipos(data))
   }, [])

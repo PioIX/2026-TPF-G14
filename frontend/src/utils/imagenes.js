@@ -1,8 +1,8 @@
 // Dirección del backend (donde quedan las imágenes subidas)
-export const BACKEND = "http://localhost:4000"
+export const BACKEND = "http://192.168.56.1:4000"
 
 // Convierte lo guardado en la base en una dirección que el navegador pueda mostrar:
-//  - "/uploads/..."  → imagen subida al backend      → http://localhost:4000/uploads/...
+//  - "/uploads/..."  → imagen subida al backend      → http://192.168.56.1:4000/uploads/...
 //  - "/imagenes/..." → imagen en frontend/public     → se usa tal cual
 //  - "https://..."   → imagen de internet            → se usa tal cual
 export const urlImagen = (valor) => {

@@ -35,7 +35,7 @@ export default function RegisterPage() {
       return
     }
 
-    fetch("http://localhost:4000/usuarios", {
+    fetch("http://192.168.56.1:4000/usuarios", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -27,28 +27,28 @@ export default function EquiposPage() {
   const [orden, setOrden] = useState("az")
 
   useEffect(() => {
-    fetch("http://localhost:4000/equipos")
+    fetch("http://192.168.56.1:4000/equipos")
       .then((response) => response.json())
       .then((data) => setEquipos(Array.isArray(data) ? data : []))
       .catch(() => setEquipos([]))
 
-    fetch("http://localhost:4000/deportes")
+    fetch("http://192.168.56.1:4000/deportes")
       .then((response) => response.json())
       .then((data) => setDeportes(Array.isArray(data) ? data : []))
       .catch(() => setDeportes([]))
 
-    fetch("http://localhost:4000/competencias")
+    fetch("http://192.168.56.1:4000/competencias")
       .then((response) => response.json())
       .then((data) => setCompetencias(Array.isArray(data) ? data : []))
       .catch(() => setCompetencias([]))
 
     // La relación equipo ↔ competencia está en la tabla Equipos_Competencias
-    fetch("http://localhost:4000/equipos_competencias")
+    fetch("http://192.168.56.1:4000/equipos_competencias")
       .then((response) => response.json())
       .then((data) => setInscripciones(Array.isArray(data) ? data : []))
       .catch(() => setInscripciones([]))
 
-    fetch("http://localhost:4000/jugadores")
+    fetch("http://192.168.56.1:4000/jugadores")
       .then((response) => response.json())
       .then((data) => setJugadores(Array.isArray(data) ? data : []))
       .catch(() => setJugadores([]))

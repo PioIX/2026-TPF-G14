@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
-export default function useSocket({ serverUrl = "ws://localhost:4000" } = {}) {
+export default function useSocket({ serverUrl = "ws://192.168.56.1:4000" } = {}) {
   // Se crea una sola vez y solo en el navegador (en el servidor de Next queda en null).
   // autoConnect: false → la conexión se abre en el useEffect.
   const [socket] = useState(() =>

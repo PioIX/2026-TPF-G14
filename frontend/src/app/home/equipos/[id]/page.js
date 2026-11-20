@@ -31,7 +31,7 @@ export default function EquipoDetallePage() {
   const [inscripciones, setInscripciones] = useState([])
 
   useEffect(() => {
-    fetch(`http://localhost:4000/equipos/${idEquipo}`)
+    fetch(`http://192.168.56.1:4000/equipos/${idEquipo}`)
       .then((response) => response.json())
       .then((data) => {
         setEquipo(data)
@@ -39,17 +39,17 @@ export default function EquipoDetallePage() {
       })
       .catch(() => setCargando(false))
 
-    fetch("http://localhost:4000/equipos")
+    fetch("http://192.168.56.1:4000/equipos")
       .then((response) => response.json())
       .then((data) => setEquipos(Array.isArray(data) ? data : []))
       .catch(() => setEquipos([]))
 
-    fetch("http://localhost:4000/deportes")
+    fetch("http://192.168.56.1:4000/deportes")
       .then((response) => response.json())
       .then((data) => setDeportes(Array.isArray(data) ? data : []))
       .catch(() => setDeportes([]))
 
-    fetch("http://localhost:4000/jugadores")
+    fetch("http://192.168.56.1:4000/jugadores")
       .then((response) => response.json())
       .then((data) => {
         const lista = Array.isArray(data) ? data : []
@@ -57,7 +57,7 @@ export default function EquipoDetallePage() {
       })
       .catch(() => setJugadores([]))
 
-    fetch("http://localhost:4000/partidos")
+    fetch("http://192.168.56.1:4000/partidos")
       .then((response) => response.json())
       .then((data) => {
         const lista = Array.isArray(data) ? data : []
@@ -69,12 +69,12 @@ export default function EquipoDetallePage() {
       })
       .catch(() => setPartidos([]))
 
-    fetch("http://localhost:4000/competencias")
+    fetch("http://192.168.56.1:4000/competencias")
       .then((response) => response.json())
       .then((data) => setCompetencias(Array.isArray(data) ? data : []))
       .catch(() => setCompetencias([]))
 
-    fetch("http://localhost:4000/equipos_competencias")
+    fetch("http://192.168.56.1:4000/equipos_competencias")
       .then((response) => response.json())
       .then((data) => {
         const lista = Array.isArray(data) ? data : []
