@@ -32,7 +32,7 @@ export default function CompetenciaDetallePage() {
   const [filtroPartidos, setFiltroPartidos] = useState("todos")
 
   useEffect(() => { //traemos todo lo que vamos a nesesitar para mostrar los partidos equipos que participen y de que deporte es esta comepencia
-    fetch(`http://localhost:4000/competencias/${idCompetencia}`)
+    fetch(`http://192.168.56.1:4000/competencias/${idCompetencia}`)
       .then((response) => response.json())
       .then((data) => {
         setCompetencia(data)
@@ -40,7 +40,7 @@ export default function CompetenciaDetallePage() {
       })
       .catch(() => setCargando(false))
 
-    fetch("http://localhost:4000/partidos")
+    fetch("http://192.168.56.1:4000/partidos")
       .then((response) => response.json())
       .then((data) => {
         const lista = Array.isArray(data) ? data : []

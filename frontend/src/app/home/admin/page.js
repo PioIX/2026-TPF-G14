@@ -314,27 +314,27 @@ export default function AdminPage() {
   const [subiendo, setSubiendo] = useState(false);
 
   const cargarDatos = () => {
-    fetch("http://localhost:4000/deportes")
+    fetch("http://192.168.56.1:4000/deportes")
       .then((response) => response.json())
       .then((data) => setDeportes(Array.isArray(data) ? data : [])) //si data es una lista la usa, sino lo convierte en una lista vacia nomas para seguridad y para no comerme la cabeza con estos errores
       .catch(() => setDeportes([]));
 
-    fetch("http://localhost:4000/equipos")
+    fetch("http://192.168.56.1:4000/equipos")
       .then((response) => response.json())
       .then((data) => setEquipos(Array.isArray(data) ? data : []))
       .catch(() => setEquipos([]));
 
-    fetch("http://localhost:4000/jugadores")
+    fetch("http://192.168.56.1:4000/jugadores")
       .then((response) => response.json())
       .then((data) => setJugadores(Array.isArray(data) ? data : []))
       .catch(() => setJugadores([]));
 
-    fetch("http://localhost:4000/competencias")
+    fetch("http://192.168.56.1:4000/competencias")
       .then((response) => response.json())
       .then((data) => setCompetencias(Array.isArray(data) ? data : []))
       .catch(() => setCompetencias([]));
 
-    fetch("http://localhost:4000/partidos")
+    fetch("http://192.168.56.1:4000/partidos")
       .then((response) => response.json())
       .then((data) => setPartidos(Array.isArray(data) ? data : []))
       .catch(() => setPartidos([]));

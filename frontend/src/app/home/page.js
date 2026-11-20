@@ -21,19 +21,19 @@ export default function HomePage() {
   const [competencias, setCompetencias] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:4000/deportes")
+    fetch("http://192.168.56.1:4000/deportes")
       .then((response) => response.json())
       .then((data) => setDeportes(data))
 
-    fetch("http://localhost:4000/equipos")
+    fetch("http://192.168.56.1:4000/equipos")
       .then((response) => response.json())
       .then((data) => setEquipos(data))
 
-    fetch("http://localhost:4000/jugadores")
+    fetch("http://192.168.56.1:4000/jugadores")
       .then((response) => response.json())
       .then((data) => setJugadores(data))
 
-    fetch("http://localhost:4000/competencias")
+    fetch("http://192.168.56.1:4000/competencias")
       .then((response) => response.json())
       .then((data) => setCompetencias(data))
   }, [])

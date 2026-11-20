@@ -29,17 +29,17 @@ export default function CompetenciasPage() {
 
   //se ejecutan los fetch para de competencias partridos y deportes
   useEffect(() => {
-    fetch("http://localhost:4000/competencias") //fetch a competencias para postrarlas con CardCompetencia
+    fetch("http://192.168.56.1:4000/competencias") //fetch a competencias para postrarlas con CardCompetencia
       .then((response) => response.json())
       .then((data) => setCompetencias(Array.isArray(data) ? data : []))
       .catch(() => setCompetencias([]))
 
-    fetch("http://localhost:4000/partidos") //para ver la cantidad de partidos en custo (info que nesesita la card)
+    fetch("http://192.168.56.1:4000/partidos") //para ver la cantidad de partidos en custo (info que nesesita la card)
       .then((response) => response.json())
       .then((data) => setPartidos(Array.isArray(data) ? data : []))
       .catch(() => setPartidos([]))
 
-    fetch("http://localhost:4000/deportes") //info para la card para decir que deporte es
+    fetch("http://192.168.56.1:4000/deportes") //info para la card para decir que deporte es
       .then((response) => response.json())
       .then((data) => setDeportes(Array.isArray(data) ? data : []))
       .catch(() => setDeportes([]))
